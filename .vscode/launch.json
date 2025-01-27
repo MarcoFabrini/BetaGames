@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BetaGamesApplication<BetaGames>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.betagames.BetaGamesApplication",
+            "projectName": "BetaGames",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

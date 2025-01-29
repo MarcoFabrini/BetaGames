@@ -52,10 +52,10 @@ public class Games {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @ManyToMany(mappedBy = "list_games", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
     private List<Authors> listAuthors;
 
-    @ManyToMany(mappedBy = "list_games", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
     private List<Categories> listCategory;
 
     @ManyToOne

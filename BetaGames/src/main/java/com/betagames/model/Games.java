@@ -9,7 +9,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,11 +46,30 @@ public class Games {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "stock_quantity", nullable = false)
+    private Integer stockQuantity;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
     @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
     private List<Authors> listAuthors;
 
     @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
-    private List<Category> listCategory;
+    private List<Categories> listCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "id_editors")
+    private Editors editor;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private List<DetailsCart> listDetailsCarts;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private List<Reviews> listReviews;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private List<DetailsOrder> listDetailsOrder;
 
     public Integer getId() {
         return id;
@@ -121,6 +143,22 @@ public class Games {
         this.description = description;
     }
 
+    public Editors getEditor() {
+        return editor;
+    }
+
+    public void setEditor(Editors editor) {
+        this.editor = editor;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public List<Authors> getListAuthors() {
         return listAuthors;
     }
@@ -129,12 +167,44 @@ public class Games {
         this.listAuthors = listAuthors;
     }
 
-    public List<Category> getListCategory() {
+    public List<Categories> getListCategory() {
         return listCategory;
     }
 
-    public void setListCategory(List<Category> listCategory) {
+    public void setListCategory(List<Categories> listCategory) {
         this.listCategory = listCategory;
+    }
+
+    public Integer getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public List<DetailsCart> getListDetailsCarts() {
+        return listDetailsCarts;
+    }
+
+    public void setListDetailsCarts(List<DetailsCart> listDetailsCarts) {
+        this.listDetailsCarts = listDetailsCarts;
+    }
+
+    public List<Reviews> getListReviews() {
+        return listReviews;
+    }
+
+    public void setListReviews(List<Reviews> listReviews) {
+        this.listReviews = listReviews;
+    }
+
+    public List<DetailsOrder> getListDetailsOrder() {
+        return listDetailsOrder;
+    }
+
+    public void setListDetailsOrder(List<DetailsOrder> listDetailsOrder) {
+        this.listDetailsOrder = listDetailsOrder;
     }
 
 }// class

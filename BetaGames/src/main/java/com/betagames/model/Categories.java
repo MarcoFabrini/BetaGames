@@ -14,8 +14,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "authors")
-public class Authors {
+@Table(name = "categories")
+public class Categories {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +24,8 @@ public class Authors {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "lastname")
-    private String lastname;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "biography")
-    private String biography;
-
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "authors_games", joinColumns = @JoinColumn(name = "id_authors"), inverseJoinColumns = @JoinColumn(name = "id_games"))
+    @JoinTable(name = "category_games", joinColumns = @JoinColumn(name = "id_category"), inverseJoinColumns = @JoinColumn(name = "id_games"))
     private List<Games> listGames;
 
     public Integer getId() {
@@ -51,30 +42,6 @@ public class Authors {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
     }
 
     public List<Games> getListGames() {

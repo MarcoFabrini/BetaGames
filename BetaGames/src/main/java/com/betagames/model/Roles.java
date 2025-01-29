@@ -8,14 +8,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "roles")
+public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +22,8 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "category_games", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "games_id"))
-    private List<Games> listGames;
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    private List<Users> listUsers;
 
     public Integer getId() {
         return id;
@@ -44,12 +41,12 @@ public class Category {
         this.name = name;
     }
 
-    public List<Games> getListGames() {
-        return listGames;
+    public List<Users> getListUsers() {
+        return listUsers;
     }
 
-    public void setListGames(List<Games> listGames) {
-        this.listGames = listGames;
+    public void setListUsers(List<Users> listUsers) {
+        this.listUsers = listUsers;
     }
 
 }// class

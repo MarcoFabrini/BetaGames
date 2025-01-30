@@ -5,11 +5,15 @@ package com.betagames.dto;
  */
 public class RolesDTO {
     private Integer id;
+
     private String name;
 
-    public RolesDTO(Integer id, String name){
+    private List<UsersDTO> listUsersDTO;
+
+    public RolesDTO(Integer id, String name, List<UsersDTO> listUsersDTO) {
         this.id = id;
         this.name = name;
+        this.listUsersDTO = listUsersDTO;
     }
 
     public Integer getId() {
@@ -28,6 +32,20 @@ public class RolesDTO {
         this.name = name;
     }
 
-    
+    public List<UsersDTO> getListUsersDTO() {
+        return listUsersDTO;
+    }
 
+    public void setListUsersDTO(List<UsersDTO> listUsersDTO) {
+        this.listUsersDTO = listUsersDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "RolesDTO [id=" + id + ", name=" + name + ", listUsersDTO=" + listUsersDTO + "]";
+    }
+
+    
 }
+
+    

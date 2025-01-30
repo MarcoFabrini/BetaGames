@@ -20,20 +20,20 @@ public class OrdersDTO {
 
     private Date updatedAt;
 
-    private UsersDTO userDTO;
+    private UsersDTO usersDTO;
 
     private List<DetailsOrderDTO> listDetailsOrderDTO;
 
     private PayCardsDTO payCardsDTO;
 
-    public OrdersDTO(Integer id, Double totalAmount, String orderStatus, Date createdAt, Date updatedAt, UsersDTO userDTO,
+    public OrdersDTO(Integer id, Double totalAmount, String orderStatus, Date createdAt, Date updatedAt, UsersDTO usersDTO,
             List<DetailsOrderDTO> listDetailsOrderDTO, PayCardsDTO payCardsDTO) {
         this.id = id;
         this.totalAmount = totalAmount;
         this.orderStatus = orderStatus;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.userDTO = userDTO;
+        this.usersDTO = usersDTO;
         this.listDetailsOrderDTO = listDetailsOrderDTO;
         this.payCardsDTO = payCardsDTO;
     }
@@ -79,11 +79,11 @@ public class OrdersDTO {
     }
 
     public UsersDTO getUser() {
-        return userDTO;
+        return usersDTO;
     }
 
-    public void setUser(UsersDTO userDTO) {
-        this.userDTO = userDTO;
+    public void setUser(UsersDTO usersDTO) {
+        this.usersDTO = usersDTO;
     }
 
     public List<DetailsOrderDTO> getListDetailsOrderDTO() {
@@ -105,7 +105,7 @@ public class OrdersDTO {
     @Override
     public String toString() {
         return "OrdersDTO [id=" + id + ", totalAmount=" + totalAmount + ", orderStatus=" + orderStatus + ", createdAt="
-                + createdAt + ", updatedAt=" + updatedAt + ", user=" + userDTO + ", listDetailsOrderDTO="
+                + createdAt + ", updatedAt=" + updatedAt + ", user=" + usersDTO + ", listDetailsOrderDTO="
                 + listDetailsOrderDTO + ", payCardsDTO=" + payCardsDTO + "]";
     }
 

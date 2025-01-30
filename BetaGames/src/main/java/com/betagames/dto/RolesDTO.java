@@ -1,4 +1,7 @@
 package com.betagames.dto;
+
+import java.util.List;
+
 /**
  *
  * @author Simone Checco

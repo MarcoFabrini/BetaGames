@@ -82,7 +82,7 @@ public class OrdersDTO {
         return userDTO;
     }
 
-    public void setUser(UsersDTO user) {
+    public void setUser(UsersDTO userDTO) {
         this.userDTO = userDTO;
     }
 
@@ -105,7 +105,7 @@ public class OrdersDTO {
     @Override
     public String toString() {
         return "OrdersDTO [id=" + id + ", totalAmount=" + totalAmount + ", orderStatus=" + orderStatus + ", createdAt="
-                + createdAt + ", updatedAt=" + updatedAt + ", user=" + user + ", listDetailsOrderDTO="
+                + createdAt + ", updatedAt=" + updatedAt + ", user=" + userDTO + ", listDetailsOrderDTO="
                 + listDetailsOrderDTO + ", payCardsDTO=" + payCardsDTO + "]";
     }
 

@@ -2,6 +2,14 @@ package com.betagames.dto;
 
 import java.util.Date;
 
+import com.betagames.dto.UsersDTO;
+import com.betagames.dto.OrdersDTO;
+
+
+/**
+ * @author DorigoLorenzo
+ **/
+
 public class PayCardsDTO {
     private Integer id;
     private Integer cardNumber;
@@ -12,8 +20,12 @@ public class PayCardsDTO {
     private Date createdAt;
     private Date updatedAt;
 
+    private UsersDTO userDTO;
+    private OrdersDTO orderDTO;
+
+    //constructors
     public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date exirationDate, Integer cvv,
-            String billingAddress, Date createdAt, Date updatedAt) {
+            String billingAddress, Date createdAt, Date updatedAt, UsersDTO userDTO, OrdersDTO orderDTO) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -22,8 +34,20 @@ public class PayCardsDTO {
         this.billingAddress = billingAddress;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.userDTO = userDTO;
+        this.orderDTO = orderDTO;
     }
 
+    //toString
+    @Override
+    public String toString() {
+        return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
+                + ", exirationDate=" + exirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", userDTO=" + userDTO + ", orderDTO="
+                + orderDTO + "]";
+    }
+
+    //getter and setter
     public Integer getId() {
         return id;
     }
@@ -88,5 +112,20 @@ public class PayCardsDTO {
         this.updatedAt = updatedAt;
     }
 
-    
+    public UsersDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UsersDTO userDTO) {
+        this.userDTO = userDTO;
+    }
+
+    public OrdersDTO getOrderDTO() {
+        return orderDTO;
+    }
+
+    public void setOrderDTO(OrdersDTO orderDTO) {
+        this.orderDTO = orderDTO;
+    }
+
 }//class

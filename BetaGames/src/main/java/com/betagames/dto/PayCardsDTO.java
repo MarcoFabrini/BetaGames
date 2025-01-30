@@ -2,10 +2,6 @@ package com.betagames.dto;
 
 import java.util.Date;
 
-import com.betagames.dto.UsersDTO;
-import com.betagames.dto.OrdersDTO;
-
-
 /**
  * @author DorigoLorenzo
  **/
@@ -20,12 +16,12 @@ public class PayCardsDTO {
     private Date createdAt;
     private Date updatedAt;
 
-    private UsersDTO userDTO;
-    private OrdersDTO orderDTO;
+    private UsersDTO usersDTO;
+    private OrdersDTO ordersDTO;
 
     //constructors
     public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date exirationDate, Integer cvv,
-            String billingAddress, Date createdAt, Date updatedAt, UsersDTO userDTO, OrdersDTO orderDTO) {
+            String billingAddress, Date createdAt, Date updatedAt, UsersDTO usersDTO, OrdersDTO ordersDTO) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -34,8 +30,8 @@ public class PayCardsDTO {
         this.billingAddress = billingAddress;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.userDTO = userDTO;
-        this.orderDTO = orderDTO;
+        this.usersDTO = usersDTO;
+        this.ordersDTO = ordersDTO;
     }
 
     //toString
@@ -43,8 +39,8 @@ public class PayCardsDTO {
     public String toString() {
         return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
                 + ", exirationDate=" + exirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", userDTO=" + userDTO + ", orderDTO="
-                + orderDTO + "]";
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", usersDTO=" + usersDTO + ", ordersDTO="
+                + ordersDTO + "]";
     }
 
     //getter and setter
@@ -112,5 +108,20 @@ public class PayCardsDTO {
         this.updatedAt = updatedAt;
     }
 
-    
+    public UsersDTO getUsersDTO() {
+        return usersDTO;
+    }
+
+    public void setUsersDTO(UsersDTO usersDTO) {
+        this.usersDTO = usersDTO;
+    }
+
+    public OrdersDTO getOrdersDTO() {
+        return ordersDTO;
+    }
+
+    public void setOrdersDTO(OrdersDTO ordersDTO) {
+        this.ordersDTO = ordersDTO;
+    }    
+
 }//class

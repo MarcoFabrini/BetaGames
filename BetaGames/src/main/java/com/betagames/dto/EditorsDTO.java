@@ -37,6 +37,6 @@ public class EditorsDTO {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
+    } 
 
 }// class

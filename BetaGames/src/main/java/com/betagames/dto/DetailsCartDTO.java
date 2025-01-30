@@ -1,8 +1,5 @@
 package com.betagames.dto;
 
-import com.betagames.dto.CartsDTO;
-import com.betagames.dto.GamesDTO;
-
 /**
  * @author DorigoLorenzo
  **/
@@ -13,23 +10,23 @@ public class DetailsCartDTO {
     private Double priceAtTime;
     private Integer quantity;
 
-    private GamesDTO gameDTO;
-    private CartsDTO cartDTO;
+    private GamesDTO gamesDTO;
+    private CartsDTO cartsDTO;
 
     //constructors
-    public DetailsCartDTO(Integer id, Double priceAtTime, Integer quantity, GamesDTO gameDTO, CartsDTO cartDTO) {
+    public DetailsCartDTO(Integer id, Double priceAtTime, Integer quantity, GamesDTO gamesDTO, CartsDTO cartsDTO) {
         this.id = id;
         this.priceAtTime = priceAtTime;
         this.quantity = quantity;
-        this.gameDTO = gameDTO;
-        this.cartDTO = cartDTO;
+        this.gamesDTO = gamesDTO;
+        this.cartsDTO = cartsDTO;
     }
 
     //toString
     @Override
     public String toString() {
-        return "DetailsCartDTO [id=" + id + ", priceAtTime=" + priceAtTime + ", quantity=" + quantity + ", gameDTO="
-                + gameDTO + ", cartDTO=" + cartDTO + "]";
+        return "DetailsCartDTO [id=" + id + ", priceAtTime=" + priceAtTime + ", quantity=" + quantity + ", gamesDTO="
+                + gamesDTO + ", cartsDTO=" + cartsDTO + "]";
     }
 
     //getter and setter
@@ -57,20 +54,20 @@ public class DetailsCartDTO {
         this.quantity = quantity;
     }
 
-    public GamesDTO getGameDTO() {
-        return gameDTO;
+    public GamesDTO getGamesDTO() {
+        return gamesDTO;
     }
 
-    public void setGameDTO(GamesDTO gameDTO) {
-        this.gameDTO = gameDTO;
+    public void setGamesDTO(GamesDTO gamesDTO) {
+        this.gamesDTO = gamesDTO;
     }
 
-    public CartsDTO getCartDTO() {
-        return cartDTO;
+    public CartsDTO getCartsDTO() {
+        return cartsDTO;
     }
 
-    public void setCartDTO(CartsDTO cartDTO) {
-        this.cartDTO = cartDTO;
+    public void setCartsDTO(CartsDTO cartsDTO) {
+        this.cartsDTO = cartsDTO;
     }
-        
+
 }//class

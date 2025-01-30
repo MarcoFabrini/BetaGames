@@ -3,8 +3,6 @@ package com.betagames.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.betagames.dto.UsersDTO;
-import com.betagames.dto.DetailsCartDTO;
 
 /**
  * @author DorigoLorenzo
@@ -17,22 +15,16 @@ public class CartsDTO {
     private Date updatedAt;
 
     private List<DetailsCartDTO> listDetailsCartDTO;
-    private UsersDTO UserDTO;
+    private UsersDTO usersDTO;
 
-    //constructors
-    public CartsDTO(Integer id, Date createdAt, Date updatedAt, List<DetailsCartDTO> listDetailsCartDTO, UsersDTO userDTO) {
+    //constructor
+    public CartsDTO(Integer id, Date createdAt, Date updatedAt, List<DetailsCartDTO> listDetailsCartDTO,
+            UsersDTO usersDTO) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.listDetailsCartDTO = listDetailsCartDTO;
-        this.userDTO = userDTO;
-    }
-
-    //toString
-    @Override
-    public String toString() {
-        return "CartsDTO [id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", listDetailsCartDTO="
-                + listDetailsCartDTO + ", UsersDTO=" + UsersDTO + "]";
+        this.usersDTO = usersDTO;
     }
 
     //getter and setter
@@ -69,11 +61,18 @@ public class CartsDTO {
     }
 
     public UsersDTO getUsersDTO() {
-        return UsersDTO;
+        return usersDTO;
     }
 
     public void setUsersDTO(UsersDTO usersDTO) {
-        UsersDTO = usersDTO;
+        this.usersDTO = usersDTO;
     }
- 
+
+    //toString
+    @Override
+    public String toString() {
+        return "CartsDTO [id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", listDetailsCartDTO="
+                + listDetailsCartDTO + ", usersDTO=" + usersDTO + "]";
+    };
+
 }//class

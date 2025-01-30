@@ -2,7 +2,7 @@ package com.betagames.dto;
 
 /**
  *
- * @author FabriniMarco
+ * @author Fabrini Marco
  */
 public class EditorsDTO {
     private Integer id;
@@ -13,6 +13,11 @@ public class EditorsDTO {
         this.id = id;
         this.name = name;
         this.website = website;
+    }
+
+    @Override
+    public String toString() {
+        return "EditorsDTO [id=" + id + ", name=" + name + ", website=" + website + "]";
     }
 
     public Integer getId() {
@@ -37,6 +42,6 @@ public class EditorsDTO {
 
     public void setWebsite(String website) {
         this.website = website;
-    } 
+    }
 
 }// class

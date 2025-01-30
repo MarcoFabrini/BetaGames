@@ -88,5 +88,4 @@ public class PayCardsDTO {
         this.updatedAt = updatedAt;
     }
 
-    
-}//class
+}// class

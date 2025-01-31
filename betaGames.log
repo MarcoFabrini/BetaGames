@@ -1,0 +1,27 @@
+2025-01-31T16:23:42.466+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.betagames.BetaGamesApplication       : Starting BetaGamesApplication using Java 22.0.2 with PID 11948 (C:\Users\cdgb7\OneDrive\Documenti\GitHub\betagames\BetaGames\target\classes started by cdgb7 in C:\Users\cdgb7\OneDrive\Documenti\GitHub\betagames)
+2025-01-31T16:23:42.469+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.betagames.BetaGamesApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-01-31T16:23:42.517+01:00  INFO 11948 --- [CarJPA] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-01-31T16:23:43.027+01:00  INFO 11948 --- [CarJPA] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-31T16:23:43.106+01:00  INFO 11948 --- [CarJPA] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 4 JPA repository interfaces.
+2025-01-31T16:23:43.827+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-01-31T16:23:44.410+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6dbdb25b
+2025-01-31T16:23:44.414+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-01-31T16:23:44.511+01:00  INFO 11948 --- [CarJPA] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-31T16:23:44.604+01:00  INFO 11948 --- [CarJPA] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-01-31T16:23:44.677+01:00  INFO 11948 --- [CarJPA] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-01-31T16:23:45.054+01:00  INFO 11948 --- [CarJPA] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-31T16:23:45.179+01:00  INFO 11948 --- [CarJPA] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.36
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-31T16:23:46.349+01:00  INFO 11948 --- [CarJPA] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-31T16:23:46.403+01:00  INFO 11948 --- [CarJPA] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-31T16:23:46.991+01:00  INFO 11948 --- [CarJPA] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-01-31T16:23:47.063+01:00  INFO 11948 --- [CarJPA] [restartedMain] com.betagames.BetaGamesApplication       : Started BetaGamesApplication in 5.108 seconds (process running for 5.57)
+2025-01-31T16:23:47.086+01:00  INFO 11948 --- [CarJPA] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-31T16:23:47.096+01:00  INFO 11948 --- [CarJPA] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-01-31T16:23:47.127+01:00  INFO 11948 --- [CarJPA] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

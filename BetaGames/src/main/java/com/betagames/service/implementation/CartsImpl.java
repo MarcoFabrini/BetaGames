@@ -2,6 +2,7 @@ package com.betagames.service.implementation;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CartsImpl implements CartsService{
 
         Date now = new Date();
 
-        Optional<Users> users = 
+        Optional<Users> users = usersR.findById(req.getUser)
 
         Carts carts = new Carts();
         carts.setUser(req.getUserId());//repository
@@ -39,6 +40,8 @@ public class CartsImpl implements CartsService{
 
         detailsCartR.save(carts);
     }
+
+    //branch
 
     @Override
     public void update(CartsRequest req) throws Exception {

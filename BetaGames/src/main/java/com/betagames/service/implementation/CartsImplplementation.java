@@ -10,15 +10,21 @@ import org.springframework.stereotype.Service;
 
 import com.betagames.dto.CartsDTO;
 import com.betagames.model.Carts;
+import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IDetailsCartsRepository;
+import com.betagames.repository.IUsersRepository;
 import com.betagames.request.CartsRequest;
-import com.betagames.service.interfaces.CartsService;
+import com.betagames.service.interfaces.ICartsService;
 
 @Service
-public class CartsImpl implements CartsService{
+public class CartsImplementation implements ICartsService{
 
     @Autowired
     IDetailsCartsRepository detailsCartR;
+
+    @Autowired
+    ICartsRepository cartR;
 
     @Autowired
     IUsersRepository usersR;
@@ -31,14 +37,22 @@ public class CartsImpl implements CartsService{
 
         Date now = new Date();
 
-        Optional<Users> users = usersR.findById(req.getUser)
+        Optional<Users> users = usersR.findById(req.getUserId());
 
-        Carts carts = new Carts();
-        carts.setUser(req.getUserId());//repository
-        carts.setCreatedAt(now);
-        carts.setUpdatedAt(now);
+        //controllare se l'utente ha già un carrello
+        //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
+        if(users.isEmpty()){
+        
+            Carts carts = new Carts();
 
-        detailsCartR.save(carts);
+            carts.setUser(users.get());//repository
+            carts.setCreatedAt(now);
+            carts.setUpdatedAt(now);
+            carts.setListDetailsCart();//repository
+
+            cartR.save(carts);
+        }
+
     }
 
     //branch

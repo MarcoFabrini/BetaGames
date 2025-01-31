@@ -9,7 +9,7 @@ import com.betagames.model.Carts;
 import com.betagames.model.Users;
 
 @Repository
-public interface CartsRepository extends JpaRepository<Carts,Integer>{
+public interface ICartsRepository extends JpaRepository<Carts,Integer>{
 
     Optional<Carts> findByUser(Users user);
 }

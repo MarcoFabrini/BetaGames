@@ -8,9 +8,9 @@ public class DetailsCartRequest {
 
     private Double priceAtTime;
 
-    private Integer orderId;
-
     private Integer gameId;
+
+    private Integer cartId;
 
     public Integer getId() {
         return id;
@@ -36,20 +36,20 @@ public class DetailsCartRequest {
         this.priceAtTime = priceAtTime;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
     public Integer getGameId() {
         return gameId;
     }
 
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
+    }
+
+    public Integer getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Integer cartId) {
+        this.cartId = cartId;
     }
 
     

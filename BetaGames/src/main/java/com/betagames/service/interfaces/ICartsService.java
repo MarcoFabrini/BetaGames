@@ -4,7 +4,7 @@ import java.util.List;
 import com.betagames.dto.CartsDTO;
 import com.betagames.request.CartsRequest;
 
-public interface CartsService {
+public interface ICartsService {
 
     void create(CartsRequest req) throws Exception;
     void update(CartsRequest req) throws Exception;

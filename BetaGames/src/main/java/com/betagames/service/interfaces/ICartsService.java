@@ -11,6 +11,6 @@ public interface ICartsService {
     void remove(CartsRequest req) throws Exception;
 
     //visulizzo il carrello del utente con annesso il details_cart
-    List<CartsDTO> listCartsByUser(Integer id) throws Exception;
+    CartsDTO listCartsByUser(Integer id) throws Exception;
 
 }

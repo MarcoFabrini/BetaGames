@@ -7,9 +7,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.CartsDTO;
 import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
 import com.betagames.model.Users;
 import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IDetailsCartsRepository;
@@ -33,11 +35,13 @@ public class CartsImplementation implements ICartsService{
 	private Logger log;
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public  void create(CartsRequest req) throws Exception{
 
         Date now = new Date();
 
         Optional<Users> users = usersR.findById(req.getUserId());
+        Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
 
         //controllare se l'utente ha già un carrello
         //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
@@ -45,14 +49,14 @@ public class CartsImplementation implements ICartsService{
         
             Carts carts = new Carts();
 
-            carts.setUser(users.get());//repository
             carts.setCreatedAt(now);
             carts.setUpdatedAt(now);
-            carts.setListDetailsCart();//repository
+            //i dettagliCarello li creo in contemporanea
+            //carts.setListDetailsCart();//repository
+            carts.setUser(users.get());//repository
 
             cartR.save(carts);
         }
-
     }
 
     //branch
@@ -70,9 +74,16 @@ public class CartsImplementation implements ICartsService{
     }
 
     @Override
-    public List<CartsDTO> listCartsByUser(Integer id) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listCartsByUser'");
+    public CartsDTO listCartsByUser(Integer id) throws Exception {
+
+        Optional<Users> users = usersR.findById(id);
+        if(users.isEmpty())
+            throw new Exception("Utente non trovato");
+
+        // Carts c = cartR.findByUser(users);
+
+        //return buildCartsDTO(c);
+        return null;
     }
     
 }

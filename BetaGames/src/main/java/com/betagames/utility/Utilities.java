@@ -24,52 +24,52 @@ public class Utilities {
                 .collect(Collectors.toList());
     }// buildEditorsDTO
 
-    public static ReviewsDTO buildReviewsDTO(Reviews r) {
-        return new ReviewsDTO(
-                r.getId(),
-                r.getScore(),
-                r.getDescription(),
-                r.getCreatedAt(),
-                buildUsersDTO(r.getUser()),
-                buildGamesDTO(r.getGame()));
-    }// buildReviewsDTO
+    // public static ReviewsDTO buildReviewsDTO(Reviews r) {
+    //     return new ReviewsDTO(
+    //             r.getId(),
+    //             r.getScore(),
+    //             r.getDescription(),
+    //             r.getCreatedAt(),
+    //             buildUsersDTO(r.getUser()),
+    //             buildGamesDTO(r.getGame()));
+    // }// buildReviewsDTO
 
-    public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
-        return r.stream()
-                .map(re -> new ReviewsDTO(
-                        re.getId(),
-                        re.getScore(),
-                        re.getDescription(),
-                        re.getCreatedAt(),
-                        buildUsersDTO(re.getUser()),
-                        buildGamesDTO(re.getGame())))
-                .collect(Collectors.toList());
-    }// buildReviewsDTO
+    // public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
+    //     return r.stream()
+    //             .map(re -> new ReviewsDTO(
+    //                     re.getId(),
+    //                     re.getScore(),
+    //                     re.getDescription(),
+    //                     re.getCreatedAt(),
+    //                     buildUsersDTO(re.getUser()),
+    //                     buildGamesDTO(re.getGame())))
+    //             .collect(Collectors.toList());
+    // }// buildReviewsDTO
 
-    public static UsersDTO buildUsersDTO(Users u) {
-        return new UsersDTO(
-                u.getId(),
-                u.getUsername(),
-                u.getEmail(),
-                u.getPwd(),
-                buildReviewsDTO(u.getListReviews()),
-                buildOrdersDTO(u.getListOrders()),
-                buildPayCardsDTO(u.getListPayCards())
-        );
-    }// buildUsersDTO
+    // public static UsersDTO buildUsersDTO(Users u) {
+    //     return new UsersDTO(
+    //             u.getId(),
+    //             u.getUsername(),
+    //             u.getEmail(),
+    //             u.getPwd(),
+    //             buildReviewsDTO(u.getListReviews()),
+    //             buildOrdersDTO(u.getListOrders()),
+    //             buildPayCardsDTO(u.getListPayCards())
+    //     );
+    // }// buildUsersDTO
 
-    public static List<UsersDTO> buildUsersDTO(List<Users> u){
-        return u.stream()
-                .map(us -> new UsersDTO(
-                    us.getId(),
-                    us.getUsername(),
-                    us.getEmail(),
-                    us.getPwd(),
-                    buildReviewsDTO(us.getListReviews()),
-                    buildOrdersDTO(us.getListOrders()),
-                    buildPayCardsDTO(us.getListPayCards()) 
-                ))
-                .collect(Collectors.toList());
-    }// buildUsersDTO
+    // public static List<UsersDTO> buildUsersDTO(List<Users> u){
+    //     return u.stream()
+    //             .map(us -> new UsersDTO(
+    //                 us.getId(),
+    //                 us.getUsername(),
+    //                 us.getEmail(),
+    //                 us.getPwd(),
+    //                 buildReviewsDTO(us.getListReviews()),
+    //                 buildOrdersDTO(us.getListOrders()),
+    //                 buildPayCardsDTO(us.getListPayCards()) 
+    //             ))
+    //             .collect(Collectors.toList());
+    // }// buildUsersDTO
 
 }// class

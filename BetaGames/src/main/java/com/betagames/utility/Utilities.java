@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.betagames.dto.EditorsDTO;
-import com.betagames.dto.ReviewsDTO;
-import com.betagames.dto.UsersDTO;
 import com.betagames.model.Editors;
-import com.betagames.model.Reviews;
-import com.betagames.model.Users;
 
 public class Utilities {
 

@@ -11,6 +11,8 @@ import com.betagames.request.EditorsRequest;
  */
 public interface IEditorsService {
 
+    List<EditorsDTO> list() throws Exception;
+
     List<EditorsDTO> searchByTyping() throws Exception;
 
     void create(EditorsRequest req) throws Exception;

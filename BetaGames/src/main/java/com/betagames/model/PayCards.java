@@ -27,7 +27,7 @@ public class PayCards {
     private String cardHolderName;
 
     @Column(name = "expiration_date")
-    private Date exirationDate;
+    private Date expirationDate;
 
     @Column(name = "cvv")
     private Integer cvv;

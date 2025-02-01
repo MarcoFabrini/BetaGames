@@ -10,7 +10,7 @@ public class PayCardsDTO {
     private Integer id;
     private Integer cardNumber;
     private String cardHolderName;
-    private Date exirationDate;
+    private Date expirationDate;
     private Integer cvv;
     private String billingAddress;
     private Date createdAt;

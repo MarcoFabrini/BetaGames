@@ -25,7 +25,7 @@ public class PayCardsDTO {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
-        this.exirationDate = exirationDate;
+        // this.exirationDate = exirationDate;
         this.cvv = cvv;
         this.billingAddress = billingAddress;
         this.createdAt = createdAt;
@@ -38,7 +38,7 @@ public class PayCardsDTO {
     @Override
     public String toString() {
         return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
-                + ", exirationDate=" + exirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
+                + ", exirationDate="  + ", cvv=" + cvv + ", billingAddress=" + billingAddress
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", usersDTO=" + usersDTO + ", ordersDTO="
                 + ordersDTO + "]";
     }
@@ -68,13 +68,13 @@ public class PayCardsDTO {
         this.cardHolderName = cardHolderName;
     }
 
-    public Date getExirationDate() {
-        return exirationDate;
-    }
+    // public Date getExirationDate() {
+    //     return exirationDate;
+    // }
 
-    public void setExirationDate(Date exirationDate) {
-        this.exirationDate = exirationDate;
-    }
+    // public void setExirationDate(Date exirationDate) {
+    //     this.exirationDate = exirationDate;
+    // }
 
     public Integer getCvv() {
         return cvv;

@@ -6,12 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.betagames.dto.OrdersDTO;
 import com.betagames.model.Orders;
-
+import com.betagames.dto.CartsDTO;
+import com.betagames.dto.DetailsCartDTO;
 import com.betagames.dto.EditorsDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
 import com.betagames.model.Editors;
 
 public class Utilities {
@@ -91,5 +95,49 @@ public class Utilities {
     //             ))
     //             .collect(Collectors.toList());
     // }// buildUsersDTO
+
+  // public static List<CartsDTO> buildCartsDTO(List<Carts> c){
+
+  //   return c.stream()
+  //     .map(cart -> new CartsDTO(
+  //       cart.getId(),
+  //       cart.getCreatedAt(),
+  //       cart.getUpdatedAt(),
+  //       buildUsersDTO(cart.getUsersDTO())
+  //     ))
+  //     .collect(Collectors.toList());
+  // }
+  // public static CartsDTO buildCartsDTO(Carts c){
+
+  //   return new CartsDTO(
+  //       c.getId(),
+  //       c.getCreatedAt(),
+  //       c.getUpdatedAt(),
+  //       buildUsersDTO(c.getUsersDTO())
+  //     );
+  // }
+
+  // public static List<DetailsCartDTO> buildDetailsCartsDTO(List<DetailsCart> dC){
+
+  //   return dC.stream()
+  //     .map(dCart -> new DetailsCartDTO(
+  //       dCart.getId(),
+  //       dCart.getPriceAtTime(),
+  //       dCart.getQuantity(),
+  //       buildGamesDTO(dCart.getGamesDTO()),
+  //       buildCartsDTO(dCart.getCartsDTO())
+  //     ))
+  //     .collect(Collectors.toList());
+  // }
+  // public static DetailsCartDTO buildDetailsCartsDTO(DetailsCart dC){
+
+  //   return new DetailsCartDTO(
+  //     dC.getId(),
+  //     dC.getPriceAtTime(),
+  //     dC.getQuantity(),
+  //     buildGamesDTO(dC.getGamesDTO()),
+  //     buildCartsDTO(dC.getCartsDTO())
+  //   );
+  // }
 
 }// class

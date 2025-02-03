@@ -2,6 +2,7 @@ package com.betagames.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,21 @@ public class CartsController {
             response.setMsg("Successfully created Cart");
         } catch (Exception e) {
             log.error("Failed to create Cart: " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseBase remove(@RequestBody(required = true) CartsRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+        try {
+            cartsService.remove(req);
+            response.setMsg("Successfully deleted Cart");
+        } catch (Exception e) {
+            log.error("Failed to delete Cart: " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }

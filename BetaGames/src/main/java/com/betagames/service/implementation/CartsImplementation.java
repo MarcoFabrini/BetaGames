@@ -75,8 +75,10 @@ public class CartsImplementation implements ICartsService{
 
     @Override
     public void remove(CartsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        Optional<Carts> carts = cartR.findById(req.getId());
+        if (carts.isEmpty())
+			throw new Exception("cart not found");
+        cartR.delete(carts.get());
     }
 
     @Override

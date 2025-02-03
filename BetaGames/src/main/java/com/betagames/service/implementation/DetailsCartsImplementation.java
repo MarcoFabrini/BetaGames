@@ -63,7 +63,6 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         Optional<Games> games = gamesR.findById(req.getGameId());
         if (games.isEmpty())
 			throw new Exception("item not found");
-        
         //cerco nella details_cart se esiste già un record con lo stesso gioco e lo stesso carrello
         // if(detailsCartR.existsCart(carts.get()) && detailsCartR.existsGames(games.get()))
         //     throw new Exception("item already in the cart");
@@ -121,18 +120,19 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
     }
 
     //per il checkout
-    @Transactional(rollbackFor=Exception.class)
+    //@Transactional(rollbackFor=Exception.class)
     @Override
     public void deleteAllByCart(DetailsCartRequest req) throws Exception {
 
         Optional<Carts> carts = cartR.findById(req.getCartId());
+    
         if (carts.isEmpty())
 			throw new Exception("cart not found");
 
         List<DetailsCart> dCl = detailsCartR.findByCart(carts.get());
         
-        // Optional<DetailsCart> detailsCarts = detailsCartR.findById(carts.get().getId());
-        // detailsCarts.get().setCart(null);
+        //trucco
+        //carts.get().setListDetailsCart(null);
 
         dCl.forEach(dC ->{
             detailsCartR.delete(dC);
@@ -141,19 +141,15 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         //====NON RIESCO A CANCELLARE IL CART====
 
         //carts.get().getListDetailsCart().removeAll(dCl);
+        //cartR.save(carts.get());
         cartR.delete(carts.get());
-        // System.out.println("---------" + carts.get().getId());
-        // System.out.println("---------" + dCl);
-        // for (DetailsCart dc : dCl) {
-        //     System.out.println("---------" + dc.getId() + " " + dc.getCart().getId() + " " + dc.getGame().getId());
-        // }
     }
 
 
-    // private boolean existAttivita (List<Attivita> att, String search) {
-	// 	return att.stream()
-	// 			.map(Attivita :: getDescrizione)
-	// 			.anyMatch(descrizione -> descrizione.equalsIgnoreCase(search) );
+    // private boolean existGame (List<DetailsCart> detailsCart, String search) {
+	// 	return detailsCart.stream()
+	// 			.map(DetailsCart :: getCart)
+	// 			.equals(descrizione -> descrizione.equalsIgnoreCase(search) );
 	// }
 
 }

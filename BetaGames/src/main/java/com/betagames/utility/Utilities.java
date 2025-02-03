@@ -8,8 +8,9 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import com.betagames.dto.OrdersDTO;
+import com.betagames.dto.PayCardsDTO;
 import com.betagames.model.Orders;
-
+import com.betagames.model.PayCards;
 import com.betagames.dto.EditorsDTO;
 import com.betagames.model.Editors;
 
@@ -112,4 +113,85 @@ public class Utilities {
 	// 			.collect(Collectors.toList());
 	// }
 
+    public static GamesDTO buildGamesDTO(Games g){
+      return new GamesDTO(
+                  g.getId(),
+                  g.getName(),
+                  g.getDate(),
+                  g.getMinGameTime(),
+                  g.getMaxGameTime(),
+                  g.getMinPlayerNumber(),
+                  g.getMaxPlayerNumber(),
+                  g.getMinAge(),
+                  g.getDescription(),
+                  g.getStockQuantity(),
+                  g.getPrice(),
+                  buildEditorsDTO(g.getEditor()),
+                  buildCategoryDTO(g.getListCategory()),
+                  buildDetailsOrderDTO(g.getListDetailsOrder()),
+                  buildDetailsCartDTO(g.getListDetailsCarts()),
+                  buildReviewsDTO(g.getListReviews()),
+                  buildAuthorsDTO(g.getListAuthors())
+       );
+    }//buildGamesDTO
+
+    public static List<GamesDTO> buildGamesDTO(List<Games> g){
+      return g.stream()
+              .map(gs -> new GamesDTO(
+                gs.getId(),
+                gs.getName(),
+                gs.getDate(),
+                gs.getMinGameTime(),
+                gs.getMaxGameTime(),
+                gs.getMinPlayerNumber(),
+                gs.getMaxPlayerNumber(),
+                gs.getMinAge(),
+                gs.getDescription(),
+                gs.getStockQuantity(),
+                gs.getPrice(),
+                buildEditorsDTO(gs.getEditor()),
+                buildCategoryDTO(gs.getListCategory()),
+                buildDetailsOrderDTO(gs.getListDetailsOrder()),
+                buildDetailsCartDTO(gs.getListDetailsCarts()),
+                buildReviewsDTO(gs.getListReviews()),
+                buildAuthorsDTO(gs.getListAuthors())
+                ))
+                .collect(Collectors.toList());
+    }//List buildGamesDTO
+
+    public static PayCardsDTO buildPayCardsDTO(PayCards p){
+      return new PayCardsDTO(
+                  p.getId(),
+                  p.getCardNumber(),
+                  p.getCardHolderName(),
+                  p.getExpirationDate(),
+                  p.getCvv(),
+                  p.getBillingAddress(),
+                  p.getCreatedAt(),
+                  p.getUpdatedAt(),
+                  buildUsersDTO(p.getUser()),
+                  buildOrdersDTO(p.getOrder())
+      );
+    }//PayCardsDTO
+
+    public static List<PayCardsDTO> buildPayCardsDTO(List<PayCards> p){
+      return p.stream()
+              .map(ps -> new PayCardsDTO(
+                ps.getId(),
+                ps.getCardNumber(),
+                ps.getCardHolderName(),
+                ps.getExpirationDate(),
+                ps.getCvv(),
+                ps.getBillingAddress(),
+                ps.getCreatedAt(),
+                ps.getUpdatedAt(),
+                buildUsersDTO(ps.getUser()),
+                buildOrdersDTO(ps.getOrder())
+              ))
+              .collect(Collectors.toList());
+    }//List buildPayCardsDTO
+
+
+
+    
 }// class

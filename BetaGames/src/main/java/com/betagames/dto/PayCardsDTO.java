@@ -20,12 +20,12 @@ public class PayCardsDTO {
     private OrdersDTO ordersDTO;
 
     //constructors
-    public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date exirationDate, Integer cvv,
+    public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date expirationDate, Integer cvv,
             String billingAddress, Date createdAt, Date updatedAt, UsersDTO usersDTO, OrdersDTO ordersDTO) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
-        this.exirationDate = exirationDate;
+        this.expirationDate = expirationDate;
         this.cvv = cvv;
         this.billingAddress = billingAddress;
         this.createdAt = createdAt;
@@ -38,7 +38,7 @@ public class PayCardsDTO {
     @Override
     public String toString() {
         return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
-                + ", exirationDate=" + exirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
+                + ", expirationDate=" + expirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", usersDTO=" + usersDTO + ", ordersDTO="
                 + ordersDTO + "]";
     }
@@ -69,11 +69,11 @@ public class PayCardsDTO {
     }
 
     public Date getExirationDate() {
-        return exirationDate;
+        return expirationDate;
     }
 
-    public void setExirationDate(Date exirationDate) {
-        this.exirationDate = exirationDate;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public Integer getCvv() {

@@ -72,12 +72,12 @@ public class PayCards {
         this.cardHolderName = cardHolderName;
     }
 
-    public Date getExirationDate() {
-        return exirationDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExirationDate(Date exirationDate) {
-        this.exirationDate = exirationDate;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public Integer getCvv() {

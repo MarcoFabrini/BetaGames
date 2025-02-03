@@ -3,16 +3,16 @@ package com.betagames.service.implementation;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.model.Carts;
 import com.betagames.model.DetailsCart;
 import com.betagames.model.Games;
 import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IDetailsCartsRepository;
+import com.betagames.repository.IGamesRepository;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
-
-import org.springframework.transaction.annotation.Transactional;
 
 public class DetailsCartsImplementation implements IDetailsCartsService{
 
@@ -43,7 +43,7 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         detailsCart.setCart(carts.get());
         detailsCart.setGame(games.get());
         detailsCart.setQuantity(req.getQuantity());
-        detailsCart.setPriceAtTime(games.getPrice()*detailsCart.getQuantity());//repository
+        // detailsCart.setPriceAtTime(games.getPrice()*detailsCart.getQuantity());//repository
 
         detailsCartR.save(detailsCart);
 

@@ -15,6 +15,6 @@ public interface ICartsRepository extends JpaRepository<Carts,Integer>{
 
     //Optional<Carts> findByUser(Integer user);
 
-    List<Carts> findById(Integer id);
+    //List<Carts> findById(Integer id);
 
 }

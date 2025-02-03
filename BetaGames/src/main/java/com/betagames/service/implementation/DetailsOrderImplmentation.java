@@ -2,10 +2,18 @@ package com.betagames.service.implementation;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.request.DetailsOrderRequest;
 import com.betagames.service.interfaces.IDetailsOrderService;
 
+/*
+ * 
+ * @author Simone Checco
+ */
+
+ @Service
 public class DetailsOrderImplmentation implements IDetailsOrderService{
 
     @Override

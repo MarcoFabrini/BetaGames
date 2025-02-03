@@ -16,10 +16,10 @@ import com.betagames.model.Editors;
  */
 @Repository
 public interface IEditorsRepository extends JpaRepository<Editors, Integer> {
-    @Query(name = "editors.searchByTyping")
+    /*@Query(name = "editors.searchByTyping")
     List<Editors> searchByTyping(@Param("id") Integer id,
             @Param("name") String name,
-            @Param("website") String website);
+            @Param("website") String website);*/
 
     Optional<Editors> findByName(String name);
 

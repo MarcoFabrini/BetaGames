@@ -35,13 +35,12 @@ public class PayCardsDTO {
     }
 
     //toString
-    @Override
-    public String toString() {
+    /*public String toString() {
         return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
                 + ", expirationDate=" + expirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", usersDTO=" + usersDTO + ", ordersDTO="
                 + ordersDTO + "]";
-    }
+    }*/
 
     //getter and setter
     public Integer getId() {
@@ -68,7 +67,7 @@ public class PayCardsDTO {
         this.cardHolderName = cardHolderName;
     }
 
-    public Date getExirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 

@@ -43,7 +43,7 @@ public class AuthorsImplementation implements IAuthorsService{
     public List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography,
             Integer gameId) throws Exception {
 
-            List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
+           // List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
 
             // return listAuthors.stream()
             //         .map(s -> new AuthorsDTO(
@@ -53,6 +53,7 @@ public class AuthorsImplementation implements IAuthorsService{
             //             s.getLastname(), 
             //             s.getName(), 
             //             s.getListGames()))
+        return null;
      }
 
 

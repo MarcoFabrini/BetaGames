@@ -8,28 +8,54 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import com.betagames.dto.OrdersDTO;
+import com.betagames.dto.RolesDTO;
 import com.betagames.model.Orders;
-
+import com.betagames.model.Roles;
+import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
+import com.betagames.model.DetailsOrder;
 import com.betagames.model.Editors;
 
 import com.betagames.dto.GamesDTO;
 import com.betagames.model.Games;
 
 public class Utilities {
-  
-  public static List<OrdersDTO> buildOrdersDTO(List<Orders> listOrders){
-        return listOrders.stream()
-                        .map(order -> new OrdersDTO(order.getId(), order.getTotalAmmount(),order.getOrderStatus(), order.getCreatedAt(), order.getUpdatedAt(), 
-                                                    null, null, null)) //settati a null perchè mancano i buildDTO
-                        .collect(Collectors.toList());
-    }
-    private final static String PATTERN_DATE = "dd/MM/yyyy";
-	  public static Date convertStringToDate(String dataString) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
-		return formatter.parse(dataString);
-	}
 
+  private final static String PATTERN_DATE = "dd/MM/yyyy";
+  
+  //builder per farsi restituire la lista di OrdersDTO
+  public final static List<OrdersDTO> buildOrdersDTO(List<Orders> listOrders){
+    return listOrders.stream()
+              .map(order -> new OrdersDTO(order.getId(), order.getTotalAmmount(),order.getOrderStatus(), order.getCreatedAt(), order.getUpdatedAt(), 
+                                                    null, null, null)) //settati a null perchè mancano i buildDTO
+              .collect(Collectors.toList());
+  }
+  //builder per farsi restituire la lista di RolesDTO
+  public final static List<RolesDTO> buildRolesDTO(List<Roles> listRoles){
+    return listRoles.stream()
+              .map(role -> new RolesDTO(role.getId(), role.getName(), null)) //settato a null perchè manca buildUsersDTO
+              .collect(Collectors.toList());
+  }
+  //builder per farsi restituire la lista DetailsOrderDTO
+  public final static List<DetailsOrderDTO> buildDetailsOrderDTO(List<DetailsOrder> listDetailsOrder){
+    return listDetailsOrder.stream()
+              .map(detail -> new DetailsOrderDTO(detail.getId(),detail.getQuantity(),detail.getPriceAtTime(), 
+                                  buildOrdersDTO(detail.getOrder()),null))
+              .collect(Collectors.toList());
+  }
+  //builder per farsi restituire un OrdersDTO
+  public final static OrdersDTO buildOrdersDTO(Orders o){
+    return new OrdersDTO(o.getId(), o.getTotalAmmount(), o.getOrderStatus(), 
+                        o.getCreatedAt(), o.getUpdatedAt(), null, null, null);
+  }
+  //build per Il singolo RolesDTO
+  public final static RolesDTO buildRolesDTO(Roles r){
+    return new RolesDTO(r.getId(),r.getName(),null);
+  }
+  //builder per il singolo DetailsOrderDTO
+  public final static DetailsOrderDTO buildDetailsOrderDTO(DetailsOrderDTO d){
+    return new DetailsOrderDTO(d.getId(),d.getQuantity(),d.getPriceAtTime(),d.getOrderDTO(),null);
+  }
     public static EditorsDTO buildEditorsDTO(Editors e) {
         return new EditorsDTO(
                 e.getId(),
@@ -111,5 +137,8 @@ public class Utilities {
     //                 a.getListAuthors()))
 	// 			.collect(Collectors.toList());
 	// }
-
+  public static Date convertStringToDate(String dataString) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
+		return formatter.parse(dataString);
+	}
 }// class

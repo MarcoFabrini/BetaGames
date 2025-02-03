@@ -11,7 +11,7 @@ import com.betagames.request.RolesRequest;
 
 public interface IRolesService {
 
-    List<RolesDTO> searchByTyping() throws Exception;
+    List<RolesDTO> listRoles() throws Exception;
 
     void create(RolesRequest req) throws Exception;
 

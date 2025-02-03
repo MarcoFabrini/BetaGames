@@ -11,7 +11,7 @@ import com.betagames.request.GamesRequest;
 
 public interface IGamesService {
 
-    List<GamesDTO> searchByTyping() throws Exception;
+    // List<GamesDTO> searchByTyping() throws Exception;
 
     void create(GamesRequest req) throws Exception;
 

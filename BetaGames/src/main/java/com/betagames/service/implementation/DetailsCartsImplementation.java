@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.betagames.dto.DetailsCartDTO;
 import com.betagames.model.Carts;
 import com.betagames.model.DetailsCart;
 import com.betagames.model.Games;
@@ -19,6 +20,7 @@ import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
 
 import org.springframework.transaction.annotation.Transactional;
+import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
 
 @Service
 public class DetailsCartsImplementation implements IDetailsCartsService{
@@ -144,6 +146,18 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         //cartR.save(carts.get());
         cartR.delete(carts.get());
     }
+
+    @Override
+    public List<DetailsCartDTO> list() throws Exception {
+        List<DetailsCart> lDetailsCarts = detailsCartR.findAll();
+        return buildDetailsCartsDTO(lDetailsCarts);
+    }
+
+    // @Override
+    // public List<DetailsCartDTO> listByCarts(DetailsCartRequest req) throws Exception {
+    //     List<DetailsCart> lDetailsCarts = detailsCartR.findById(req.getCartId());
+    //     return buildDetailsCartsDTO(lDetailsCarts);
+    // }
 
 
     // private boolean existGame (List<DetailsCart> detailsCart, String search) {

@@ -35,11 +35,12 @@ public class EditorsImplementation implements IEditorsService {
 
     @Override
     public List<EditorsDTO> searchByTyping(Integer id, String name, String website) throws Exception {
-        List<Editors> listEditors = editorsRepository.searchByTyping(id, name, website);
+        //List<Editors> listEditors = editorsRepository.searchByTyping(id, name, website);
 
-        return listEditors.stream()
+        /*return listEditors.stream()
                 .map(e -> new EditorsDTO(e.getId(), e.getName(), e.getWebsite()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+                return null;
     }// searchByTyping
 
     @Override

@@ -43,7 +43,9 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         detailsCart.setCart(carts.get());
         detailsCart.setGame(games.get());
         detailsCart.setQuantity(req.getQuantity());
-        // detailsCart.setPriceAtTime(games.getPrice()*detailsCart.getQuantity());//repository
+
+        detailsCart.setPriceAtTime(games.getPrice()*detailsCart.getQuantity());//repository
+
 
         detailsCartR.save(detailsCart);
 

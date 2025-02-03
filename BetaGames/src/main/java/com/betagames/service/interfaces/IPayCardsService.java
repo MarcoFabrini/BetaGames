@@ -11,7 +11,7 @@ import com.betagames.request.PayCardsRequest;
 
 public interface IPayCardsService {
 
-    List<PayCardsDTO> searchByTyping() throws Exception;
+    //List<PayCardsDTO> searchByTyping() throws Exception;
 
     void create(PayCardsRequest req) throws Exception;
 

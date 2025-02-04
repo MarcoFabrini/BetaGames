@@ -5,9 +5,18 @@ import java.util.List;
 import com.betagames.dto.OrdersDTO;
 import com.betagames.request.OrdersRequest;
 
+/*
+ * 
+ * @author Simone Checco
+ */
+
 public interface IOrdersService {
     
-    List<OrdersDTO> searchByTyping(Integer id) throws Exception;
+    List<OrdersDTO> findAllOrders() throws Exception;
+
+    List<OrdersDTO> findByUser(Integer id) throws Exception;
+
+    List<OrdersDTO> searchByTyping() throws Exception;
 
     void create(OrdersRequest req) throws Exception;
 

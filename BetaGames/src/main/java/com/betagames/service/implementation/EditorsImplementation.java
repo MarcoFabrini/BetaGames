@@ -35,22 +35,23 @@ public class EditorsImplementation implements IEditorsService {
 
     @Override
     public List<EditorsDTO> searchByTyping(Integer id, String name, String website) throws Exception {
-        List<Editors> listEditors = editorsRepository.searchByTyping(id, name, website);
+        //List<Editors> listEditors = editorsRepository.searchByTyping(id, name, website);
 
-        return listEditors.stream()
+        /*return listEditors.stream()
                 .map(e -> new EditorsDTO(e.getId(), e.getName(), e.getWebsite()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+                return null;
     }// searchByTyping
 
     @Override
     public void create(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findByName(req.getName());
         if (editors.isPresent())
-            throw new Exception("This editors name is already present");
+            throw new Exception("This editor name is already present");
 
         editors = editorsRepository.findByWebsite(req.getWebsite());
         if (editors.isPresent())
-            throw new Exception("This editors website is already present");
+            throw new Exception("This editor website is already present");
 
         Editors e = new Editors();
         e.setName(req.getName());
@@ -63,15 +64,15 @@ public class EditorsImplementation implements IEditorsService {
     public void update(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findById(req.getId());
         if (!editors.isPresent())
-            throw new Exception("Editors not found");
+            throw new Exception("Editor not found");
 
         Optional<Editors> ed = editorsRepository.findByName(req.getName());
         if (ed.isPresent())
-            throw new Exception("This editors is already present");
+            throw new Exception("This editor is already present");
 
         ed = editorsRepository.findByWebsite(req.getWebsite());
         if (ed.isPresent())
-            throw new Exception("This editors website is already present");
+            throw new Exception("This editor website is already present");
 
         editors.get().setName(req.getName());
         editors.get().setWebsite(req.getWebsite());
@@ -83,7 +84,7 @@ public class EditorsImplementation implements IEditorsService {
     public void delete(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findById(req.getId());
         if (!editors.isPresent())
-            throw new Exception("Editors not found");
+            throw new Exception("Editor not found");
 
         editorsRepository.delete(editors.get());
     }// delete

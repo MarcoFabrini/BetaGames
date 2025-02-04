@@ -1,8 +1,10 @@
 package com.betagames.service.interfaces;
 
+
 import java.util.List;
 
 import com.betagames.dto.DetailsCartDTO;
+
 import com.betagames.request.DetailsCartRequest;
 
 public interface IDetailsCartsService {
@@ -11,9 +13,11 @@ public interface IDetailsCartsService {
     void update(DetailsCartRequest req) throws Exception;
     void delete(DetailsCartRequest req) throws Exception;
 
+
     List<DetailsCartDTO> list()throws Exception;
     List<DetailsCartDTO> listByCarts(DetailsCartRequest req)throws Exception;
     
     //per il checkout
     void deleteAllByCart(DetailsCartRequest req) throws Exception;
+
 }

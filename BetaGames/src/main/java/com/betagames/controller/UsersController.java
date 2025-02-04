@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betagames.dto.EditorsDTO;
-import com.betagames.request.EditorsRequest;
+import com.betagames.dto.UsersDTO;
+import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
-import com.betagames.service.interfaces.IEditorsService;
+import com.betagames.service.interfaces.IUsersService;
 
 /**
  *
@@ -23,20 +23,20 @@ import com.betagames.service.interfaces.IEditorsService;
  */
 
 @RestController
-@RequestMapping("/rest/editors")
-public class EditorsController {
+@RequestMapping("/rest/users")
+public class UsersController {
     @Autowired
     Logger log;
     @Autowired
-    IEditorsService editorsService;
+    IUsersService usersService;
 
     @GetMapping("/list")
-    public ResponseList<EditorsDTO> list() {
-        ResponseList<EditorsDTO> list = new ResponseList<>();
+    public ResponseList<UsersDTO> list() {
+        ResponseList<UsersDTO> list = new ResponseList<>();
         list.setRc(true);
 
         try {
-            list.setData(editorsService.list());
+            list.setData(usersService.list());
         } catch (Exception e) {
             log.error(e.getMessage());
             list.setMsg(e.getMessage());
@@ -46,14 +46,14 @@ public class EditorsController {
     }// list
 
     @GetMapping("/searchByTyping")
-    public ResponseList<EditorsDTO> searchByTyping(@RequestParam(value="id", required = false) Integer id,
-                                                   @RequestParam(value="name", required = false) String name,
-                                                   @RequestParam(value="website", required = false) String website) {
-        ResponseList<EditorsDTO> list = new ResponseList<>();
+    public ResponseList<UsersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
+                                                 @RequestParam(value = "username", required = false) String username,
+                                                 @RequestParam(value = "email", required = false) String email) {
+        ResponseList<UsersDTO> list = new ResponseList<>();
         list.setRc(true);
 
         try {
-            list.setData(editorsService.searchByTyping(id, name, website));
+            list.setData(usersService.searchByTyping(id, username, email));
         } catch (Exception e) {
             log.error(e.getMessage());
             list.setMsg(e.getMessage());
@@ -63,14 +63,15 @@ public class EditorsController {
     }// searchByTyping
 
     @PostMapping("/create")
-    public ResponseBase create(@RequestBody(required = true) EditorsRequest req) {
+    public ResponseBase create(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
+
         try {
-            editorsService.create(req);
-            response.setMsg("Successfully created editor");
+            usersService.create(req);
+            response.setMsg("Successfully created user");
         } catch (Exception e) {
-            log.error("Failed to create editor" + e.getMessage());
+            log.error("Failed to create user" + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }
@@ -78,14 +79,14 @@ public class EditorsController {
     }// create
 
     @PutMapping("/update")
-    public ResponseBase update(@RequestBody(required = true) EditorsRequest req) {
+    public ResponseBase update(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            editorsService.update(req);
-            response.setMsg("Successfully updated editor");
+            usersService.update(req);
+            response.setMsg("Successfully updated user");
         } catch (Exception e) {
-            log.error("Failed to update editor" + e.getMessage());
+            log.error("Failed to update user" + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }
@@ -93,14 +94,14 @@ public class EditorsController {
     }// update
 
     @DeleteMapping("/delete")
-    public ResponseBase delete(@RequestBody(required = true) EditorsRequest req) {
+    public ResponseBase delete(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            editorsService.delete(req);
-            response.setMsg("Successfully deleted editor");
+            usersService.delete(req);
+            response.setMsg("Successfully deleted user");
         } catch (Exception e) {
-            log.error("Failed to delete editor" + e.getMessage());
+            log.error("Failed to delete user" + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }

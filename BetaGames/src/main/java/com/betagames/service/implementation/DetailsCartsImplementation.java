@@ -13,11 +13,13 @@ import com.betagames.model.Carts;
 import com.betagames.model.DetailsCart;
 import com.betagames.model.Games;
 import com.betagames.model.Users;
+
 import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IDetailsCartsRepository;
 import com.betagames.repository.IGamesRepository;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
+
 
 import org.springframework.transaction.annotation.Transactional;
 //import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
@@ -35,16 +37,17 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
     IGamesRepository gamesR;
 
     @Autowired
-    ICartsRepository usersR;
+    IUsersRepository usersR;
 
     @Autowired
-	private Logger log;
+	  private Logger log;
 
     @Transactional(rollbackFor=Exception.class)
     @Override
     public void create(DetailsCartRequest req) throws Exception {
 
         Optional<Carts> carts = cartR.findById(req.getCartId());
+
         if (carts.isEmpty()){
             //oppure creo un record Carts...???
 
@@ -68,10 +71,12 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         //cerco nella details_cart se esiste già un record con lo stesso gioco e lo stesso carrello
         // if(detailsCartR.existsCart(carts.get()) && detailsCartR.existsGames(games.get()))
         //     throw new Exception("item already in the cart");
+
     
         DetailsCart detailsCart = new DetailsCart();
 
         detailsCart.setCart(carts.get());
+
 
         detailsCart.setGame(games.get());
         detailsCart.setQuantity(req.getQuantity());
@@ -167,5 +172,4 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
 	// 			.map(DetailsCart :: getCart)
 	// 			.equals(descrizione -> descrizione.equalsIgnoreCase(search) );
 	// }
-
 }

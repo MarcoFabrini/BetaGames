@@ -41,11 +41,14 @@ public class CartsImplementation implements ICartsService{
         Date now = new Date();
 
         Optional<Users> users = usersR.findById(req.getUserId());
+
         Optional<Carts> cartsUser = cartR.findByUser(users.get());
+
         Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
 
         //controllare se l'utente ha già un carrello
         //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
+
         if (users.isEmpty())
 			throw new Exception("user not found");
 
@@ -62,7 +65,6 @@ public class CartsImplementation implements ICartsService{
         //carts.setListDetailsCart();//repository
 
         cartR.save(carts);
-        
     }
 
     //branch
@@ -75,6 +77,7 @@ public class CartsImplementation implements ICartsService{
 
     @Override
     public void remove(CartsRequest req) throws Exception {
+
         Optional<Carts> carts = cartR.findById(req.getId());
         if (carts.isEmpty())
 			throw new Exception("cart not found");

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.AuthorsDTO;
-import com.betagames.model.Authors;
 import com.betagames.repository.IAuthorsRepository;
 import com.betagames.request.AuthorsRequest;
 import com.betagames.service.interfaces.IAuthorsService;
@@ -79,6 +78,27 @@ public class AuthorsImplementation implements IAuthorsService{
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
+
+    @Override
+    public List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography,
+            Integer gameId) throws Exception {
+
+
+            List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
+
+
+             return listAuthors.stream()
+                     .map(s -> new AuthorsDTO(
+                         s.getId(), 
+                         s.getBiography(), 
+                         s.getCountry(), 
+                         s.getLastname(), 
+                         s.getName(), 
+                         s.getListGames()))
+
+        return null;
+
+     }
 
 
 }// class

@@ -15,6 +15,13 @@ import com.betagames.dto.ReviewsDTO;
 import com.betagames.dto.UsersDTO;
 import com.betagames.model.Editors;
 import com.betagames.model.Orders;
+
+import com.betagames.dto.CartsDTO;
+import com.betagames.dto.DetailsCartDTO;
+import com.betagames.dto.EditorsDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
+
 import com.betagames.model.Reviews;
 import com.betagames.model.Users;
 
@@ -29,6 +36,7 @@ import com.betagames.model.Authors;
 import com.betagames.model.Roles;
 import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.model.DetailsOrder;
+
 
 import com.betagames.model.Editors;
 
@@ -253,5 +261,49 @@ public class Utilities {
       ).collect(Collectors.toList());
   }
 
+
+  // public static List<CartsDTO> buildCartsDTO(List<Carts> c){
+
+  //   return c.stream()
+  //     .map(cart -> new CartsDTO(
+  //       cart.getId(),
+  //       cart.getCreatedAt(),
+  //       cart.getUpdatedAt(),
+  //       buildUsersDTO(cart.getUsersDTO())
+  //     ))
+  //     .collect(Collectors.toList());
+  // }
+  // public static CartsDTO buildCartsDTO(Carts c){
+
+  //   return new CartsDTO(
+  //       c.getId(),
+  //       c.getCreatedAt(),
+  //       c.getUpdatedAt(),
+  //       buildUsersDTO(c.getUsersDTO())
+  //     );
+  // }
+
+  // public static List<DetailsCartDTO> buildDetailsCartsDTO(List<DetailsCart> dC){
+
+  //   return dC.stream()
+  //     .map(dCart -> new DetailsCartDTO(
+  //       dCart.getId(),
+  //       dCart.getPriceAtTime(),
+  //       dCart.getQuantity(),
+  //       buildGamesDTO(dCart.getGamesDTO()),
+  //       buildCartsDTO(dCart.getCartsDTO())
+  //     ))
+  //     .collect(Collectors.toList());
+  // }
+  // public static DetailsCartDTO buildDetailsCartsDTO(DetailsCart dC){
+
+  //   return new DetailsCartDTO(
+  //     dC.getId(),
+  //     dC.getPriceAtTime(),
+  //     dC.getQuantity(),
+  //     buildGamesDTO(dC.getGamesDTO()),
+  //     buildCartsDTO(dC.getCartsDTO())
+  //   );
+  // }
 
 }// class

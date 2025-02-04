@@ -13,7 +13,7 @@ public interface IAuthorsService {
 
     List<AuthorsDTO> list() throws Exception;
 
-    List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography, Integer gameId) throws Exception;
+    // List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography, Integer gameId) throws Exception;
 
     void create(AuthorsRequest req) throws Exception;
 

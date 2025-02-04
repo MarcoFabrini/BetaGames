@@ -1,7 +1,5 @@
 package com.betagames.service.implementation;
 
-import static com.betagames.utility.Utilities.buildAuthorsDTOs;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.AuthorsDTO;
+import com.betagames.model.Authors;
 import com.betagames.repository.IAuthorsRepository;
 import com.betagames.request.AuthorsRequest;
 import com.betagames.service.interfaces.IAuthorsService;
+import static com.betagames.utility.Utilities.buildAuthorsDTO;
 
 /**
  *
@@ -30,21 +30,21 @@ public class AuthorsImplementation implements IAuthorsService{
         this.log = log;
     }
     
-    @Override
-    public List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography,
-            Integer gameId) throws Exception {
-            log.debug("Cercando lista di autori con filtri");
-            List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
-            log.debug("List SearchByTyping: " + listAuthors);
-            return buildAuthorsDTOs(listAuthors);
-    }//List Search
+    // @Override
+    // public List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography,
+    //         Integer gameId) throws Exception {
+    //         log.debug("Cercando lista di autori con filtri");
+    //         List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
+    //         log.debug("List SearchByTyping: " + listAuthors);
+    //         return buildAuthorsDTO(listAuthors);
+    // }//List Search
 
     @Override
     public List<AuthorsDTO> list() throws Exception {
         log.debug("Cercando lista di autori");
         List<Authors> listAuthors = authorsRepository.findAll();
         log.debug("List SearchByTyping: " + listAuthors);
-        return buildAuthorsDTOs(listAuthors);
+        return buildAuthorsDTO(listAuthors);
     }//List
 
     @Override
@@ -52,9 +52,9 @@ public class AuthorsImplementation implements IAuthorsService{
         Optional<Authors> author = authorsRepository.findByNameAndLastname(req.getName(), req.getLastname());
         if (author.isPresent())
             throw new Exception("This authors name and lasname is present");
-        author = authorsRepository.findByGameId(req.getGameId());
-        if (author.isPresent())
-            throw new Exception("This authors id Games is already present");
+        // author = authorsRepository.findByGameId(req.getGameId());
+        // if (author.isPresent())
+        //     throw new Exception("This authors id Games is already present");
         
         Authors a = new Authors();
         a.setName(req.getName());
@@ -77,28 +77,5 @@ public class AuthorsImplementation implements IAuthorsService{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-
-
-    @Override
-    public List<AuthorsDTO> searchByTyping(Integer id, String name, String lastname, String country, String biography,
-            Integer gameId) throws Exception {
-
-
-            List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
-
-
-             return listAuthors.stream()
-                     .map(s -> new AuthorsDTO(
-                         s.getId(), 
-                         s.getBiography(), 
-                         s.getCountry(), 
-                         s.getLastname(), 
-                         s.getName(), 
-                         s.getListGames()))
-
-        return null;
-
-     }
-
 
 }// class

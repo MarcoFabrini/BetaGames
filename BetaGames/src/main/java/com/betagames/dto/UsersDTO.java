@@ -2,8 +2,6 @@ package com.betagames.dto;
 
 import java.util.List;
 
-import javax.management.relation.Role;
-
 /**
  *
  * @author Fabrini Marco
@@ -16,10 +14,10 @@ public class UsersDTO {
     private List<ReviewsDTO> listReviewsDTO;
     private List<OrdersDTO> listOrdersDTO;
     private List<PayCardsDTO> listPayCardsDTO;
-    private Role role;
+    private RolesDTO role;
 
     public UsersDTO(Integer id, String username, String email, String pwd, List<ReviewsDTO> listReviewsDTO,
-            List<OrdersDTO> listOrdersDTO, List<PayCardsDTO> listPayCardsDTO, Role role) {
+            List<OrdersDTO> listOrdersDTO, List<PayCardsDTO> listPayCardsDTO, RolesDTO role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -102,11 +100,11 @@ public class UsersDTO {
         this.listPayCardsDTO = listPayCardsDTO;
     }
 
-    public Role getRole() {
+    public RolesDTO getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RolesDTO role) {
         this.role = role;
     }
 

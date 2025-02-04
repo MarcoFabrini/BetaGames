@@ -13,13 +13,13 @@ import com.betagames.model.Authors;
 public interface IAuthorsRepository extends JpaRepository<Authors, Integer>{
 
 
-  @Query(name = "authors.searchByTyping")
-	List<Authors> searchByFilter(
-			@Param("id") Integer id,
-			@Param("nome") String nome,
-			@Param("lastname") String lastname,
-			@Param("country") String country,
-            @Param("biography") String biography,
-            @Param("gameId") Integer gameId
-			);
+//   @Query(name = "authors.searchByTyping")
+// 	List<Authors> searchByFilter(
+// 			@Param("id") Integer id,
+// 			@Param("nome") String nome,
+// 			@Param("lastname") String lastname,
+// 			@Param("country") String country,
+//             @Param("biography") String biography,
+//             @Param("gameId") Integer gameId
+// 			);
 }// interface

@@ -43,17 +43,17 @@ public class AuthorsImplementation implements IAuthorsService{
             Integer gameId) throws Exception {
 
 
-            List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
+            // List<Authors> listAuthors = authorsRepository.searchByFilter(id, name, lastname, country, biography, gameId);
 
 
-             return listAuthors.stream()
-                     .map(s -> new AuthorsDTO(
-                         s.getId(), 
-                         s.getBiography(), 
-                         s.getCountry(), 
-                         s.getLastname(), 
-                         s.getName(), 
-                         s.getListGames()))
+            //  return listAuthors.stream()
+            //          .map(s -> new AuthorsDTO(
+            //              s.getId(), 
+            //              s.getBiography(), 
+            //              s.getCountry(), 
+            //              s.getLastname(), 
+            //              s.getName(), 
+            //              s.getListGames()))
 
         return null;
 

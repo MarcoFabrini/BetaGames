@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.UsersDTO;
@@ -25,6 +26,8 @@ public class UsersImplementation implements IUsersService {
 	Logger log;
 	@Autowired
 	IUsersRepository usersRepository;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
@@ -57,7 +60,11 @@ public class UsersImplementation implements IUsersService {
 		u.setEmail(req.getEmail());
 		
 		// criptare la pw
-		u.setPwd(req.getPwd());
+		//u.setPwd(req.getPwd());
+
+		String hashedPassword = passwordEncoder.encode(req.getPwd());
+		log.debug("password hash: " + hashedPassword);
+		u.setPwd(hashedPassword);
 
 		usersRepository.save(u);
 	}// create

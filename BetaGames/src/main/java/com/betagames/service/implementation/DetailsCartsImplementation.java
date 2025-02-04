@@ -20,7 +20,7 @@ import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
 
 import org.springframework.transaction.annotation.Transactional;
-import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
+//import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
 
 @Service
 public class DetailsCartsImplementation implements IDetailsCartsService{
@@ -150,14 +150,16 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
     @Override
     public List<DetailsCartDTO> list() throws Exception {
         List<DetailsCart> lDetailsCarts = detailsCartR.findAll();
-        return buildDetailsCartsDTO(lDetailsCarts);
+        //return buildDetailsCartsDTO(lDetailsCarts);
+        return null;
     }
 
-    // @Override
-    // public List<DetailsCartDTO> listByCarts(DetailsCartRequest req) throws Exception {
-    //     List<DetailsCart> lDetailsCarts = detailsCartR.findById(req.getCartId());
-    //     return buildDetailsCartsDTO(lDetailsCarts);
-    // }
+    @Override
+    public List<DetailsCartDTO> listByCarts(DetailsCartRequest req) throws Exception {
+        //List<DetailsCart> lDetailsCarts = detailsCartR.findById(req.getCartId());
+        //return buildDetailsCartsDTO(lDetailsCarts);
+        return null;
+    }
 
 
     // private boolean existGame (List<DetailsCart> detailsCart, String search) {

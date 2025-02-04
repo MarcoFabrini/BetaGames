@@ -41,22 +41,30 @@ public class CartsImplementation implements ICartsService{
         Date now = new Date();
 
         Optional<Users> users = usersR.findById(req.getUserId());
+
+        Optional<Carts> cartsUser = cartR.findByUser(users.get());
+
         Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
 
         //controllare se l'utente ha già un carrello
         //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
-        if(users.isEmpty()){
+
+        if (users.isEmpty())
+			throw new Exception("user not found");
+
+        //gestisco l'errore delle chiavi duplicate
+        if(cartsUser.isPresent())
+            throw new Exception("user can have one cart");
         
-            Carts carts = new Carts();
+        Carts carts = new Carts();
 
-            carts.setCreatedAt(now);
-            carts.setUpdatedAt(now);
-            //i dettagliCarello li creo in contemporanea
-            //carts.setListDetailsCart();//repository
-            carts.setUser(users.get());//repository
+        carts.setUser(users.get());//repository
+        carts.setCreatedAt(now);
+        carts.setUpdatedAt(now);
+        //i dettagliCarello li creo in contemporanea
+        //carts.setListDetailsCart();//repository
 
-            cartR.save(carts);
-        }
+        cartR.save(carts);
     }
 
     //branch
@@ -69,8 +77,11 @@ public class CartsImplementation implements ICartsService{
 
     @Override
     public void remove(CartsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+
+        Optional<Carts> carts = cartR.findById(req.getId());
+        if (carts.isEmpty())
+			throw new Exception("cart not found");
+        cartR.delete(carts.get());
     }
 
     @Override

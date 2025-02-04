@@ -5,17 +5,38 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
-import com.betagames.dto.GamesDTO;
 import com.betagames.dto.OrdersDTO;
-import com.betagames.dto.PayCardsDTO;
+
 import com.betagames.dto.ReviewsDTO;
-import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
+import com.betagames.model.Editors;
+import com.betagames.model.Orders;
+
+import com.betagames.dto.CartsDTO;
+import com.betagames.dto.DetailsCartDTO;
+import com.betagames.dto.EditorsDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
+
+import com.betagames.model.Reviews;
+import com.betagames.model.Users;
+
+import com.betagames.dto.PayCardsDTO;
+import com.betagames.model.Orders;
+import com.betagames.model.PayCards;
+
+import com.betagames.dto.RolesDTO;
+import com.betagames.model.Orders;
+import com.betagames.dto.AuthorsDTO;
+import com.betagames.model.Authors;
+import com.betagames.model.Roles;
+import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.model.DetailsOrder;
+
 import com.betagames.model.Editors;
 import com.betagames.model.Games;
 import com.betagames.model.Orders;
@@ -25,13 +46,6 @@ import com.betagames.model.Roles;
 import com.betagames.model.Users;
 
 public class Utilities {
-
-  private final static String PATTERN_DATE = "dd/MM/yyyy";
-
-  public static Date convertStringToDate(String dataString) throws ParseException {
-    SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
-    return formatter.parse(dataString);
-  }
 
   // builder per farsi restituire la lista di OrdersDTO
   public final static List<OrdersDTO> buildOrdersDTO(List<Orders> listOrders) {
@@ -66,37 +80,15 @@ public class Utilities {
   // build per Il singolo RolesDTO
   public final static RolesDTO buildRolesDTO(Roles r) {
     return new RolesDTO(
-      r.getId(), 
-      r.getName(), 
-      buildUsersDTO(r.getListUsers()));
+        r.getId(),
+        r.getName(),
+        buildUsersDTO(r.getListUsers()));
   }
 
   // builder per il singolo DetailsOrderDTO
   public final static DetailsOrderDTO buildDetailsOrderDTO(DetailsOrderDTO d) {
     return new DetailsOrderDTO(d.getId(), d.getQuantity(), d.getPriceAtTime(), d.getOrderDTO(), null);
   }
-
-  public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
-    return r.stream()
-        .map(re -> new ReviewsDTO(
-            re.getId(),
-            re.getScore(),
-            re.getDescription(),
-            re.getCreatedAt(),
-            buildUsersDTO(re.getUser()),
-            buildGamesDTO(re.getGame())))
-        .collect(Collectors.toList());
-  }// buildReviewsDTO
-
-  public static ReviewsDTO buildReviewsDTO(Reviews r) {
-    return new ReviewsDTO(
-        r.getId(),
-        r.getScore(),
-        r.getDescription(),
-        r.getCreatedAt(),
-        buildUsersDTO(r.getUser()),
-        buildGamesDTO(r.getGame()));
-  }// buildReviewsDTO
 
   public static UsersDTO buildUsersDTO(Users u) {
     return new UsersDTO(
@@ -112,9 +104,16 @@ public class Utilities {
 
   public static List<UsersDTO> buildUsersDTO(List<Users> u) {
     return u.stream()
-      .map(us -> new UsersDTO(null, PATTERN_DATE, PATTERN_DATE, PATTERN_DATE, null, null, null, null))
-      .collect(Collectors.toList());
+        .map(us -> new UsersDTO(null, PATTERN_DATE, PATTERN_DATE, PATTERN_DATE, null, null, null, null))
+        .collect(Collectors.toList());
   }// buildUsersDTO
+
+  private final static String PATTERN_DATE = "dd/MM/yyyy";
+
+  public static Date convertStringToDate(String dataString) throws ParseException {
+    SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
+    return formatter.parse(dataString);
+  }
 
   public static GamesDTO buildGamesDTO(Games g) {
     return new GamesDTO(
@@ -130,65 +129,12 @@ public class Utilities {
         g.getStockQuantity(),
         g.getPrice(),
         buildEditorsDTO(g.getEditor()),
-        null, // buildCategoryDTO(g.getListCategory()),
+        buildCategoryDTO(g.getListCategory()),
         buildDetailsOrderDTO(g.getListDetailsOrder()),
-        null, // buildDetailsCartDTO(g.getListDetailsCarts()),
+        buildDetailsCartDTO(g.getListDetailsCarts()),
         buildReviewsDTO(g.getListReviews()),
-        null);// buildAuthorsDTO(g.getListAuthors()));
+        buildAuthorsDTO(g.getListAuthors()));
   }// buildGamesDTO
-
-  public static List<GamesDTO> buildGamesDTO(List<Games> g) {
-    return g.stream()
-        .map(gs -> new GamesDTO(
-            gs.getId(),
-            gs.getName(),
-            gs.getDate(),
-            gs.getMinGameTime(),
-            gs.getMaxGameTime(),
-            gs.getMinPlayerNumber(),
-            gs.getMaxPlayerNumber(),
-            gs.getMinAge(),
-            gs.getDescription(),
-            gs.getStockQuantity(),
-            gs.getPrice(),
-            buildEditorsDTO(gs.getEditor()),
-            null, // buildCategoryDTO(gs.getListCategory()),
-            buildDetailsOrderDTO(gs.getListDetailsOrder()),
-            null, // buildDetailsCartDTO(gs.getListDetailsCarts()),
-            buildReviewsDTO(gs.getListReviews()),
-            null))// buildAuthorsDTO(gs.getListAuthors())))
-        .collect(Collectors.toList());
-  }// List buildGamesDTO
-
-  public static PayCardsDTO buildPayCardsDTO(PayCards p) {
-    return new PayCardsDTO(
-        p.getId(),
-        p.getCardNumber(),
-        p.getCardHolderName(),
-        p.getExpirationDate(),
-        p.getCvv(),
-        p.getBillingAddress(),
-        p.getCreatedAt(),
-        p.getUpdatedAt(),
-        buildUsersDTO(p.getUser()),
-        buildOrdersDTO(p.getOrder()));
-  }// PayCardsDTO
-
-  public static List<PayCardsDTO> buildPayCardsDTO(List<PayCards> p) {
-    return p.stream()
-        .map(ps -> new PayCardsDTO(
-            ps.getId(),
-            ps.getCardNumber(),
-            ps.getCardHolderName(),
-            ps.getExpirationDate(),
-            ps.getCvv(),
-            ps.getBillingAddress(),
-            ps.getCreatedAt(),
-            ps.getUpdatedAt(),
-            buildUsersDTO(ps.getUser()),
-            buildOrdersDTO(ps.getOrder())))
-        .collect(Collectors.toList());
-  }// List buildPayCardsDTO
 
   public static EditorsDTO buildEditorsDTO(Editors e) {
     return new EditorsDTO(
@@ -205,5 +151,94 @@ public class Utilities {
             ed.getWebsite()))
         .collect(Collectors.toList());
   }// buildEditorsDTO
+
+  public static ReviewsDTO buildReviewsDTO(Reviews r) {
+    return new ReviewsDTO(
+        r.getId(),
+        r.getScore(),
+        r.getDescription(),
+        r.getCreatedAt(),
+        buildUsersDTO(r.getUser()),
+        buildGamesDTO(r.getGame()));
+  }// buildReviewsDTO
+
+  public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
+    return r.stream()
+        .map(re -> new ReviewsDTO(
+            re.getId(),
+            re.getScore(),
+            re.getDescription(),
+            re.getCreatedAt(),
+            buildUsersDTO(re.getUser()),
+            buildGamesDTO(re.getGame())))
+        .collect(Collectors.toList());
+  }// buildReviewsDTO
+
+  public static AuthorsDTO builAuthorsDTO(Authors authors) {
+    return new AuthorsDTO(
+        authors.getId(),
+        authors.getBiography(),
+        authors.getCountry(),
+        authors.getLastname(),
+        authors.getName(),
+        buildGamesDTOs(authors.getListGames()));
+  }
+
+  public static List<AuthorsDTO> buildAuthorsDTO(List<Authors> authorsList) {
+    return authorsList.stream()
+        .map(a -> new AuthorsDTO(
+            a.getId(),
+            a.getBiography(),
+            a.getCountry(),
+            a.getLastname(),
+            a.getName(),
+            buildGamesDTOs(a.getListGames())))
+        .collect(Collectors.toList());
+  }
+
+  // public static List<CartsDTO> buildCartsDTO(List<Carts> c){
+
+  // return c.stream()
+  // .map(cart -> new CartsDTO(
+  // cart.getId(),
+  // cart.getCreatedAt(),
+  // cart.getUpdatedAt(),
+  // buildUsersDTO(cart.getUsersDTO())
+  // ))
+  // .collect(Collectors.toList());
+  // }
+  // public static CartsDTO buildCartsDTO(Carts c){
+
+  // return new CartsDTO(
+  // c.getId(),
+  // c.getCreatedAt(),
+  // c.getUpdatedAt(),
+  // buildUsersDTO(c.getUsersDTO())
+  // );
+  // }
+
+  // public static List<DetailsCartDTO> buildDetailsCartsDTO(List<DetailsCart>
+  // dC){
+
+  // return dC.stream()
+  // .map(dCart -> new DetailsCartDTO(
+  // dCart.getId(),
+  // dCart.getPriceAtTime(),
+  // dCart.getQuantity(),
+  // buildGamesDTO(dCart.getGamesDTO()),
+  // buildCartsDTO(dCart.getCartsDTO())
+  // ))
+  // .collect(Collectors.toList());
+  // }
+  // public static DetailsCartDTO buildDetailsCartsDTO(DetailsCart dC){
+
+  // return new DetailsCartDTO(
+  // dC.getId(),
+  // dC.getPriceAtTime(),
+  // dC.getQuantity(),
+  // buildGamesDTO(dC.getGamesDTO()),
+  // buildCartsDTO(dC.getCartsDTO())
+  // );
+  // }
 
 }// class

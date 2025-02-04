@@ -1,5 +1,10 @@
 package com.betagames.repository;
 
+
+import java.util.List;
+import java.util.Optional;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +27,8 @@ public interface IAuthorsRepository extends JpaRepository<Authors, Integer>{
             @Param("biography") String biography,
             @Param("gameId") Integer gameId
 			);
+
+	Optional<Authors> findByNameAndLastname(String name, String lastname);
+	Optional<Authors> findByGameId(Integer id);
+	
 }// interface

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.betagames.dto.EditorsDTO;
@@ -23,16 +24,17 @@ import com.betagames.model.PayCards;
 
 import com.betagames.dto.RolesDTO;
 import com.betagames.model.Orders;
+import com.betagames.dto.AuthorsDTO;
+import com.betagames.model.Authors;
 import com.betagames.model.Roles;
 import com.betagames.dto.DetailsOrderDTO;
-
-import com.betagames.dto.EditorsDTO;
 import com.betagames.model.DetailsOrder;
+
 import com.betagames.model.Editors;
 
 public class Utilities {
 
-  private final static String PATTERN_DATE = "dd/MM/yyyy";
+
   
   //builder per farsi restituire la lista di OrdersDTO
   public final static List<OrdersDTO> buildOrdersDTO(List<Orders> listOrders){
@@ -74,30 +76,6 @@ public class Utilities {
                 e.getWebsite());
     }// buildEditorsDTO
 
-  public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
-    return r.stream()
-        .map(re -> new ReviewsDTO(
-            re.getId(),
-            re.getScore(),
-            re.getDescription(),
-            re.getCreatedAt(),
-            buildUsersDTO(re.getUser()),
-            null))
-            // buildGamesDTO(re.getGame())))
-        .collect(Collectors.toList());
-  }// buildReviewsDTO
-  
-  public static ReviewsDTO buildReviewsDTO(Reviews r) {
-    return new ReviewsDTO(
-        r.getId(),
-        r.getScore(),
-        r.getDescription(),
-        r.getCreatedAt(),
-        buildUsersDTO(r.getUser()),
-        null);
-        // buildGamesDTO(r.getGame()));
-  }// buildReviewsDTO
-
   public static UsersDTO buildUsersDTO(Users u) {
     return new UsersDTO(
         u.getId(),
@@ -127,33 +105,13 @@ public class Utilities {
             // buildPayCardsDTO(us.getListPayCards())))
         .collect(Collectors.toList());
   }// buildUsersDTO
+  
+  private final static String PATTERN_DATE = "dd/MM/yyyy";
 
-  // public static List<GamesDTO> buildAbbonamentoDTO(List<Games> games) {
-  // return games.stream()
-  // .map(a -> new GamesDTO(
-  // a.getId(),
-  // a.getName(),
-  // a.getDate(),
-  // a.getMinGameTime(),
-  // a.getMaxGameTime(),
-  // a.getMinPlayerNumber(),
-  // a.getMaxPlayerNumber(),
-  // a.getMinAge(),
-  // a.getDescription(),
-  // a.getStockQuantity(),
-  // a.getPrice(),
-  // a.getListAuthors()))
-  // .collect(Collectors.toList());
-  // }
-
-  public static List<OrdersDTO> buildOrdersDTO(List<Orders> listOrders) {
-    return listOrders.stream()
-        .map(order -> new OrdersDTO(order.getId(), order.getTotalAmmount(), order.getOrderStatus(),
-            order.getCreatedAt(), order.getUpdatedAt(),
-            null, null, null)) // settati a null perchè mancano i buildDTO
-        .collect(Collectors.toList());
+  public static Date convertStringToDate(String dataString) throws ParseException {
+    SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
+    return formatter.parse(dataString);
   }
-
 
     public static GamesDTO buildGamesDTO(Games g){
       return new GamesDTO(
@@ -250,12 +208,50 @@ public class Utilities {
   }// buildEditorsDTO
 
 
+ public static ReviewsDTO buildReviewsDTO(Reviews r) {
+ return new ReviewsDTO(
+ r.getId(),
+ r.getScore(),
+ r.getDescription(),
+ r.getCreatedAt(),
+ buildUsersDTO(r.getUser()),
+ buildGamesDTO(r.getGame()));
+ }// buildReviewsDTO
 
-    
+ public static List<ReviewsDTO> buildReviewsDTO(List<Reviews> r) {
+ return r.stream()
+ .map(re -> new ReviewsDTO(
+ re.getId(),
+ re.getScore(),
+ re.getDescription(),
+ re.getCreatedAt(),
+ buildUsersDTO(re.getUser()),
+ buildGamesDTO(re.getGame())))
+ .collect(Collectors.toList());
+ }// buildReviewsDTO
 
-  public static Date convertStringToDate(String dataString) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
-		return formatter.parse(dataString);
-	}
+
+  public static AuthorsDTO builAuthorsDTO(Authors authors) {
+    return new AuthorsDTO(
+        authors.getId(),
+        authors.getBiography(),
+        authors.getCountry(),
+        authors.getLastname(),
+        authors.getName(),
+        buildGamesDTOs(authors.getListGames()));
+  }
+
+  public static List<AuthorsDTO> buildAuthorsDTO(List<Authors> authorsList){
+    return authorsList.stream()
+      .map(a -> new AuthorsDTO(
+        a.getId(),
+        a.getBiography(),
+        a.getCountry(),
+        a.getLastname(),
+        a.getName(),
+        buildGamesDTOs(a.getListGames()))
+      ).collect(Collectors.toList());
+  }
+
 
 }// class

@@ -21,7 +21,6 @@ import com.betagames.service.interfaces.IUsersService;
  *
  * @author Fabrini Marco
  */
-
 @RestController
 @RequestMapping("/rest/users")
 public class UsersController {

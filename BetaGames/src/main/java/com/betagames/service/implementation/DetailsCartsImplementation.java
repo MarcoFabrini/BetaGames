@@ -3,25 +3,22 @@ package com.betagames.service.implementation;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.DetailsCartDTO;
 import com.betagames.model.Carts;
 import com.betagames.model.DetailsCart;
 import com.betagames.model.Games;
-import com.betagames.model.Users;
-
 import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IDetailsCartsRepository;
 import com.betagames.repository.IGamesRepository;
+import com.betagames.repository.IUsersRepository;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
-
-
-import org.springframework.transaction.annotation.Transactional;
 //import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
 
 @Service

@@ -22,14 +22,13 @@ public class SecurityConfiguration {
     }// PasswordEncoder
 
     /*
-     * sistemare poi la configurazione, ora 
+     * sistemare poi la configurazione, ora permesso a tutti
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()) // Permette l'accesso a tutti gli endpoint
-                .csrf(csrf -> csrf.disable()); // Disabilita il CSRF per facilitare i test
+        http.authorizeHttpRequests(authorize -> 
+                authorize.requestMatchers("/**").permitAll()) // Permette l'accesso a tutti gli endpoint
+            .csrf(csrf -> csrf.disable()); // Disabilita il CSRF per facilitare i test
 
         return http.build();
     }// SecurityFilterChain

@@ -19,6 +19,8 @@ public interface IUsersService {
 
     void create(UsersRequest req) throws Exception;
 
+    void login(UsersRequest req) throws Exception;
+
     void update(UsersRequest req) throws Exception;
 
     void delete(UsersRequest req) throws Exception;

@@ -1,9 +1,6 @@
 package com.betagames.service.interfaces;
 
 import java.util.List;
-
-import org.springframework.data.repository.query.Param;
-
 import com.betagames.dto.AuthorsDTO;
 import com.betagames.request.AuthorsRequest;
 

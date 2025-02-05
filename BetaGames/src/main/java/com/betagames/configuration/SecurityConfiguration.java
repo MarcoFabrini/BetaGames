@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Configuration
 @EnableWebSecurity
@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     }// PasswordEncoder
 
     /*
-     * sistemare poi la configurazione, ora permesso a tutti
+     * sistemare poi la configurazione, ora permesso a tutti tutto
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

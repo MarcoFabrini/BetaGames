@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 
 @RestController

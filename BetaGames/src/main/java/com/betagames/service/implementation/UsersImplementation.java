@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.betagames.dto.UsersDTO;
 import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
 import com.betagames.service.interfaces.IUsersService;
@@ -18,7 +19,7 @@ import static com.betagames.utility.Utilities.buildUsersDTO;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Service
 public class UsersImplementation implements IUsersService {
@@ -28,6 +29,8 @@ public class UsersImplementation implements IUsersService {
 	IUsersRepository usersRepository;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	ICartsRepository cartsRepository;
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
@@ -47,7 +50,8 @@ public class UsersImplementation implements IUsersService {
 
 	/*
 	 * creare un create per admin e un create per user
-	 * oppure impostare che il primo user che si crea nel db sarà admin e i successivi saranno user
+	 * oppure impostare che il primo user che si crea nel db sarà admin e i
+	 * successivi saranno user
 	 * solo da prifilo admin si potrà creare nuovo admin
 	 */
 	@Override
@@ -71,7 +75,8 @@ public class UsersImplementation implements IUsersService {
 	}// create
 
 	/**
-	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti sbagliati)
+	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
+	 * sbagliati)
 	 */
 	public void login(UsersRequest req) throws Exception {
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());

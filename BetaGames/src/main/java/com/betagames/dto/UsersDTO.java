@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class UsersDTO {
     private Integer id;

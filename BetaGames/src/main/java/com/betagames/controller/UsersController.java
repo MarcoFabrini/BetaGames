@@ -19,7 +19,7 @@ import com.betagames.service.interfaces.IUsersService;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @RestController
 @RequestMapping("/rest/users")

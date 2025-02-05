@@ -12,7 +12,7 @@ import com.betagames.model.Editors;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Repository
 public interface IEditorsRepository extends JpaRepository<Editors, Integer> {

@@ -7,7 +7,7 @@ import com.betagames.model.Reviews;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Repository
 public interface IReviewsRepository extends JpaRepository<Reviews, Integer>{

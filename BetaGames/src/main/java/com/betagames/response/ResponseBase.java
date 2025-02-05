@@ -2,7 +2,7 @@ package com.betagames.response;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class ResponseBase {
     private Boolean rc;// response code

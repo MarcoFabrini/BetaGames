@@ -13,7 +13,7 @@ import com.betagames.model.Users;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Repository
 public interface IUsersRepository extends JpaRepository<Users, Integer>{

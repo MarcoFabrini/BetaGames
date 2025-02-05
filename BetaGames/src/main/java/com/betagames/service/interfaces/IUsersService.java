@@ -7,7 +7,7 @@ import com.betagames.request.UsersRequest;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public interface IUsersService {
     List<UsersDTO> list() throws Exception;

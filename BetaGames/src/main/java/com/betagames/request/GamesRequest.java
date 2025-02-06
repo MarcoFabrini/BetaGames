@@ -20,10 +20,6 @@ public class GamesRequest {
     private Integer stockQuantity;
     private Double price;
     private Integer editorsId;
-    
-    //constructors
-    public GamesRequest() {
-    }
 
     //getter and setter
     public Integer getId() {

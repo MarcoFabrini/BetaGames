@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.betagames.dto.UsersDTO;
 import com.betagames.model.Users;
-import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
 import com.betagames.service.interfaces.IUsersService;
@@ -29,8 +28,6 @@ public class UsersImplementation implements IUsersService {
 	IUsersRepository usersRepository;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	@Autowired
-	ICartsRepository cartsRepository;
 
 	@Override
 	public List<UsersDTO> list() throws Exception {

@@ -10,18 +10,16 @@ public class UsersDTO {
     private Integer id;
     private String username;
     private String email;
-    private String pwd;
     private List<OrdersDTO> listOrdersDTO;
     private CartsDTO carts;
     private List<PayCardsDTO> listPayCardsDTO;
     private RolesDTO role;
 
-    public UsersDTO(Integer id, String username, String email, String pwd, List<OrdersDTO> listOrdersDTO, CartsDTO carts,
+    public UsersDTO(Integer id, String username, String email, List<OrdersDTO> listOrdersDTO, CartsDTO carts,
             List<PayCardsDTO> listPayCardsDTO, RolesDTO role) {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.pwd = pwd;
         this.listOrdersDTO = listOrdersDTO;
         this.carts = carts;
         this.listPayCardsDTO = listPayCardsDTO;
@@ -50,14 +48,6 @@ public class UsersDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
     }
 
     public List<OrdersDTO> getListOrdersDTO() {
@@ -94,7 +84,7 @@ public class UsersDTO {
 
     @Override
     public String toString() {
-        return "UsersDTO [id=" + id + ", username=" + username + ", email=" + email + ", pwd=" + pwd
+        return "UsersDTO [id=" + id + ", username=" + username + ", email=" + email
                 + ", listOrdersDTO=" + listOrdersDTO + ", carts=" + carts + ", listPayCardsDTO=" + listPayCardsDTO
                 + ", role=" + role + "]";
     }

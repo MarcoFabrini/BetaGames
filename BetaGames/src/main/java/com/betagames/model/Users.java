@@ -44,7 +44,7 @@ public class Users {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<PayCards> listPayCards;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "id_role")
     private Roles role;
 

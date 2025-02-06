@@ -13,6 +13,8 @@ public interface IGamesService {
 
     // List<GamesDTO> searchByTyping() throws Exception;
 
+    List<GamesDTO> list() throws Exception;
+
     void create(GamesRequest req) throws Exception;
 
     void update(GamesRequest req) throws Exception;

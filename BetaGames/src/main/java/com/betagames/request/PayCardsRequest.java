@@ -18,10 +18,6 @@ public class PayCardsRequest {
     private String billingAddress;
     private String cardHolderName;
 
-    //construtors
-    public PayCardsRequest() {
-    }
-
     //getter and setter
     public Integer getId() {
         return id;

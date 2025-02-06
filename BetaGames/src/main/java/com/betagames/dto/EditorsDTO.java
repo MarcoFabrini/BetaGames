@@ -2,7 +2,7 @@ package com.betagames.dto;
 
 /**
  *
- * @author FabriniMarco
+ * @author Fabrini Marco
  */
 public class EditorsDTO {
     private Integer id;

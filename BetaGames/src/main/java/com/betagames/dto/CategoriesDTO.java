@@ -1,10 +1,5 @@
 package com.betagames.dto;
 
-/**
- *
- * @author Cristhian Guerrero
- */
-
 public class CategoriesDTO {
 
     private Integer id;

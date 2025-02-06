@@ -29,7 +29,7 @@ public class RolesImplementation implements IRolesService{
         List<Roles> listRoles = rolesRep.findAll();
 
         return listRoles.stream()
-                    .map(role -> new RolesDTO(role.getId(), role.getName(), null))
+                    .map(role -> new RolesDTO(role.getId(), role.getName()))
                     .collect(Collectors.toList());
     }
 

@@ -1,14 +1,12 @@
 package com.betagames.dto;
 
-import java.util.List;
-
 /**
  *
  * @author Simone Checco
  */
 
 public class AuthorsDTO {
-    
+
     private Integer id;
 
     private String biography;
@@ -19,16 +17,14 @@ public class AuthorsDTO {
 
     private String name;
 
-    private List<GamesDTO> listGamesDTO;
+    
 
-    public AuthorsDTO(Integer id, String biography, String country, String lastname, String name,
-            List<GamesDTO> listGamesDTO) {
+    public AuthorsDTO(Integer id, String biography, String country, String lastname, String name) {
         this.id = id;
         this.biography = biography;
         this.country = country;
         this.lastname = lastname;
         this.name = name;
-        this.listGamesDTO = listGamesDTO;
     }
 
     public Integer getId() {
@@ -71,19 +67,10 @@ public class AuthorsDTO {
         this.name = name;
     }
 
-    public List<GamesDTO> getListGamesDTO() {
-        return listGamesDTO;
-    }
-
-    public void setListGamesDTO(List<GamesDTO> listGamesDTO) {
-        this.listGamesDTO = listGamesDTO;
-    }
-
     @Override
     public String toString() {
         return "AuthorsDTO [id=" + id + ", biography=" + biography + ", country=" + country + ", lastname=" + lastname
-                + ", name=" + name + ", listGamesDTO=" + listGamesDTO + "]";
+                + ", name=" + name + "]";
     }
 
-    
 }

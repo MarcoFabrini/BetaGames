@@ -9,31 +9,23 @@ import java.util.List;
  */
 
 public class OrdersDTO {
-    
+
     private Integer id;
-
     private Double totalAmount;
-
     private String orderStatus;
-
     private Date createdAt;
-
     private Date updatedAt;
 
-    private UsersDTO usersDTO;
-
     private List<DetailsOrderDTO> listDetailsOrderDTO;
-
     private PayCardsDTO payCardsDTO;
 
-    public OrdersDTO(Integer id, Double totalAmount, String orderStatus, Date createdAt, Date updatedAt, UsersDTO usersDTO,
+    public OrdersDTO(Integer id, Double totalAmount, String orderStatus, Date createdAt, Date updatedAt,
             List<DetailsOrderDTO> listDetailsOrderDTO, PayCardsDTO payCardsDTO) {
         this.id = id;
         this.totalAmount = totalAmount;
         this.orderStatus = orderStatus;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.usersDTO = usersDTO;
         this.listDetailsOrderDTO = listDetailsOrderDTO;
         this.payCardsDTO = payCardsDTO;
     }
@@ -78,14 +70,6 @@ public class OrdersDTO {
         this.updatedAt = updatedAt;
     }
 
-    public UsersDTO getUser() {
-        return usersDTO;
-    }
-
-    public void setUser(UsersDTO usersDTO) {
-        this.usersDTO = usersDTO;
-    }
-
     public List<DetailsOrderDTO> getListDetailsOrderDTO() {
         return listDetailsOrderDTO;
     }
@@ -104,11 +88,17 @@ public class OrdersDTO {
 
     @Override
     public String toString() {
-        return "OrdersDTO [id=" + id + ", totalAmount=" + totalAmount + ", orderStatus=" + orderStatus + ", createdAt="
-                + createdAt + ", updatedAt=" + updatedAt + ", user=" + usersDTO + ", listDetailsOrderDTO="
-                + listDetailsOrderDTO + ", payCardsDTO=" + payCardsDTO + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("OrdersDTO{");
+        sb.append("id=").append(id);
+        sb.append(", totalAmount=").append(totalAmount);
+        sb.append(", orderStatus=").append(orderStatus);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", listDetailsOrderDTO=").append(listDetailsOrderDTO);
+        sb.append(", payCardsDTO=").append(payCardsDTO);
+        sb.append('}');
+        return sb.toString();
     }
-
-    
 
 }

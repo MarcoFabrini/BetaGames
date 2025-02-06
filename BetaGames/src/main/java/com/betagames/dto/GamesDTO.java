@@ -16,23 +16,16 @@ public class GamesDTO {
     private String description;
     private Integer stockQuantity;
     private Double price;
-    
+
     private EditorsDTO editorDTO;
-    private List<CategoriesDTO> listCategoryDTO;
-    private List<DetailsOrderDTO> listDetailsOrderDTO;
-    private List<DetailsCartDTO> listDetailsCartsDTO;
-    private List<ReviewsDTO> listReviewsDTO;
     private List<AuthorsDTO> listAuthorsDTO;
-    
-    //constructors
-    public GamesDTO() {
-    }
+    private List<CategoriesDTO> listCategoryDTO;
+    private List<ReviewsDTO> listReviewsDTO;
 
     public GamesDTO(Integer id, String name, Date date, Integer minGameTime, Integer maxGameTime,
             Integer minPlayerNumber, Integer maxPlayerNumber, Integer minAge, String description, Integer stockQuantity,
-            Double price, EditorsDTO editorDTO, List<CategoriesDTO> listCategoryDTO,
-            List<DetailsOrderDTO> listDetailsOrderDTO, List<DetailsCartDTO> listDetailsCartsDTO,
-            List<ReviewsDTO> listReviewsDTO, List<AuthorsDTO> listAuthorsDTO) {
+            Double price, EditorsDTO editorDTO, List<AuthorsDTO> listAuthorsDTO, List<CategoriesDTO> listCategoryDTO,
+            List<ReviewsDTO> listReviewsDTO) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -45,23 +38,9 @@ public class GamesDTO {
         this.stockQuantity = stockQuantity;
         this.price = price;
         this.editorDTO = editorDTO;
-        this.listCategoryDTO = listCategoryDTO;
-        this.listDetailsOrderDTO = listDetailsOrderDTO;
-        this.listDetailsCartsDTO = listDetailsCartsDTO;
-        this.listReviewsDTO = listReviewsDTO;
         this.listAuthorsDTO = listAuthorsDTO;
-    }
-
-    //toString
-    @Override
-    public String toString() {
-        return "GamesDTO [id=" + id + ", name=" + name + ", date=" + date + ", minGameTime=" + minGameTime
-                + ", maxGameTime=" + maxGameTime + ", minPlayerNumber=" + minPlayerNumber + ", maxPlayerNumber="
-                + maxPlayerNumber + ", minAge=" + minAge + ", description=" + description + ", stockQuantity="
-                + stockQuantity + ", price=" + price + ", editorDTO=" + editorDTO + ", listCategoryDTO="
-                + listCategoryDTO + ", listDetailsOrderDTO=" + listDetailsOrderDTO + ", listDetailsCartsDTO="
-                + listDetailsCartsDTO + ", listReviewsDTO=" + listReviewsDTO + ", listAuthorsDTO=" + listAuthorsDTO
-                + "]";
+        this.listCategoryDTO = listCategoryDTO;
+        this.listReviewsDTO = listReviewsDTO;
     }
 
     public Integer getId() {
@@ -160,28 +139,20 @@ public class GamesDTO {
         this.editorDTO = editorDTO;
     }
 
+    public List<AuthorsDTO> getListAuthorsDTO() {
+        return listAuthorsDTO;
+    }
+
+    public void setListAuthorsDTO(List<AuthorsDTO> listAuthorsDTO) {
+        this.listAuthorsDTO = listAuthorsDTO;
+    }
+
     public List<CategoriesDTO> getListCategoryDTO() {
         return listCategoryDTO;
     }
 
     public void setListCategoryDTO(List<CategoriesDTO> listCategoryDTO) {
         this.listCategoryDTO = listCategoryDTO;
-    }
-
-    public List<DetailsOrderDTO> getListDetailsOrderDTO() {
-        return listDetailsOrderDTO;
-    }
-
-    public void setListDetailsOrderDTO(List<DetailsOrderDTO> listDetailsOrderDTO) {
-        this.listDetailsOrderDTO = listDetailsOrderDTO;
-    }
-
-    public List<DetailsCartDTO> getListDetailsCartsDTO() {
-        return listDetailsCartsDTO;
-    }
-
-    public void setListDetailsCartsDTO(List<DetailsCartDTO> listDetailsCartsDTO) {
-        this.listDetailsCartsDTO = listDetailsCartsDTO;
     }
 
     public List<ReviewsDTO> getListReviewsDTO() {
@@ -192,15 +163,13 @@ public class GamesDTO {
         this.listReviewsDTO = listReviewsDTO;
     }
 
-    public List<AuthorsDTO> getListAuthorsDTO() {
-        return listAuthorsDTO;
+    @Override
+    public String toString() {
+        return "GamesDTO [id=" + id + ", name=" + name + ", date=" + date + ", minGameTime=" + minGameTime
+                + ", maxGameTime=" + maxGameTime + ", minPlayerNumber=" + minPlayerNumber + ", maxPlayerNumber="
+                + maxPlayerNumber + ", minAge=" + minAge + ", description=" + description + ", stockQuantity="
+                + stockQuantity + ", price=" + price + ", editorDTO=" + editorDTO + ", listAuthorsDTO=" + listAuthorsDTO
+                + ", listCategoryDTO=" + listCategoryDTO + ", listReviewsDTO=" + listReviewsDTO + "]";
     }
 
-    public void setListAuthorsDTO(List<AuthorsDTO> listAuthorsDTO) {
-        this.listAuthorsDTO = listAuthorsDTO;
-    }
-
-    
-
-
-}//class
+}// class

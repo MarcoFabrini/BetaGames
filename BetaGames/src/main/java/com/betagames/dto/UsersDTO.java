@@ -4,44 +4,28 @@ import java.util.List;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class UsersDTO {
     private Integer id;
     private String username;
     private String email;
     private String pwd;
-    private List<ReviewsDTO> listReviewsDTO;
     private List<OrdersDTO> listOrdersDTO;
+    private CartsDTO carts;
     private List<PayCardsDTO> listPayCardsDTO;
     private RolesDTO role;
 
-    public UsersDTO(Integer id, String username, String email, String pwd, List<ReviewsDTO> listReviewsDTO,
-            List<OrdersDTO> listOrdersDTO, List<PayCardsDTO> listPayCardsDTO, RolesDTO role) {
+    public UsersDTO(Integer id, String username, String email, String pwd, List<OrdersDTO> listOrdersDTO, CartsDTO carts,
+            List<PayCardsDTO> listPayCardsDTO, RolesDTO role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.pwd = pwd;
-        this.listReviewsDTO = listReviewsDTO;
         this.listOrdersDTO = listOrdersDTO;
+        this.carts = carts;
         this.listPayCardsDTO = listPayCardsDTO;
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("UsersDTO{");
-        sb.append("id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", email=").append(email);
-        sb.append(", pwd=").append(pwd);
-        sb.append(", listReviewsDTO=").append(listReviewsDTO);
-        sb.append(", listOrdersDTO=").append(listOrdersDTO);
-        sb.append(", listPayCardsDTO=").append(listPayCardsDTO);
-        sb.append(", role=").append(role);
-        sb.append('}');
-        return sb.toString();
     }
 
     public Integer getId() {
@@ -76,20 +60,20 @@ public class UsersDTO {
         this.pwd = pwd;
     }
 
-    public List<ReviewsDTO> getListReviewsDTO() {
-        return listReviewsDTO;
-    }
-
-    public void setListReviewsDTO(List<ReviewsDTO> listReviewsDTO) {
-        this.listReviewsDTO = listReviewsDTO;
-    }
-
     public List<OrdersDTO> getListOrdersDTO() {
         return listOrdersDTO;
     }
 
     public void setListOrdersDTO(List<OrdersDTO> listOrdersDTO) {
         this.listOrdersDTO = listOrdersDTO;
+    }
+
+    public CartsDTO getCarts() {
+        return carts;
+    }
+
+    public void setCarts(CartsDTO carts) {
+        this.carts = carts;
     }
 
     public List<PayCardsDTO> getListPayCardsDTO() {
@@ -106,6 +90,13 @@ public class UsersDTO {
 
     public void setRole(RolesDTO role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "UsersDTO [id=" + id + ", username=" + username + ", email=" + email + ", pwd=" + pwd
+                + ", listOrdersDTO=" + listOrdersDTO + ", carts=" + carts + ", listPayCardsDTO=" + listPayCardsDTO
+                + ", role=" + role + "]";
     }
 
 }// class

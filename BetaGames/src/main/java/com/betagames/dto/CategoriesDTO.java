@@ -1,25 +1,13 @@
 package com.betagames.dto;
 
-import java.util.List;
-
 public class CategoriesDTO {
 
     private Integer id;
     private String name;
-    private List<GamesDTO> listGamesDTO;
 
-    public CategoriesDTO() {
-    }
-
-    public CategoriesDTO(Integer id, String name, List<GamesDTO> listGamesDTO) {
+    public CategoriesDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.listGamesDTO = listGamesDTO;
-    }
-
-    @Override
-    public String toString() {
-        return "CategoriesDTO [id=" + id + ", name=" + name + ", listGamesDTO=" + listGamesDTO + "]";
     }
 
     public Integer getId() {
@@ -38,12 +26,9 @@ public class CategoriesDTO {
         this.name = name;
     }
 
-    public List<GamesDTO> getListGamesDTO() {
-        return listGamesDTO;
-    }
-
-    public void setListGamesDTO(List<GamesDTO> listGamesDTO) {
-        this.listGamesDTO = listGamesDTO;
+    @Override
+    public String toString() {
+        return "CategoriesDTO [id=" + id + ", name=" + name + "]";
     }
 
 }

@@ -16,12 +16,10 @@ public class PayCardsDTO {
     private Date createdAt;
     private Date updatedAt;
 
-    private UsersDTO usersDTO;
-    private OrdersDTO ordersDTO;
+    
 
-    //constructors
     public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date expirationDate, Integer cvv,
-            String billingAddress, Date createdAt, Date updatedAt, UsersDTO usersDTO, OrdersDTO ordersDTO) {
+            String billingAddress, Date createdAt, Date updatedAt) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -30,21 +28,8 @@ public class PayCardsDTO {
         this.billingAddress = billingAddress;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.usersDTO = usersDTO;
-        this.ordersDTO = ordersDTO;
     }
 
-    //toString
-    /*public String toString() {
-        return "PayCardsDTO [id=" + id + ", cardNumber=" + cardNumber + ", cardHolderName=" + cardHolderName
-
-                + ", expirationDate=" + expirationDate + ", cvv=" + cvv + ", billingAddress=" + billingAddress
-
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", usersDTO=" + usersDTO + ", ordersDTO="
-                + ordersDTO + "]";
-    }*/
-
-    //getter and setter
     public Integer getId() {
         return id;
     }
@@ -109,20 +94,20 @@ public class PayCardsDTO {
         this.updatedAt = updatedAt;
     }
 
-    public UsersDTO getUsersDTO() {
-        return usersDTO;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PayCardsDTO{");
+        sb.append("id=").append(id);
+        sb.append(", cardNumber=").append(cardNumber);
+        sb.append(", cardHolderName=").append(cardHolderName);
+        sb.append(", expirationDate=").append(expirationDate);
+        sb.append(", cvv=").append(cvv);
+        sb.append(", billingAddress=").append(billingAddress);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public void setUsersDTO(UsersDTO usersDTO) {
-        this.usersDTO = usersDTO;
-    }
-
-    public OrdersDTO getOrdersDTO() {
-        return ordersDTO;
-    }
-
-    public void setOrdersDTO(OrdersDTO ordersDTO) {
-        this.ordersDTO = ordersDTO;
-    }    
-
-}//class
+}// class

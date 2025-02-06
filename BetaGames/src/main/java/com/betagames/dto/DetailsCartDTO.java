@@ -11,25 +11,14 @@ public class DetailsCartDTO {
     private Integer quantity;
 
     private GamesDTO gamesDTO;
-    private CartsDTO cartsDTO;
 
-    //constructors
-    public DetailsCartDTO(Integer id, Double priceAtTime, Integer quantity, GamesDTO gamesDTO, CartsDTO cartsDTO) {
+    public DetailsCartDTO(Integer id, Double priceAtTime, Integer quantity, GamesDTO gamesDTO) {
         this.id = id;
         this.priceAtTime = priceAtTime;
         this.quantity = quantity;
         this.gamesDTO = gamesDTO;
-        this.cartsDTO = cartsDTO;
     }
 
-    //toString
-    @Override
-    public String toString() {
-        return "DetailsCartDTO [id=" + id + ", priceAtTime=" + priceAtTime + ", quantity=" + quantity + ", gamesDTO="
-                + gamesDTO + ", cartsDTO=" + cartsDTO + "]";
-    }
-
-    //getter and setter
     public Integer getId() {
         return id;
     }
@@ -62,12 +51,16 @@ public class DetailsCartDTO {
         this.gamesDTO = gamesDTO;
     }
 
-    public CartsDTO getCartsDTO() {
-        return cartsDTO;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("DetailsCartDTO{");
+        sb.append("id=").append(id);
+        sb.append(", priceAtTime=").append(priceAtTime);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", gamesDTO=").append(gamesDTO);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public void setCartsDTO(CartsDTO cartsDTO) {
-        this.cartsDTO = cartsDTO;
-    }
-
-}//class
+}// class

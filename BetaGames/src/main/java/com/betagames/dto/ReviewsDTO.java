@@ -11,31 +11,12 @@ public class ReviewsDTO {
     private Integer score;
     private String description;
     private Date createdAt;
-    private UsersDTO usersDTO;
-    private GamesDTO gamesDTO;
 
-    public ReviewsDTO(Integer id, Integer score, String description, Date createdAt, UsersDTO usersDTO,
-            GamesDTO gamesDTO) {
+    public ReviewsDTO(Integer id, Integer score, String description, Date createdAt) {
         this.id = id;
         this.score = score;
         this.description = description;
         this.createdAt = createdAt;
-        this.usersDTO = usersDTO;
-        this.gamesDTO = gamesDTO;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ReviewsDTO{");
-        sb.append("id=").append(id);
-        sb.append(", score=").append(score);
-        sb.append(", description=").append(description);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", usersDTO=").append(usersDTO);
-        sb.append(", gamesDTO=").append(gamesDTO);
-        sb.append('}');
-        return sb.toString();
     }
 
     public Integer getId() {
@@ -70,20 +51,10 @@ public class ReviewsDTO {
         this.createdAt = createdAt;
     }
 
-    public UsersDTO getUsersDTO() {
-        return usersDTO;
-    }
-
-    public void setUsersDTO(UsersDTO usersDTO) {
-        this.usersDTO = usersDTO;
-    }
-
-    public GamesDTO getGamesDTO() {
-        return gamesDTO;
-    }
-
-    public void setGamesDTO(GamesDTO gamesDTO) {
-        this.gamesDTO = gamesDTO;
+    @Override
+    public String toString() {
+        return "ReviewsDTO [id=" + id + ", score=" + score + ", description=" + description + ", createdAt=" + createdAt
+                + "]";
     }
 
 }// class

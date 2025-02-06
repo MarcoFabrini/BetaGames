@@ -3,7 +3,6 @@ package com.betagames.dto;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * @author DorigoLorenzo
  **/
@@ -15,19 +14,14 @@ public class CartsDTO {
     private Date updatedAt;
 
     private List<DetailsCartDTO> listDetailsCartDTO;
-    private UsersDTO usersDTO;
 
-    //constructor
-    public CartsDTO(Integer id, Date createdAt, Date updatedAt, List<DetailsCartDTO> listDetailsCartDTO,
-            UsersDTO usersDTO) {
+    public CartsDTO(Integer id, Date createdAt, Date updatedAt, List<DetailsCartDTO> listDetailsCartDTO) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.listDetailsCartDTO = listDetailsCartDTO;
-        this.usersDTO = usersDTO;
     }
 
-    //getter and setter
     public Integer getId() {
         return id;
     }
@@ -60,19 +54,16 @@ public class CartsDTO {
         this.listDetailsCartDTO = listDetailsCartDTO;
     }
 
-    public UsersDTO getUsersDTO() {
-        return usersDTO;
-    }
-
-    public void setUsersDTO(UsersDTO usersDTO) {
-        this.usersDTO = usersDTO;
-    }
-
-    //toString
     @Override
     public String toString() {
-        return "CartsDTO [id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", listDetailsCartDTO="
-                + listDetailsCartDTO + ", usersDTO=" + usersDTO + "]";
-    };
+        StringBuilder sb = new StringBuilder();
+        sb.append("CartsDTO{");
+        sb.append("id=").append(id);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", listDetailsCartDTO=").append(listDetailsCartDTO);
+        sb.append('}');
+        return sb.toString();
+    }
 
-}//class
+}// class

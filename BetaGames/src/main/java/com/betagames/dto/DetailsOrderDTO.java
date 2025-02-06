@@ -3,30 +3,16 @@ package com.betagames.dto;
 public class DetailsOrderDTO {
 
     private Integer id;
-
     private Integer quantity;
-
     private Double priceAtTime;
-
-    private OrdersDTO orderDTO;
 
     private GamesDTO gameDTO;
 
-    public DetailsOrderDTO() {
-    }
-
-    public DetailsOrderDTO(Integer id, Integer quantity, Double priceAtTime, OrdersDTO orderDTO, GamesDTO gameDTO) {
+    public DetailsOrderDTO(Integer id, Integer quantity, Double priceAtTime, GamesDTO gameDTO) {
         this.id = id;
         this.quantity = quantity;
         this.priceAtTime = priceAtTime;
-        this.orderDTO = orderDTO;
         this.gameDTO = gameDTO;
-    }
-
-    @Override
-    public String toString() {
-        return "DetailsOrderDTO [id=" + id + ", quantity=" + quantity + ", priceAtTime=" + priceAtTime + ", orderDTO="
-                + orderDTO + ", gameDTO=" + gameDTO + "]";
     }
 
     public Integer getId() {
@@ -61,12 +47,10 @@ public class DetailsOrderDTO {
         this.gameDTO = gameDTO;
     }
 
-    public OrdersDTO getOrderDTO() {
-        return orderDTO;
-    }
-
-    public void setOrderDTO(OrdersDTO orderDTO) {
-        this.orderDTO = orderDTO;
+    @Override
+    public String toString() {
+        return "DetailsOrderDTO [id=" + id + ", quantity=" + quantity + ", priceAtTime=" + priceAtTime + ", gameDTO="
+                + gameDTO + "]";
     }
 
 }

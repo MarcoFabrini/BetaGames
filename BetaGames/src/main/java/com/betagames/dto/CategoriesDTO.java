@@ -2,6 +2,10 @@ package com.betagames.dto;
 
 import java.util.List;
 
+/**
+ *
+ * @author Cristhian Guerrero
+ */
 public class CategoriesDTO {
 
     private Integer id;

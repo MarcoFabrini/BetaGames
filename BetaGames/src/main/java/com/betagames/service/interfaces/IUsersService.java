@@ -7,7 +7,7 @@ import com.betagames.request.UsersRequest;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public interface IUsersService {
     List<UsersDTO> list() throws Exception;
@@ -18,6 +18,8 @@ public interface IUsersService {
     List<UsersDTO> searchByTyping(Integer id, String username, String email) throws Exception;
 
     void create(UsersRequest req) throws Exception;
+
+    void login(UsersRequest req) throws Exception;
 
     void update(UsersRequest req) throws Exception;
 

@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class ReviewsDTO {
     private Integer id;

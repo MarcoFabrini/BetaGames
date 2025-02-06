@@ -3,6 +3,7 @@ package com.betagames.model;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,11 +36,11 @@ public class Orders {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_users")
     private Users user;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<DetailsOrder> listDetailsOrder;
 
     @OneToOne

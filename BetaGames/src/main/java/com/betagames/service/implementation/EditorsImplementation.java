@@ -17,7 +17,7 @@ import static com.betagames.utility.Utilities.buildEditorsDTO;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Service
 public class EditorsImplementation implements IEditorsService {

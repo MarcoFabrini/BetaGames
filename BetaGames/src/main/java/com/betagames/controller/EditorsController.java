@@ -19,7 +19,7 @@ import com.betagames.service.interfaces.IEditorsService;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 
 @RestController

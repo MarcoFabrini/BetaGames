@@ -1,6 +1,6 @@
 package com.betagames.repository;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +17,7 @@ import com.betagames.model.Authors;
 @Repository
 public interface IAuthorsRepository extends JpaRepository<Authors, Integer> {
 
+
 	@Query(name = "authors.searchByTyping")
 	List<Authors> searchByFilter(
  			@Param("id") Integer id,
@@ -27,5 +28,7 @@ public interface IAuthorsRepository extends JpaRepository<Authors, Integer> {
  			);
 
 	Optional<Authors> findByNameAndLastname(String name, String lastname);
+
+	// Optional<Authors> findByGameId(Integer id);
 
 }// interface

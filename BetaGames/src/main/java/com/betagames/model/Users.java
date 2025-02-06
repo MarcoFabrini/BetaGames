@@ -2,6 +2,7 @@ package com.betagames.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,16 +32,16 @@ public class Users {
     @Column(name = "pwd", nullable = false)
     private String pwd;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Carts cart;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Reviews> listReviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Orders> listOrders;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<PayCards> listPayCards;
 
     @ManyToOne

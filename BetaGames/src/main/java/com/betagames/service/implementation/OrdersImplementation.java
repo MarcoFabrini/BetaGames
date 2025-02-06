@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,11 @@ import com.betagames.repository.IPayCardsRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.OrdersRequest;
 import com.betagames.service.interfaces.IOrdersService;
+
+import static com.betagames.utility.Utilities.buildDetailsOrderDTO;
 import static com.betagames.utility.Utilities.buildOrdersDTO;
+import static com.betagames.utility.Utilities.buildPayCardsDTO;
+import static com.betagames.utility.Utilities.buildUsersDTO;
 import static com.betagames.utility.Utilities.convertStringToDate;
 /*
  * @author Simone Checco
@@ -40,7 +43,8 @@ public class OrdersImplementation implements IOrdersService{
 
         return listOrders.stream()
                     .map(order -> new OrdersDTO(order.getId(), order.getTotalAmmount(), order.getOrderStatus(), 
-                                        order.getCreatedAt(), order.getUpdatedAt(), null, null, null))
+                                        order.getCreatedAt(), order.getUpdatedAt(), null, 
+                                        buildDetailsOrderDTO(order.getListDetailsOrder()), null))
                     .collect(Collectors.toList());
 
     }

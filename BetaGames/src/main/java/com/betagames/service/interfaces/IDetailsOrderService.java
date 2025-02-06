@@ -10,7 +10,7 @@ import com.betagames.request.DetailsOrderRequest;
  */
 public interface IDetailsOrderService {
     
-    List<DetailsOrderDTO> searchByTyping() throws Exception;
+    List<DetailsOrderDTO> searchByOrder(Integer id) throws Exception;
 
     void create(DetailsOrderRequest req) throws Exception;
 

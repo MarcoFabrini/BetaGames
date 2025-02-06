@@ -1,11 +1,14 @@
 package com.betagames.service.implementation;
 
+import static com.betagames.utility.Utilities.buildGamesDTO;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.betagames.dto.GamesDTO;
 import com.betagames.model.Editors;
@@ -19,6 +22,7 @@ import com.betagames.service.interfaces.IGamesService;
  * @author DorigoLorenzo
  **/
 
+ @Service
 public class GamesImplementation implements IGamesService{
 
     //Autowired(s)
@@ -35,6 +39,12 @@ public class GamesImplementation implements IGamesService{
     // public List<GamesDTO> searchByTyping() throws Exception {
     //     return null;
     // }
+
+    @Override
+    public List<GamesDTO> list() throws Exception {
+        List<Games> listGames = gamesR.findAll();
+        return buildGamesDTO(listGames);
+    }//list
 
     @Override
     public void create(GamesRequest req) throws Exception {

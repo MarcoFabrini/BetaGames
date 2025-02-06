@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class ReviewsRequest {
     private Integer id;

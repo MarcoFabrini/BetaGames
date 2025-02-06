@@ -2,7 +2,7 @@ package com.betagames.request;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class UsersRequest {
     private Integer id;

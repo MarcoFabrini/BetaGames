@@ -13,6 +13,8 @@ public interface IPayCardsService {
 
     //List<PayCardsDTO> searchByTyping() throws Exception;
 
+    List<PayCardsDTO> list() throws Exception;
+
     void create(PayCardsRequest req) throws Exception;
 
     void update(PayCardsRequest req) throws Exception;

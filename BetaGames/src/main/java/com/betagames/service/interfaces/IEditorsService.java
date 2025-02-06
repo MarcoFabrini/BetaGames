@@ -7,7 +7,7 @@ import com.betagames.request.EditorsRequest;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public interface IEditorsService {
 

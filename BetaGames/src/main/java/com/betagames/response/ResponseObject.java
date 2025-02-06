@@ -2,7 +2,7 @@ package com.betagames.response;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 public class ResponseObject<T> extends ResponseBase {
     private T data;

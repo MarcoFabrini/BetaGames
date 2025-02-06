@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.UsersDTO;
@@ -17,7 +18,7 @@ import static com.betagames.utility.Utilities.buildUsersDTO;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
 @Service
 public class UsersImplementation implements IUsersService {
@@ -25,6 +26,8 @@ public class UsersImplementation implements IUsersService {
 	Logger log;
 	@Autowired
 	IUsersRepository usersRepository;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
@@ -42,6 +45,12 @@ public class UsersImplementation implements IUsersService {
 				.collect(Collectors.toList());
 	}// searchByTyping
 
+	/*
+	 * creare un create per admin e un create per user
+	 * oppure impostare che il primo user che si crea nel db sarà admin e i
+	 * successivi saranno user
+	 * solo da prifilo admin si potrà creare nuovo admin
+	 */
 	@Override
 	public void create(UsersRequest req) throws Exception {
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
@@ -55,13 +64,33 @@ public class UsersImplementation implements IUsersService {
 		Users u = new Users();
 		u.setUsername(req.getUsername());
 		u.setEmail(req.getEmail());
-		
-		// criptare la pw
-		u.setPwd(req.getPwd());
+
+		String hashedPassword = passwordEncoder.encode(req.getPwd());
+		u.setPwd(hashedPassword);
 
 		usersRepository.save(u);
 	}// create
 
+	/**
+	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
+	 * sbagliati)
+	 */
+	public void login(UsersRequest req) throws Exception {
+		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
+		if (!users.isPresent())
+			throw new Exception("Invalid password or username");
+
+		if (!passwordEncoder.matches(req.getPwd(), users.get().getPwd())) {
+			throw new Exception("Invalid password or username");
+		}
+	}// login
+
+	/**
+	 * sistemare update di pw
+	 * fare mach della pw
+	 * creare nuova pw e hash
+	 * salvare
+	 */
 	@Override
 	public void update(UsersRequest req) throws Exception {
 		Optional<Users> users = usersRepository.findById(req.getId());

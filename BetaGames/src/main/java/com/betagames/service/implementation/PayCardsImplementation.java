@@ -1,10 +1,13 @@
 package com.betagames.service.implementation;
 
+import static com.betagames.utility.Utilities.buildPayCardsDTO;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.betagames.dto.PayCardsDTO;
 import com.betagames.model.PayCards;
@@ -18,6 +21,7 @@ import com.betagames.service.interfaces.IPayCardsService;
  * @author DorigoLorenzo
  **/
 
+ @Service
 public class PayCardsImplementation implements IPayCardsService{
 
     @Autowired
@@ -33,6 +37,12 @@ public class PayCardsImplementation implements IPayCardsService{
     // public List<PayCardsDTO> searchByTyping() throws Exception {
     //     return null;
     // }
+
+    @Override
+	public List<PayCardsDTO> list() throws Exception {
+        List<PayCards> listPayCards = paycardsR.findAll();
+        return buildPayCardsDTO(listPayCards);
+	}//list
 
     @Override
     public void create(PayCardsRequest req) throws Exception {

@@ -19,9 +19,8 @@ import com.betagames.service.interfaces.IUsersService;
 
 /**
  *
- * @author Fabrini Marco
+ * @author FabriniMarco
  */
-
 @RestController
 @RequestMapping("/rest/users")
 public class UsersController {
@@ -71,12 +70,28 @@ public class UsersController {
             usersService.create(req);
             response.setMsg("Successfully created user");
         } catch (Exception e) {
-            log.error("Failed to create user" + e.getMessage());
+            log.error("Failed to create user " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }
         return response;
     }// create
+
+    @PostMapping("/login")
+    public ResponseBase login(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            usersService.login(req);
+            response.setMsg("Successfully login");
+        } catch (Exception e) {
+            log.error("Failed to login " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// login
 
     @PutMapping("/update")
     public ResponseBase update(@RequestBody(required = true) UsersRequest req) {
@@ -86,7 +101,7 @@ public class UsersController {
             usersService.update(req);
             response.setMsg("Successfully updated user");
         } catch (Exception e) {
-            log.error("Failed to update user" + e.getMessage());
+            log.error("Failed to update user " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }
@@ -101,7 +116,7 @@ public class UsersController {
             usersService.delete(req);
             response.setMsg("Successfully deleted user");
         } catch (Exception e) {
-            log.error("Failed to delete user" + e.getMessage());
+            log.error("Failed to delete user " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }

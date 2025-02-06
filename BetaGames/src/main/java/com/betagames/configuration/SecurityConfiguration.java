@@ -32,4 +32,5 @@ public class SecurityConfiguration {
 
         return http.build();
     }// SecurityFilterChain
+    //ciao
 }// class

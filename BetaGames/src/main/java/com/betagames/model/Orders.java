@@ -36,14 +36,14 @@ public class Orders {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_users")
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "id_users", nullable = true)
     private Users user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<DetailsOrder> listDetailsOrder;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "id_pay_cards", referencedColumnName = "id")
     private PayCards payCard;
 

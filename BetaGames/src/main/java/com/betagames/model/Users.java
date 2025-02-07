@@ -35,10 +35,10 @@ public class Users {
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Carts cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private List<Reviews> listReviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private List<Orders> listOrders;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

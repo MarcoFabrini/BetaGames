@@ -29,7 +29,7 @@ public class Reviews {
     private Date createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "id_users")
+    @JoinColumn(name = "id_users", nullable = true)
     private Users user;
 
     @ManyToOne

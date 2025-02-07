@@ -2,7 +2,6 @@ package com.betagames.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,13 +59,13 @@ public class UsersController {
         return list;
     }// searchByTyping
 
-    @PostMapping("/create")
-    public ResponseBase create(@RequestBody(required = true) UsersRequest req) {
+    @PostMapping("/createUser")
+    public ResponseBase createUser(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
 
         try {
-            usersService.create(req);
+            usersService.createUser(req);
             response.setMsg("Successfully created user");
         } catch (Exception e) {
             log.error("Failed to create user " + e.getMessage());
@@ -74,7 +73,23 @@ public class UsersController {
             response.setRc(false);
         }
         return response;
-    }// create
+    }// createUser
+
+    @PostMapping("/createAdmin")
+    public ResponseBase createAdmin(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            usersService.createAdmin(req);
+            response.setMsg("Successfully created admin");
+        } catch (Exception e) {
+            log.error("Failed to create admin " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// createAdmin
 
     @PostMapping("/login")
     public ResponseBase login(@RequestBody(required = true) UsersRequest req) {
@@ -107,7 +122,7 @@ public class UsersController {
         return response;
     }// update
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseBase delete(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

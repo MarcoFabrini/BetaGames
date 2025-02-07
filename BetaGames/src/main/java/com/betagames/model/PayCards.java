@@ -42,11 +42,11 @@ public class PayCards {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_users")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_users", nullable = true)
     private Users user;
 
-    @OneToOne(mappedBy = "payCard")
+    @OneToOne(mappedBy = "payCard", cascade = CascadeType.PERSIST)
     private Orders order;
 
     public Integer getId() {

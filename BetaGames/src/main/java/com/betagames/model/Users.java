@@ -35,16 +35,16 @@ public class Users {
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Carts cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private List<Reviews> listReviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private List<Orders> listOrders;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<PayCards> listPayCards;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "id_role")
     private Roles role;
 
@@ -120,4 +120,4 @@ public class Users {
         this.role = role;
     }
 
-}// class
+}// class 

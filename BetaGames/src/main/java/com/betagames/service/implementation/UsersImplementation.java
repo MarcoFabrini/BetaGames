@@ -1,16 +1,24 @@
 package com.betagames.service.implementation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.UsersDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.Orders;
+import com.betagames.model.Reviews;
+import com.betagames.model.Roles;
 import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
+import com.betagames.repository.IOrdersRepository;
+import com.betagames.repository.IReviewsRepository;
+import com.betagames.repository.IRolesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
 import com.betagames.service.interfaces.IUsersService;
@@ -22,37 +30,47 @@ import static com.betagames.utility.Utilities.buildUsersDTO;
  */
 @Service
 public class UsersImplementation implements IUsersService {
-	@Autowired
-	Logger log;
-	@Autowired
-	IUsersRepository usersRepository;
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	private final Logger log;
+	private final IUsersRepository usersRepository;
+	private final ICartsRepository cartsRepository;
+	private final IOrdersRepository ordersRepository;
+	private final IRolesRepository rolesRepository;
+	private final IReviewsRepository reviewsRepository;
+	private final PasswordEncoder passwordEncoder;
+
+	public UsersImplementation(Logger log, IUsersRepository usersRepository, ICartsRepository cartsRepository,
+			IOrdersRepository ordersRepository, IRolesRepository rolesRepository, IReviewsRepository reviewsRepository,
+			PasswordEncoder passwordEncoder) {
+		this.log = log;
+		this.usersRepository = usersRepository;
+		this.cartsRepository = cartsRepository;
+		this.ordersRepository = ordersRepository;
+		this.rolesRepository = rolesRepository;
+		this.reviewsRepository = reviewsRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
 		List<Users> listUsers = usersRepository.findAll();
+
 		return buildUsersDTO(listUsers);
 	}// list
 
 	@Override
 	public List<UsersDTO> searchByTyping(Integer id, String username, String email) throws Exception {
-
 		List<Users> listUsers = usersRepository.searchByTyping(id, username, email);
 
-		return listUsers.stream()
-				.map(u -> new UsersDTO(u.getId(), u.getUsername(), u.getEmail(), null, null, null, null, null))
-				.collect(Collectors.toList());
+		return buildUsersDTO(listUsers);
 	}// searchByTyping
 
-	/*
-	 * creare un create per admin e un create per user
-	 * oppure impostare che il primo user che si crea nel db sarà admin e i
-	 * successivi saranno user
-	 * solo da prifilo admin si potrà creare nuovo admin
-	 */
 	@Override
-	public void create(UsersRequest req) throws Exception {
+	@Transactional(rollbackFor = Exception.class)
+	public void createUser(UsersRequest req) throws Exception {
+		Date now = new Date();
+
+		Optional<Roles> role = rolesRepository.findByName("user");
+
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 		if (users.isPresent())
 			throw new Exception("This username is already present");
@@ -68,8 +86,41 @@ public class UsersImplementation implements IUsersService {
 		String hashedPassword = passwordEncoder.encode(req.getPwd());
 		u.setPwd(hashedPassword);
 
+		Carts cart = new Carts();
+		cart.setUser(u);
+		cart.setCreatedAt(now);
+		cart.setUpdatedAt(now);
+		cartsRepository.save(cart);
+
+		u.setCart(cart);
+		u.setRole(role.get());
+
 		usersRepository.save(u);
-	}// create
+	}// createUser
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void createAdmin(UsersRequest req) throws Exception {
+		Optional<Roles> role = rolesRepository.findByName("admin");
+
+		Optional<Users> admin = usersRepository.findByUsername(req.getUsername());
+		if (admin.isPresent())
+			throw new Exception("This username is already present");
+
+		admin = usersRepository.findByEmail(req.getEmail());
+		if (admin.isPresent())
+			throw new Exception("This user email is already present");
+
+		Users a = new Users();
+		a.setUsername(req.getUsername());
+		a.setEmail(req.getEmail());
+
+		String hashedPassword = passwordEncoder.encode(req.getPwd());
+		a.setPwd(hashedPassword);
+		a.setRole(role.get());
+
+		usersRepository.save(a);
+	}// createAdmin
 
 	/**
 	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
@@ -80,9 +131,8 @@ public class UsersImplementation implements IUsersService {
 		if (!users.isPresent())
 			throw new Exception("Invalid password or username");
 
-		if (!passwordEncoder.matches(req.getPwd(), users.get().getPwd())) {
+		if (!passwordEncoder.matches(req.getPwd(), users.get().getPwd()))
 			throw new Exception("Invalid password or username");
-		}
 	}// login
 
 	/**
@@ -97,28 +147,53 @@ public class UsersImplementation implements IUsersService {
 		if (!users.isPresent())
 			throw new Exception("This user is not present");
 
-		Optional<Users> u = usersRepository.findByUsername(req.getUsername());
-		if (u.isPresent())
-			throw new Exception("This username is already present");
+		Integer userId = req.getId();
 
-		u = usersRepository.findByEmail(req.getEmail());
-		if (u.isPresent())
-			throw new Exception("This user email is already present");
+		// Verifica se l'username è già usato da un altro utente escludendo l'utente
+		// corrente
+		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), userId).isPresent()) {
+			throw new Exception("This username is already in use by another user");
+		}
 
-		users.get().setUsername(req.getUsername());
-		users.get().setEmail(req.getEmail());
+		// Verifica se l'email è già usata da un altro utente escludendo l'utente
+		// corrente
+		if (usersRepository.findByEmailAndIdNot(req.getEmail(), userId).isPresent()) {
+			throw new Exception("This email is already in use by another user");
+		}
 
-		// criptare la pw
-		users.get().setPwd(req.getPwd());
+		Users user = users.get();
+		user.setUsername(req.getUsername());
+		user.setEmail(req.getEmail());
 
-		usersRepository.save(users.get());
-	}// update
+		// implementare controllo se la pw cambia 
+		String hashedPassword = passwordEncoder.encode(req.getPwd());
+		user.setPwd(hashedPassword);
+
+		usersRepository.save(user);
+	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void delete(UsersRequest req) throws Exception {
 		Optional<Users> users = usersRepository.findById(req.getId());
 		if (!users.isPresent())
 			throw new Exception("This user is not present");
+
+		List<Reviews> lr = reviewsRepository.findByUserId(req.getId());
+		if (lr != null) {
+			for (Reviews review : lr) {
+				review.setUser(null); 
+				reviewsRepository.save(review);
+			}
+		}
+
+		List<Orders> lo = ordersRepository.findByUserId(req.getId());
+		if(lo != null){
+			for(Orders order : lo){
+				order.setUser(null);
+				ordersRepository.save(order);
+			}
+		}
 
 		usersRepository.delete(users.get());
 	}// delete

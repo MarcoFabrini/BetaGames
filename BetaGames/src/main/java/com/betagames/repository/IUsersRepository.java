@@ -10,22 +10,24 @@ import org.springframework.stereotype.Repository;
 
 import com.betagames.model.Users;
 
-
 /**
  *
  * @author FabriniMarco
  */
 @Repository
-public interface IUsersRepository extends JpaRepository<Users, Integer>{
+public interface IUsersRepository extends JpaRepository<Users, Integer> {
 
-    @Query(name  = "users.searchByTyping")
+    @Query(name = "users.searchByTyping")
     List<Users> searchByTyping(@Param("id") Integer id,
-                                @Param("username") String username,
-                                @Param("email") String email);
+            @Param("username") String username,
+            @Param("email") String email);
 
     Optional<Users> findByUsername(String username);
 
     Optional<Users> findByEmail(String email);
 
-    
+    // esclude se stesso dal db e cerca negli altri record 
+    Optional<Users> findByUsernameAndIdNot(String username, Integer id);
+    Optional<Users> findByEmailAndIdNot(String email, Integer id);
+
 }// interface

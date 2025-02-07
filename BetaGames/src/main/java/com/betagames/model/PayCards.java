@@ -43,10 +43,10 @@ public class PayCards {
     private Date updatedAt;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_users")
+    @JoinColumn(name = "id_users", nullable = true)
     private Users user;
 
-    @OneToOne(mappedBy = "payCard")
+    @OneToOne(mappedBy = "payCard", cascade = CascadeType.PERSIST)
     private Orders order;
 
     public Integer getId() {

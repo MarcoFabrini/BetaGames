@@ -102,8 +102,7 @@ public class CartsImplementation implements ICartsService{
     @Override
 	public List<CartsDTO> list() throws Exception {
 		List<Carts> lC = cartR.findAll();
-        lC.forEach(x->System.out.println("---------------"+  x.getUser().getUsername() ));
-        //return null;
+        
 		return buildCartsDTO(lC);
 	}
     

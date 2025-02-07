@@ -28,7 +28,7 @@ public class DetailsCart {
     @JoinColumn(name = "id_games")
     private Games game;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_carts")
     private Carts cart;
 

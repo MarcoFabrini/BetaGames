@@ -3,8 +3,11 @@ package com.betagames.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betagames.dto.CartsDTO;
+import com.betagames.dto.DetailsCartDTO;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.response.ResponseBase;
+import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsCartsService;
 
 import org.slf4j.Logger;
@@ -42,7 +45,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public ResponseBase update(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -57,7 +60,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseBase delete(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -72,7 +75,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @DeleteMapping("/checkout")
+    @PostMapping("/checkout")
     public ResponseBase checkout(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -87,4 +90,30 @@ public class DetailsCartsController {
         return response;
     }
     
+    @GetMapping("/list")
+    public ResponseList<DetailsCartDTO> list() {
+        ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
+        response.setRc(true);
+        try {
+            response.setData(detailsCartsService.list());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }
+    @GetMapping("/listByCarts")
+    public ResponseList<DetailsCartDTO> listByCarts(Integer id) {
+        ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
+        response.setRc(true);
+        try {
+            response.setData(detailsCartsService.listByCarts(id));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }
 }

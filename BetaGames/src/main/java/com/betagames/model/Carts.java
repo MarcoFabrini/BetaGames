@@ -32,7 +32,7 @@ public class Carts {
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<DetailsCart> listDetailsCart;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_users", referencedColumnName = "id")
     private Users user;
 

@@ -10,7 +10,7 @@ public class GamesRequest {
 
     private Integer id;
     private String name;
-    private Date date;
+    private String date;
     private Integer minGameTime;
     private Integer maxGameTime;
     private Integer minPlayerNumber;
@@ -21,81 +21,104 @@ public class GamesRequest {
     private Double price;
     private Integer editorsId;
 
-    //getter and setter
+    // getter and setter
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public Date getDate() {
+
+    public String getDate() {
         return date;
     }
-    public void setDate(Date date) {
+
+    public void setDate(String date) {
         this.date = date;
     }
+
     public Integer getMinGameTime() {
         return minGameTime;
     }
+
     public void setMinGameTime(Integer minGameTime) {
         this.minGameTime = minGameTime;
     }
+
     public Integer getMaxGameTime() {
         return maxGameTime;
     }
+
     public void setMaxGameTime(Integer maxGameTime) {
         this.maxGameTime = maxGameTime;
     }
+
     public Integer getMinPlayerNumber() {
         return minPlayerNumber;
     }
+
     public void setMinPlayerNumber(Integer minPlayerNumber) {
         this.minPlayerNumber = minPlayerNumber;
     }
+
     public Integer getMaxPlayerNumber() {
         return maxPlayerNumber;
     }
+
     public void setMaxPlayerNumber(Integer maxPlayerNumber) {
         this.maxPlayerNumber = maxPlayerNumber;
     }
+
     public Integer getMinAge() {
         return minAge;
     }
+
     public void setMinAge(Integer minAge) {
         this.minAge = minAge;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Integer getStockQuantity() {
         return stockQuantity;
     }
+
     public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
+
     public Double getPrice() {
         return price;
     }
+
     public void setPrice(Double price) {
         this.price = price;
     }
+
     public Integer getEditorsId() {
         return editorsId;
     }
+
     public void setEditorsId(Integer editorsId) {
         this.editorsId = editorsId;
     }
 
-    //toString
+    // toString
     @Override
     public String toString() {
         return "GamesRequest [id=" + id + ", name=" + name + ", date=" + date + ", minGameTime=" + minGameTime
@@ -103,5 +126,5 @@ public class GamesRequest {
                 + maxPlayerNumber + ", minAge=" + minAge + ", description=" + description + ", stockQuantity="
                 + stockQuantity + ", price=" + price + ", editorsId=" + editorsId + "]";
     }
-    
-}//class
+
+}// class

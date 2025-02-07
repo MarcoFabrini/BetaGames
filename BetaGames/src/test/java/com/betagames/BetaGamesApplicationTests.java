@@ -8,7 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 @Suite
 @SelectClasses({
-	EditorsServiceTest.class
+	EditorsServiceTest.class,
+	RolesServiceTest.class
 })
 
 @SpringBootTest

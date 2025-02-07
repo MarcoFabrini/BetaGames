@@ -1,6 +1,7 @@
 package com.betagames.service.implementation;
 
 import static com.betagames.utility.Utilities.buildPayCardsDTO;
+import static com.betagames.utility.Utilities.convertStringToDate;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +22,8 @@ import com.betagames.service.interfaces.IPayCardsService;
  * @author DorigoLorenzo
  **/
 
- @Service
-public class PayCardsImplementation implements IPayCardsService{
+@Service
+public class PayCardsImplementation implements IPayCardsService {
 
     @Autowired
     IPayCardsRepository paycardsR;
@@ -35,72 +36,72 @@ public class PayCardsImplementation implements IPayCardsService{
 
     // @Override
     // public List<PayCardsDTO> searchByTyping() throws Exception {
-    //     return null;
+    // return null;
     // }
 
     @Override
-	public List<PayCardsDTO> list() throws Exception {
+    public List<PayCardsDTO> list() throws Exception {
         List<PayCards> listPayCards = paycardsR.findAll();
         return buildPayCardsDTO(listPayCards);
-	}//list
+    }// list
 
     @Override
     public void create(PayCardsRequest req) throws Exception {
-        //verifico che non esistano carte con lo stesso numero
+        // verifico che non esistano carte con lo stesso numero
         Optional<PayCards> paycard = paycardsR.findByCardNumber(req.getCardNumber());
-        if (paycard.isPresent()){
+        if (paycard.isPresent()) {
             throw new Exception("Pay Card already present!");
         }
-        //recupero lo user di riferimento
+        // recupero lo user di riferimento
         Optional<Users> user = usersR.findById(req.getUserId());
-        PayCards p = new PayCards();            //nuova carta
-        //popolo i campi
+        PayCards p = new PayCards(); // nuova carta
+        // popolo i campi
         p.setCardNumber(req.getCardNumber());
         p.setCvv(req.getCvv());
         p.setCardHolderName(req.getCardHolderName());
-        p.setUser(user.get());                  //speriamo bene
+        p.setUser(user.get()); // speriamo bene
         p.setCreatedAt(req.getCreatedAt());
         p.setUpdatedAt(req.getUpdatedAt());
-        p.setExpirationDate(req.getExpirationDate());
+        p.setExpirationDate(convertStringToDate(req.getExpirationDate()));
         p.setBillingAddress(req.getBillingAddress());
-        //save
+        // save
         paycardsR.save(p);
-    }//create
+    }// create
 
     @Override
     public void update(PayCardsRequest req) throws Exception {
-        //recupero la carta per id e controllo che id e numero carta esistano
-        //situazione da rivedere (magari con numero carta e id corrispondente... 
-        //forse attualmente potrebbero mandarmi a carte diverse in qualche caso)
+        // recupero la carta per id e controllo che id e numero carta esistano
+        // situazione da rivedere (magari con numero carta e id corrispondente...
+        // forse attualmente potrebbero mandarmi a carte diverse in qualche caso)
         Optional<PayCards> paycard = paycardsR.findById(req.getId());
-        if(!paycard.isPresent())
+        if (!paycard.isPresent())
             throw new Exception("Pay Card not found");
         paycard = paycardsR.findByCardNumber(req.getCardNumber());
-        if(!paycard.isPresent())
+        if (!paycard.isPresent())
             throw new Exception("Pay Card not found");
-        
-        Optional<Users> user = usersR.findById(req.getUserId());    //recuper lo user di riferimento
-        PayCards updtPayCard = paycard.get();       //creo la paycard che contiene i campi updatati (PayCardUpdated)
-        //popolo i campi
+
+        Optional<Users> user = usersR.findById(req.getUserId()); // recuper lo user di riferimento
+        PayCards updtPayCard = paycard.get(); // creo la paycard che contiene i campi updatati (PayCardUpdated)
+        // popolo i campi
         updtPayCard.setCardNumber(req.getCardNumber());
         updtPayCard.setCvv(req.getCvv());
         updtPayCard.setCardHolderName(req.getCardHolderName());
-        updtPayCard.setUser(user.get());                  //speriamo bene
+        updtPayCard.setUser(user.get()); // speriamo bene
         updtPayCard.setCreatedAt(req.getCreatedAt());
         updtPayCard.setUpdatedAt(req.getUpdatedAt());
-        updtPayCard.setExpirationDate(req.getExpirationDate());
+        updtPayCard.setExpirationDate(convertStringToDate(req.getExpirationDate()));
         updtPayCard.setBillingAddress(req.getBillingAddress());
-        //save
+        // save
         paycardsR.save(updtPayCard);
-    }//update
+    }// update
 
     @Override
     public void delete(PayCardsRequest req) throws Exception {
         Optional<PayCards> paycard = paycardsR.findById(req.getId());
-        if(!paycard.isPresent())
+        if (!paycard.isPresent())
             throw new Exception("Pay Card not found!");
-        
-        paycardsR.delete(paycard.get());
-    }//delete
 
-}//class
+        paycardsR.delete(paycard.get());
+    }// delete
+
+}// class

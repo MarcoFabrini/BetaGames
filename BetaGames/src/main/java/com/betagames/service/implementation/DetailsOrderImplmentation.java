@@ -23,8 +23,8 @@ import com.betagames.service.interfaces.IDetailsOrderService;
  * @author Simone Checco
  */
 
- @Service
-public class DetailsOrderImplmentation implements IDetailsOrderService{
+@Service
+public class DetailsOrderImplmentation implements IDetailsOrderService {
     @Autowired
     IDetailsOrderRepository detOrderRep;
 
@@ -33,16 +33,15 @@ public class DetailsOrderImplmentation implements IDetailsOrderService{
 
     @Autowired
     IGamesRepository gamesRep;
-    
 
     @Override
     public List<DetailsOrderDTO> searchByOrder(Integer id) throws Exception {
         Optional<Orders> order = orderRep.findById(id);
-        if(order.isEmpty()){
+        if (order.isEmpty()) {
             throw new Exception("Ordine non esistente");
         }
 
-        List<DetailsOrder> listaDettagli= order.get().getListDetailsOrder();
+        List<DetailsOrder> listaDettagli = order.get().getListDetailsOrder();
         listaDettagli.forEach(d -> System.out.println(d.getQuantity()));
         return buildDetailsOrderDTO(listaDettagli);
     }
@@ -52,12 +51,11 @@ public class DetailsOrderImplmentation implements IDetailsOrderService{
         Optional<Orders> order = orderRep.findById(req.getOrdersId());
         Optional<Games> game = gamesRep.findById(req.getGameId());
 
-        if(game.get().getStockQuantity() < req.getQuantity()){
+        if (game.get().getStockQuantity() < req.getQuantity()) {
             throw new Exception("quantità non disponibile");
         }
 
         DetailsOrder detailOrder = new DetailsOrder();
-        detailOrder.setId(req.getId());
         detailOrder.setPriceAtTime(req.getPriceAtTime());
         detailOrder.setQuantity(req.getQuantity());
         detailOrder.setOrder(order.get());
@@ -72,11 +70,11 @@ public class DetailsOrderImplmentation implements IDetailsOrderService{
         Optional<Games> game = gamesRep.findById(req.getGameId());
         Optional<DetailsOrder> detOrder = detOrderRep.findById(req.getGameId());
 
-        if(order.isEmpty()){
+        if (order.isEmpty()) {
             throw new Exception("id dettaglio ordine non trovato non trovato");
         }
 
-        if(game.get().getStockQuantity() < req.getQuantity()){
+        if (game.get().getStockQuantity() < req.getQuantity()) {
             throw new Exception("quantità non disponibile");
         }
 
@@ -94,12 +92,12 @@ public class DetailsOrderImplmentation implements IDetailsOrderService{
     public void delete(DetailsOrderRequest req) throws Exception {
         Optional<DetailsOrder> detOrder = detOrderRep.findById(req.getId());
 
-        if(detOrder.isEmpty()){
+        if (detOrder.isEmpty()) {
             throw new Exception("Dettagli ordine non esistente");
         }
 
         DetailsOrder detailOrder = detOrder.get();
         detOrderRep.delete(detailOrder);
     }
-    
+
 }

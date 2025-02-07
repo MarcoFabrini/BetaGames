@@ -36,6 +36,7 @@ public class Orders {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "id_users", nullable = true)
     private Users user;

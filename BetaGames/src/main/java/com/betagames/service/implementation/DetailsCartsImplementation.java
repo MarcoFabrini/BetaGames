@@ -118,16 +118,16 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         //update del carrello
         Date now = new Date();
         carts.get().setUpdatedAt(now);
-        
+
         cartR.save(carts.get()); 
     }
 
     //per il checkout
     //@Transactional(rollbackFor=Exception.class)
     @Override
-    public void deleteAllByCart(DetailsCartRequest req) throws Exception {
+    public void deleteAllByCart(Integer id) throws Exception {
 
-        Optional<Carts> carts = cartR.findById(req.getCartId());
+        Optional<Carts> carts = cartR.findById(id);
     
         if (carts.isEmpty())
 			throw new Exception("cart not found");

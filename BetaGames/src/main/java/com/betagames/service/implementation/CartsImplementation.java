@@ -46,7 +46,7 @@ public class CartsImplementation implements ICartsService{
 
         Optional<Carts> cartsUser = cartR.findByUser(users.get());
 
-        Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
+        //Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
 
         //controllare se l'utente ha già un carrello
         //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
@@ -69,14 +69,6 @@ public class CartsImplementation implements ICartsService{
         cartR.save(carts);
     }
 
-    //branch
-
-    @Override
-    public void update(CartsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
     @Override
     public void delete(CartsRequest req) throws Exception {
 
@@ -84,19 +76,6 @@ public class CartsImplementation implements ICartsService{
         if (carts.isEmpty())
 			throw new Exception("cart not found");
         cartR.delete(carts.get());
-    }
-
-    @Override
-    public CartsDTO listCartsByUser(Integer id) throws Exception {
-
-        Optional<Users> users = usersR.findById(id);
-        if(users.isEmpty())
-            throw new Exception("Utente non trovato");
-
-        // Carts c = cartR.findByUser(users);
-
-        //return buildCartsDTO(c);
-        return null;
     }
 
     @Override

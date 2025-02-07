@@ -76,11 +76,11 @@ public class DetailsCartsController {
     }
 
     @PostMapping("/checkout")
-    public ResponseBase checkout(@RequestBody(required = true) DetailsCartRequest req) {
+    public ResponseBase checkout(@RequestBody(required = true) Integer id) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            detailsCartsService.deleteAllByCart(req);
+            detailsCartsService.deleteAllByCart(id);
             response.setMsg("Successfully updated detailsCart");
         } catch (Exception e) {
             log.error("Failed to update detailsCart" + e.getMessage());

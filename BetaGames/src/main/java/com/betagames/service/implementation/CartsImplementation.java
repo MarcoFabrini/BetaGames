@@ -19,6 +19,8 @@ import com.betagames.repository.IUsersRepository;
 import com.betagames.request.CartsRequest;
 import com.betagames.service.interfaces.ICartsService;
 
+import static com.betagames.utility.Utilities.buildCartsDTO;
+
 @Service
 public class CartsImplementation implements ICartsService{
 
@@ -44,7 +46,7 @@ public class CartsImplementation implements ICartsService{
 
         Optional<Carts> cartsUser = cartR.findByUser(users.get());
 
-        Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
+        //Optional<DetailsCart> detailsCart = detailsCartR.findById(req.getUserId());
 
         //controllare se l'utente ha già un carrello
         //nel caso sia già stato creato esco da quà e aggiorno solo detailsCart
@@ -67,16 +69,8 @@ public class CartsImplementation implements ICartsService{
         cartR.save(carts);
     }
 
-    //branch
-
     @Override
-    public void update(CartsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void remove(CartsRequest req) throws Exception {
+    public void delete(CartsRequest req) throws Exception {
 
         Optional<Carts> carts = cartR.findById(req.getId());
         if (carts.isEmpty())
@@ -85,16 +79,10 @@ public class CartsImplementation implements ICartsService{
     }
 
     @Override
-    public CartsDTO listCartsByUser(Integer id) throws Exception {
-
-        Optional<Users> users = usersR.findById(id);
-        if(users.isEmpty())
-            throw new Exception("Utente non trovato");
-
-        // Carts c = cartR.findByUser(users);
-
-        //return buildCartsDTO(c);
-        return null;
-    }
+	public List<CartsDTO> list() throws Exception {
+		List<Carts> lC = cartR.findAll();
+        
+		return buildCartsDTO(lC);
+	}
     
 }

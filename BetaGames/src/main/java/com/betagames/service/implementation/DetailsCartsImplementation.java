@@ -19,7 +19,8 @@ import com.betagames.repository.IGamesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
-//import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
+
+import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
 
 @Service
 public class DetailsCartsImplementation implements IDetailsCartsService{
@@ -45,23 +46,6 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
 
         Optional<Carts> carts = cartR.findById(req.getCartId());
 
-        if (carts.isEmpty()){
-            //oppure creo un record Carts...???
-
-            //Optional<Users> users = usersR.findById(req.getCartId());
-
-            // Carts firstCarts = new Carts();
-            // Date now = new Date();
-
-            // firstCarts.setUser(users.get());//repository
-            // firstCarts.setCreatedAt(now);
-            // firstCarts.setUpdatedAt(now);
-
-            // firstCarts.getListDetailsCart().add(detailsCart);//salvo i dettagli nel carrello
-            // cartR.save(carts.get()); //update cart
-
-			throw new Exception("cart not found");
-        }
         Optional<Games> games = gamesR.findById(req.getGameId());
         if (games.isEmpty())
 			throw new Exception("item not found");
@@ -73,14 +57,17 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         DetailsCart detailsCart = new DetailsCart();
 
         detailsCart.setCart(carts.get());
-
-
         detailsCart.setGame(games.get());
         detailsCart.setQuantity(req.getQuantity());
-
         detailsCart.setPriceAtTime(games.get().getPrice()*req.getQuantity());//repository
         
         detailsCartR.save(detailsCart);
+
+        //update del carrello
+        Date now = new Date();
+        carts.get().setUpdatedAt(now);
+
+        cartR.save(carts.get()); 
     }
 
     //non capisco se serve
@@ -92,17 +79,17 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         if (detailsCarts.isEmpty())
 			throw new Exception("details not found");
 
-        Optional<Games> games = gamesR.findById(req.getGameId());
+        Optional<Games> games = gamesR.findById(detailsCarts.get().getGame().getId());
         if (games.isEmpty())
 			throw new Exception("item not found");
         
-        Optional<Carts> carts = cartR.findById(req.getCartId());
+        Optional<Carts> carts = cartR.findById(detailsCarts.get().getCart().getId());
         if (carts.isEmpty())
 			throw new Exception("cart not found");
 
         DetailsCart dC = detailsCarts.get();
 
-        dC.setCart(carts.get());
+        //dC.setCart(carts.get());
         //admin può fare update del id_carrello...???
         dC.setQuantity(req.getQuantity());
         dC.setPriceAtTime(games.get().getPrice()*req.getQuantity());
@@ -114,6 +101,7 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         cartR.save(carts.get());
     }
 
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public void delete(DetailsCartRequest req) throws Exception {
 
@@ -121,47 +109,63 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         if (detailsCarts.isEmpty())
 			throw new Exception("details not found");
 
+        Optional<Carts> carts = cartR.findById(detailsCarts.get().getCart().getId());
+        if (carts.isEmpty())
+			throw new Exception("cart not found");
+
         detailsCartR.delete(detailsCarts.get());
+
+        //update del carrello
+        Date now = new Date();
+        carts.get().setUpdatedAt(now);
+
+        cartR.save(carts.get()); 
     }
 
     //per il checkout
     //@Transactional(rollbackFor=Exception.class)
     @Override
-    public void deleteAllByCart(DetailsCartRequest req) throws Exception {
+    public void deleteAllByCart(Integer id) throws Exception {
 
-        Optional<Carts> carts = cartR.findById(req.getCartId());
+        Optional<Carts> carts = cartR.findById(id);
     
         if (carts.isEmpty())
 			throw new Exception("cart not found");
 
         List<DetailsCart> dCl = detailsCartR.findByCart(carts.get());
         
+        detailsCartR.deleteAll(dCl);
+        
         //trucco
         //carts.get().setListDetailsCart(null);
 
-        dCl.forEach(dC ->{
-            detailsCartR.delete(dC);
-        });
+        // dCl.forEach(dC ->{
+        //     detailsCartR.delete(dC);
+        // });
 
         //====NON RIESCO A CANCELLARE IL CART====
 
         //carts.get().getListDetailsCart().removeAll(dCl);
         //cartR.save(carts.get());
-        cartR.delete(carts.get());
+        //cartR.delete(carts.get());
     }
 
     @Override
     public List<DetailsCartDTO> list() throws Exception {
         List<DetailsCart> lDetailsCarts = detailsCartR.findAll();
-        //return buildDetailsCartsDTO(lDetailsCarts);
-        return null;
+        return buildDetailsCartsDTO(lDetailsCarts);
     }
 
     @Override
-    public List<DetailsCartDTO> listByCarts(DetailsCartRequest req) throws Exception {
-        //List<DetailsCart> lDetailsCarts = detailsCartR.findById(req.getCartId());
-        //return buildDetailsCartsDTO(lDetailsCarts);
-        return null;
+    public List<DetailsCartDTO> listByCarts(Integer id) throws Exception {
+        Optional<Carts> carts = cartR.findById(id);
+        if(carts.isEmpty()){
+            throw new Exception("cart not found");
+        }
+
+        List<DetailsCart> lDetailsCarts = detailsCartR.findByCart(carts.get());
+
+        return buildDetailsCartsDTO(lDetailsCarts);
     }
 
 

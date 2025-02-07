@@ -41,6 +41,12 @@ public class GamesImplementation implements IGamesService {
     // return null;
     // }
 
+    /*
+     *  Per il create di tutte i collegamenti molti a molti?
+     *          es. Category / Authors 
+     *  Collegamenti con Review? DetailsCart e DetailsOrder?
+     */
+
     @Override
     public List<GamesDTO> list() throws Exception {
         List<Games> listGames = gamesR.findAll();

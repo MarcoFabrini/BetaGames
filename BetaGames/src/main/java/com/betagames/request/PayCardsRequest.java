@@ -1,7 +1,5 @@
 package com.betagames.request;
 
-import java.util.Date;
-
 /**
  * @author DorigoLorenzo
  **/
@@ -72,6 +70,7 @@ public class PayCardsRequest {
     }
 
     public void setUpdatedAt(Date updatedAt) {
+
         this.updatedAt = updatedAt;
     }
 

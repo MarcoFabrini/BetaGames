@@ -1,7 +1,5 @@
 package com.betagames.request;
 
-import java.util.Date;
-
 /**
  * @author DorigoLorenzo
  **/

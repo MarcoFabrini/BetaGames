@@ -13,6 +13,8 @@ import com.betagames.service.interfaces.IPayCardsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 /**
@@ -31,7 +33,7 @@ public class PayCardsController {
 
     @GetMapping("/list")
     public ResponseList<PayCardsDTO> list() {
-        ResponseList<PayCardsDTO> list = new ResponseList<>();
+        ResponseList<PayCardsDTO> list = new ResponseList<PayCardsDTO>();
         list.setRc(true);
         try {
             list.setData(payCardsService.list());
@@ -42,6 +44,21 @@ public class PayCardsController {
         }
         return list;
     }//list
+
+    @GetMapping("/listByUser")
+    public ResponseList<PayCardsDTO> listByUser(@RequestParam Integer id) {
+        ResponseList<PayCardsDTO> list = new ResponseList<PayCardsDTO>();
+        list.setRc(true);
+        try {
+            list.setData(payCardsService.listByUser(id));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            list.setMsg(e.getMessage());
+            list.setRc(false);
+        }
+        return list;
+    }
+    
     
     @PostMapping("/create")
     public ResponseBase create(@RequestBody(required = true) PayCardsRequest req){
@@ -83,7 +100,7 @@ public class PayCardsController {
             payCardsService.delete(req);
             r.setMsg("Card successfully DELETED");
         } catch (Exception e) {
-            log.error("Error during the update of the Card: "+e.getMessage());
+            log.error("Error during the delete of the Card: "+e.getMessage());
             r.setMsg(e.getMessage());
             r.setRc(false);
         }

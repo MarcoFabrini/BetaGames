@@ -1,7 +1,5 @@
 package com.betagames.request;
 
-import java.util.Date;
-
 /**
  * @author DorigoLorenzo
  **/
@@ -10,7 +8,7 @@ public class GamesRequest {
 
     private Integer id;
     private String name;
-    private Date date;
+    private String date;   //in stringa
     private Integer minGameTime;
     private Integer maxGameTime;
     private Integer minPlayerNumber;
@@ -34,10 +32,10 @@ public class GamesRequest {
     public void setName(String name) {
         this.name = name;
     }
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
     public Integer getMinGameTime() {

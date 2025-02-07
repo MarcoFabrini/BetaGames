@@ -19,6 +19,8 @@ import com.betagames.repository.IUsersRepository;
 import com.betagames.request.CartsRequest;
 import com.betagames.service.interfaces.ICartsService;
 
+import static com.betagames.utility.Utilities.buildCartsDTO;
+
 @Service
 public class CartsImplementation implements ICartsService{
 
@@ -76,7 +78,7 @@ public class CartsImplementation implements ICartsService{
     }
 
     @Override
-    public void remove(CartsRequest req) throws Exception {
+    public void delete(CartsRequest req) throws Exception {
 
         Optional<Carts> carts = cartR.findById(req.getId());
         if (carts.isEmpty())
@@ -96,5 +98,13 @@ public class CartsImplementation implements ICartsService{
         //return buildCartsDTO(c);
         return null;
     }
+
+    @Override
+	public List<CartsDTO> list() throws Exception {
+		List<Carts> lC = cartR.findAll();
+        lC.forEach(x->System.out.println("---------------"+  x.getUser().getUsername() ));
+        //return null;
+		return buildCartsDTO(lC);
+	}
     
 }

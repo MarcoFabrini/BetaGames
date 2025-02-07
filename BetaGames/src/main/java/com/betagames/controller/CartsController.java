@@ -37,12 +37,12 @@ public class CartsController {
         return response;
     }
 
-    @DeleteMapping("/remove")
-    public ResponseBase remove(@RequestBody(required = true) CartsRequest req) {
+    @DeleteMapping("/delete")
+    public ResponseBase delete(@RequestBody(required = true) CartsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            cartsService.remove(req);
+            cartsService.delete(req);
             response.setMsg("Successfully deleted Cart");
         } catch (Exception e) {
             log.error("Failed to delete Cart: " + e.getMessage());

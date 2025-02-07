@@ -36,7 +36,7 @@ public class RolesImplementation implements IRolesService{
     @Override
     public void create(RolesRequest req) throws Exception {
         Optional<Roles> role = rolesRep.findByName(req.getName());
-        if(req.getName() == null || role.isPresent()){
+        if(req.getName() == "" || role.isPresent()){
             throw new Exception("dare un nome al nuovo ruolo o nome già presente");
         }
         Roles r = new Roles();
@@ -48,7 +48,7 @@ public class RolesImplementation implements IRolesService{
     public void update(RolesRequest req) throws Exception {
         Optional<Roles> roles = rolesRep.findById(req.getId());
         if(roles.isEmpty()){
-            throw new Exception("l'ID non deve essere null");
+            throw new Exception("l'ID non assegnato a nessun ruolo");
         }
         Roles r = roles.get();
         r.setName(req.getName());

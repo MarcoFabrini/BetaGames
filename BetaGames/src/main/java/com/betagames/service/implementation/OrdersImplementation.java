@@ -77,7 +77,6 @@ public class OrdersImplementation implements IOrdersService {
     @Override
     public void create(OrdersRequest req) throws Exception {
         Optional<Users> user = userRep.findById(req.getUserId());
-        Optional<Orders> order = orderRep.findById(req.getId());
         Optional<PayCards> card = cardRep.findById(req.getPayCardId());
         /*
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
@@ -85,10 +84,6 @@ public class OrdersImplementation implements IOrdersService {
          */
         if (user.isEmpty()) {
             throw new Exception("User non trovato");
-        }
-
-        if (order.isPresent()) {
-            throw new Exception("Ordine già esistente");
         }
 
         if (card.isEmpty()) {
@@ -110,7 +105,7 @@ public class OrdersImplementation implements IOrdersService {
         Optional<Orders> order = orderRep.findById(req.getId());
 
         if (order.isEmpty()) {
-            throw new Exception("Ordine");
+            throw new Exception("Ordine non esistente");
         }
 
         Orders ord = order.get();

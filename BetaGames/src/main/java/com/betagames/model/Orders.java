@@ -37,7 +37,7 @@ public class Orders {
     private Date updatedAt;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_users")
+    @JoinColumn(name = "id_users", nullable = true)
     private Users user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

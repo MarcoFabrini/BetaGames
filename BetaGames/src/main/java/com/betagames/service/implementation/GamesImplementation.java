@@ -1,6 +1,7 @@
 package com.betagames.service.implementation;
 
 import static com.betagames.utility.Utilities.buildGamesDTO;
+import static com.betagames.utility.Utilities.convertStringToDate;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,12 @@ public class GamesImplementation implements IGamesService{
     //     return null;
     // }
 
+    /*
+     *  Per il create di tutte i collegamenti molti a molti?
+     *          es. Category / Authors 
+     *  Collegamenti con Review? DetailsCart e DetailsOrder?
+     */
+
     @Override
     public List<GamesDTO> list() throws Exception {
         List<Games> listGames = gamesR.findAll();
@@ -60,7 +67,7 @@ public class GamesImplementation implements IGamesService{
         g.setName(req.getName());
         g.setDescription(req.getDescription());
         g.setPrice(req.getPrice());
-        g.setDate(req.getDate());
+        g.setDate(convertStringToDate(req.getDate()));
         g.setMinGameTime(req.getMinGameTime());
         g.setMaxGameTime(req.getMaxGameTime());
         g.setMinPlayerNumber(req.getMinPlayerNumber());
@@ -86,7 +93,7 @@ public class GamesImplementation implements IGamesService{
         g.setName(req.getName());
         g.setDescription(req.getDescription());
         g.setPrice(req.getPrice());
-        g.setDate(req.getDate());
+        g.setDate(convertStringToDate(req.getDate()));
         g.setMinGameTime(req.getMinGameTime());
         g.setMaxGameTime(req.getMaxGameTime());
         g.setMinPlayerNumber(req.getMinPlayerNumber());

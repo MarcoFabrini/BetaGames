@@ -15,6 +15,8 @@ public interface IPayCardsService {
 
     List<PayCardsDTO> list() throws Exception;
 
+    List<PayCardsDTO> listByUser(Integer id) throws Exception;
+
     void create(PayCardsRequest req) throws Exception;
 
     void update(PayCardsRequest req) throws Exception;

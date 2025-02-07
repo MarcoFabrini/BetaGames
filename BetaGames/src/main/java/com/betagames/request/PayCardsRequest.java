@@ -1,7 +1,5 @@
 package com.betagames.request;
 
-import java.util.Date;
-
 /**
  * @author DorigoLorenzo
  **/
@@ -12,9 +10,9 @@ public class PayCardsRequest {
     private Integer cardNumber;
     private Integer cvv;
     private Integer userId;
-    private Date createdAt;
-    private Date expirationDate;
-    private Date updatedAt;
+    private String createdAt;
+    private String expirationDate;
+    private String updatedAt;
     private String billingAddress;
     private String cardHolderName;
 
@@ -43,22 +41,22 @@ public class PayCardsRequest {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
     public String getBillingAddress() {

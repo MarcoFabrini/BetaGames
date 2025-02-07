@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SelectClasses({
 	EditorsServiceTest.class,
 
-	RolesServiceTest.class
+	RolesServiceTest.class,
 
 	ICategoriesServiceTest.class
 

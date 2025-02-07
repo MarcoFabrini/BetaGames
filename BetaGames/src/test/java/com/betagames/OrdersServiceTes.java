@@ -102,7 +102,7 @@ public class OrdersServiceTes {
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
         usersRequest.setRoleId(1);
-        usersService.create(usersRequest);
+        usersService.createUser(usersRequest);
 
         List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com");
 

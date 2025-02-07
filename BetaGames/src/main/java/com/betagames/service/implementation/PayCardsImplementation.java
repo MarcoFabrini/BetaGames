@@ -101,8 +101,8 @@ public class PayCardsImplementation implements IPayCardsService {
         updtPayCard.setCvv(req.getCvv());
         updtPayCard.setCardHolderName(req.getCardHolderName());
         updtPayCard.setUser(user.get());              //CAPIRE SE SERVE ANDARE A MODIFICARE L'USER... HA SENSO?
-        updtPayCard.setCreatedAt(convertStringToDate(req.getCreatedAt()) );     //mettere che non possa essere cambiato(?) 
-        updtPayCard.setUpdatedAt(convertStringToDate(req.getUpdatedAt()));      //impostarlo in automatico all'update
+        updtPayCard.setCreatedAt((req.getCreatedAt()) );     //mettere che non possa essere cambiato(?) 
+        updtPayCard.setUpdatedAt((req.getUpdatedAt()));      //impostarlo in automatico all'update
 
         updtPayCard.setExpirationDate(convertStringToDate(req.getExpirationDate()));
         updtPayCard.setBillingAddress(req.getBillingAddress());

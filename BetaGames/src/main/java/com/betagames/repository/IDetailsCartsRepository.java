@@ -17,4 +17,6 @@ public interface IDetailsCartsRepository extends JpaRepository<DetailsCart, Inte
     // se il gioco è già stato scelto
     List<DetailsCart> findByGame(Games game);
 
+    boolean existsByCartAndGame(Carts cart, Games game);
+
 }

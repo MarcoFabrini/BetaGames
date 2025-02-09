@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.betagames.model.Orders;
+import com.betagames.model.Users;
 
 /*
  * 
@@ -14,4 +15,6 @@ import com.betagames.model.Orders;
 @Repository
 public interface IOrdersRepository extends JpaRepository<Orders,Integer>{
     List<Orders> findByUserId(Integer userId);
+
+    List<Orders> findByUser(Users user);
 }

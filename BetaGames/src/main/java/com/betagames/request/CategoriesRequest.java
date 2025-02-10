@@ -27,6 +27,11 @@ public class CategoriesRequest {
     public void setGamesId(Integer gamesId) {
         this.gamesId = gamesId;
     }
+    
+    @Override
+    public String toString() {
+        return "CategoriesRequest [id=" + id + ", name=" + name + ", gamesId=" + gamesId + "]";
+    }
 
     
 }

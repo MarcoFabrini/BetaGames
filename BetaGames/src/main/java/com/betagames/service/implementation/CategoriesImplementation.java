@@ -34,6 +34,7 @@ public class CategoriesImplementation implements ICategoriesService {
             IGamesRepository gamesRepository) {
         this.categoriesRepository = categoriesRepository;
         this.log = log;
+        this.gamesRepository = gamesRepository;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class CategoriesImplementation implements ICategoriesService {
 
         Categories c = new Categories();
         c.setName(req.getName());
+        log.debug("Id Games......." + req.getGamesId());
         if (req.getGamesId() != null) {
             Optional<Games> g = gamesRepository.findById(req.getGamesId());
             if (g.isPresent()) {
@@ -87,21 +89,27 @@ public class CategoriesImplementation implements ICategoriesService {
         }
 
         Categories c = categoria.get();
-        if (req.getName() != null) {
-            c.setName(req.getName());
+
+        if (req.getName() == null || req.getName().trim().isEmpty()) {
+            throw new Exception("The category name cannot be empty.");
         }
-        //Qua gestisco anche la modifica di i giocchi del db, ma non so si deviamo farlo direttamente nella entita Games
-/*         if (req.getGamesId() != null) {
-            Optional<Games> g = gamesRepository.findById(req.getGamesId());
-            if (g.isPresent()) {
-                Games game = g.get();
-                c.getListGames().clear();
-                if (c.getListGames() == null) {
-                    c.setListGames(new ArrayList<>());
-                }
-                c.getListGames().add(game);
-            }
-        } */
+
+        c.setName(req.getName());
+        // Qua gestisco anche la modifica di i giocchi del db, ma non so si deviamo
+        // farlo direttamente nella entita Games
+        /*
+         * if (req.getGamesId() != null) {
+         * Optional<Games> g = gamesRepository.findById(req.getGamesId());
+         * if (g.isPresent()) {
+         * Games game = g.get();
+         * c.getListGames().clear();
+         * if (c.getListGames() == null) {
+         * c.setListGames(new ArrayList<>());
+         * }
+         * c.getListGames().add(game);
+         * }
+         * }
+         */
         try {
             categoriesRepository.save(c);
             log.debug("The category has been successfully updated.");
@@ -121,8 +129,8 @@ public class CategoriesImplementation implements ICategoriesService {
         }
 
         Categories c = categoria.get();
-        if(c.getListGames() != null){
-            c.getListGames().forEach(game->game.getListCategory().remove(c));
+        if (c.getListGames() != null) {
+            c.getListGames().forEach(game -> game.getListCategory().remove(c));
             c.getListGames().clear();
         }
 
@@ -136,4 +144,4 @@ public class CategoriesImplementation implements ICategoriesService {
 
     }// Delete
 
-}//class
+}// class

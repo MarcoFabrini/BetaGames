@@ -225,7 +225,8 @@ public class Utilities {
         p.getCvv(),
         p.getBillingAddress(),
         p.getCreatedAt(),
-        p.getUpdatedAt());
+        p.getUpdatedAt(),
+        p.getActive());
   }// PayCardsDTO
 
   public static List<PayCardsDTO> buildPayCardsDTO(List<PayCards> p) {
@@ -238,7 +239,8 @@ public class Utilities {
             ps.getCvv(),
             ps.getBillingAddress(),
             ps.getCreatedAt(),
-            ps.getUpdatedAt()
+            ps.getUpdatedAt(),
+            ps.getActive()
           ))
         .collect(Collectors.toList());
   }// List buildPayCardsDTO
@@ -289,7 +291,8 @@ public class Utilities {
         buildOrdersDTO(u.getListOrders()),
         buildCartsDTO(u.getCart()),
         buildPayCardsDTO(u.getListPayCards()),
-        buildRolesDTO(u.getRole())
+        buildRolesDTO(u.getRole()),
+        u.getActive()
         );
   }// buildUsersDTO
 
@@ -302,7 +305,9 @@ public class Utilities {
             buildOrdersDTO(us.getListOrders()),
             buildCartsDTO(us.getCart()),
             buildPayCardsDTO(us.getListPayCards()),
-            buildRolesDTO(us.getRole())))
+            buildRolesDTO(us.getRole()),
+            us.getActive()
+            ))
         .collect(Collectors.toList());
   }// buildUsersDTO
 

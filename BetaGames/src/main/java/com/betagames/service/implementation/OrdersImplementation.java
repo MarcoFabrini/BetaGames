@@ -1,16 +1,24 @@
 package com.betagames.service.implementation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.OrdersDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
+import com.betagames.model.DetailsOrder;
 import com.betagames.model.Orders;
 import com.betagames.model.PayCards;
 import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
+import com.betagames.repository.IDetailsCartsRepository;
+import com.betagames.repository.IDetailsOrderRepository;
 import com.betagames.repository.IOrdersRepository;
 import com.betagames.repository.IPayCardsRepository;
 import com.betagames.repository.IUsersRepository;
@@ -34,6 +42,16 @@ public class OrdersImplementation implements IOrdersService {
 
     @Autowired
     IPayCardsRepository cardRep;
+
+    @Autowired
+    IDetailsOrderRepository detailsOrdersRep;
+
+    //====CART===
+    @Autowired
+    ICartsRepository cartRep;
+
+    @Autowired
+    IDetailsCartsRepository detailsCartRep;
 
     // metodo che restituisce tutti gli ordini -> testato su postman
     @Override
@@ -74,10 +92,24 @@ public class OrdersImplementation implements IOrdersService {
     }
 
     // metodo per creare un ordine
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public void create(OrdersRequest req) throws Exception {
+        Date now = new Date();
         Optional<Users> user = userRep.findById(req.getUserId());
         Optional<PayCards> card = cardRep.findById(req.getPayCardId());
+
+        Optional<Carts> carts = cartRep.findByUser(user.get());
+        if (carts.isEmpty()) {
+            throw new Exception("cart not found");
+        }
+        List<DetailsCart> lDetailsCart = detailsCartRep.findByCart(carts.get());
+        if (lDetailsCart.isEmpty()) {
+            throw new Exception("cart has no items");
+        }
+        Double totalAmount = lDetailsCart.stream()
+                          .map(DetailsCart::getPriceAtTime)
+                          .reduce(0.0, (a, b) -> a + b);
         /*
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
          * accettiamo pagamenti da carte già registrate
@@ -90,14 +122,26 @@ public class OrdersImplementation implements IOrdersService {
             throw new Exception("Carta di Pagamento non esistente");
         }
         Orders ord = new Orders();
-        ord.setTotalAmmount(req.getTotalAmount());
-        ord.setOrderStatus(req.getOrderStatus());
-        ord.setCreatedAt(convertStringToDate(req.getCreatedAt()));
-        ord.setUpdatedAt(convertStringToDate(req.getUpdatedAt()));
+        ord.setTotalAmmount(totalAmount);
+        ord.setOrderStatus("pending");
+        ord.setCreatedAt(now);
+        ord.setUpdatedAt(now);
         ord.setUser(user.get());
         ord.setPayCard(card.get());
 
-        orderRep.save(ord);
+        Orders newOrd = orderRep.save(ord);
+    
+        lDetailsCart.forEach(x ->{
+            DetailsOrder detailOrder = new DetailsOrder();
+            detailOrder.setPriceAtTime(x.getPriceAtTime());
+            detailOrder.setQuantity(x.getQuantity());
+            detailOrder.setOrder(newOrd);
+            detailOrder.setGame(x.getGame());
+
+            detailsOrdersRep.save(detailOrder);
+        });
+        
+        detailsCartRep.deleteAll(lDetailsCart);
     }
 
     @Override

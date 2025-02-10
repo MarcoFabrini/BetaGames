@@ -24,7 +24,7 @@ public class DetailsOrder {
     @Column(name = "price_at_time")
     private Double priceAtTime;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "id_orders")
     private Orders order;
 

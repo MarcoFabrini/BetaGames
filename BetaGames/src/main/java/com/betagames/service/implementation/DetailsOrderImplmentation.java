@@ -9,12 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.DetailsOrderDTO;
+import com.betagames.model.Carts;
+import com.betagames.model.DetailsCart;
 import com.betagames.model.DetailsOrder;
 import com.betagames.model.Games;
 import com.betagames.model.Orders;
+import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
+import com.betagames.repository.IDetailsCartsRepository;
 import com.betagames.repository.IDetailsOrderRepository;
 import com.betagames.repository.IGamesRepository;
 import com.betagames.repository.IOrdersRepository;
+import com.betagames.repository.IUsersRepository;
 import com.betagames.request.DetailsOrderRequest;
 import com.betagames.service.interfaces.IDetailsOrderService;
 
@@ -34,6 +40,15 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
     @Autowired
     IGamesRepository gamesRep;
 
+    @Autowired
+    IDetailsCartsRepository detailsCartRep;
+
+    @Autowired
+    ICartsRepository cartRep;
+
+    @Autowired
+    IUsersRepository userRep;
+
     @Override
     public List<DetailsOrderDTO> searchByOrder(Integer id) throws Exception {
         Optional<Orders> order = orderRep.findById(id);
@@ -46,22 +61,29 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
         return buildDetailsOrderDTO(listaDettagli);
     }
 
+    
     @Override
     public void create(DetailsOrderRequest req) throws Exception {
         Optional<Orders> order = orderRep.findById(req.getOrdersId());
         Optional<Games> game = gamesRep.findById(req.getGameId());
 
+        Optional<Users> user = userRep.findById(order.get().getId());
+        Optional<Carts> carts = cartRep.findByUser(user.get());
+        List<DetailsCart> lDetailsCarts = detailsCartRep.findByCart(carts.get());
+
+        lDetailsCarts.forEach(x ->{
+            DetailsOrder detailOrder = new DetailsOrder();
+            detailOrder.setPriceAtTime(x.getPriceAtTime());
+            detailOrder.setQuantity(x.getQuantity());
+            detailOrder.setOrder(order.get());
+            detailOrder.setGame(x.getGame());
+
+            detOrderRep.save(detailOrder);
+        });
+
         if (game.get().getStockQuantity() < req.getQuantity()) {
             throw new Exception("quantità non disponibile");
         }
-
-        DetailsOrder detailOrder = new DetailsOrder();
-        detailOrder.setPriceAtTime(req.getPriceAtTime());
-        detailOrder.setQuantity(req.getQuantity());
-        detailOrder.setOrder(order.get());
-        detailOrder.setGame(game.get());
-
-        detOrderRep.save(detailOrder);
     }
 
     @Override

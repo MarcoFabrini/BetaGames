@@ -86,6 +86,8 @@ public class UsersImplementation implements IUsersService {
 		String hashedPassword = passwordEncoder.encode(req.getPwd());
 		u.setPwd(hashedPassword);
 
+		u.setActive(true);
+
 		Carts cart = new Carts();
 		cart.setUser(u);
 		cart.setCreatedAt(now);
@@ -179,23 +181,9 @@ public class UsersImplementation implements IUsersService {
 		if (!users.isPresent())
 			throw new Exception("This user is not present");
 
-		List<Reviews> lr = reviewsRepository.findByUserId(req.getId());
-		if (lr != null) {
-			for (Reviews review : lr) {
-				review.setUser(null); 
-				reviewsRepository.save(review);
-			}
-		}
+		users.get().setActive(false);
 
-		List<Orders> lo = ordersRepository.findByUserId(req.getId());
-		if(lo != null){
-			for(Orders order : lo){
-				order.setUser(null);
-				ordersRepository.save(order);
-			}
-		}
-
-		usersRepository.delete(users.get());
+		usersRepository.save(users.get());
 	}// delete
 
 }// class

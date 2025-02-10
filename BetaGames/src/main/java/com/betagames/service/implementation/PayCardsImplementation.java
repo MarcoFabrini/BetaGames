@@ -76,6 +76,7 @@ public class PayCardsImplementation implements IPayCardsService {
         p.setUpdatedAt(req.getUpdatedAt());
         p.setExpirationDate(convertStringToDate(req.getExpirationDate()));
         p.setBillingAddress(req.getBillingAddress());
+        p.setActive(true);
         // save
         paycardsR.save(p);
     }// create
@@ -116,7 +117,9 @@ public class PayCardsImplementation implements IPayCardsService {
         if (!paycard.isPresent())
             throw new Exception("Pay Card not found!");
 
-        paycardsR.delete(paycard.get());
+        paycard.get().setActive(false);
+
+        paycardsR.save(paycard.get());
     }// delete
 
 }// class

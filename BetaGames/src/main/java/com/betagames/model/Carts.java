@@ -29,10 +29,10 @@ public class Carts {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
     private List<DetailsCart> listDetailsCart;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     @JoinColumn(name = "id_users", referencedColumnName = "id")
     private Users user;
 

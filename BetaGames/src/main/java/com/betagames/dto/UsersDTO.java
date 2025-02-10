@@ -14,9 +14,10 @@ public class UsersDTO {
     private CartsDTO carts;
     private List<PayCardsDTO> listPayCardsDTO;
     private RolesDTO role;
+    private Boolean active;
 
     public UsersDTO(Integer id, String username, String email, List<OrdersDTO> listOrdersDTO, CartsDTO carts,
-            List<PayCardsDTO> listPayCardsDTO, RolesDTO role) {
+            List<PayCardsDTO> listPayCardsDTO, RolesDTO role, Boolean active) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -24,69 +25,61 @@ public class UsersDTO {
         this.carts = carts;
         this.listPayCardsDTO = listPayCardsDTO;
         this.role = role;
+        this.active = active;
     }
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public List<OrdersDTO> getListOrdersDTO() {
         return listOrdersDTO;
     }
-
     public void setListOrdersDTO(List<OrdersDTO> listOrdersDTO) {
         this.listOrdersDTO = listOrdersDTO;
     }
-
     public CartsDTO getCarts() {
         return carts;
     }
-
     public void setCarts(CartsDTO carts) {
         this.carts = carts;
     }
-
     public List<PayCardsDTO> getListPayCardsDTO() {
         return listPayCardsDTO;
     }
-
     public void setListPayCardsDTO(List<PayCardsDTO> listPayCardsDTO) {
         this.listPayCardsDTO = listPayCardsDTO;
     }
-
     public RolesDTO getRole() {
         return role;
     }
-
     public void setRole(RolesDTO role) {
         this.role = role;
     }
-
+    public Boolean getActive() {
+        return active;
+    }
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
     @Override
     public String toString() {
-        return "UsersDTO [id=" + id + ", username=" + username + ", email=" + email
-                + ", listOrdersDTO=" + listOrdersDTO + ", carts=" + carts + ", listPayCardsDTO=" + listPayCardsDTO
-                + ", role=" + role + "]";
+        return "UsersDTO [id=" + id + ", username=" + username + ", email=" + email + ", listOrdersDTO=" + listOrdersDTO
+                + ", carts=" + carts + ", listPayCardsDTO=" + listPayCardsDTO + ", role=" + role + ", active=" + active
+                + "]";
     }
-
 }// class

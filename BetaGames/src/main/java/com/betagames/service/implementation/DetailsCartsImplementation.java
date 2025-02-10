@@ -50,10 +50,10 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         if (games.isEmpty())
 			throw new Exception("item not found");
         //cerco nella details_cart se esiste già un record con lo stesso gioco e lo stesso carrello
-        // if(detailsCartR.existsCart(carts.get()) && detailsCartR.existsGames(games.get()))
-        //     throw new Exception("item already in the cart");
+        if(detailsCartR.existsByCartAndGame(carts.get(),games.get())){
+            throw new Exception("item already in cart, update or delete instead");
+        }
 
-    
         DetailsCart detailsCart = new DetailsCart();
 
         detailsCart.setCart(carts.get());
@@ -70,7 +70,6 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         cartR.save(carts.get()); 
     }
 
-    //non capisco se serve
     @Transactional(rollbackFor=Exception.class)
     @Override
     public void update(DetailsCartRequest req) throws Exception {
@@ -89,8 +88,6 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
 
         DetailsCart dC = detailsCarts.get();
 
-        //dC.setCart(carts.get());
-        //admin può fare update del id_carrello...???
         dC.setQuantity(req.getQuantity());
         dC.setPriceAtTime(games.get().getPrice()*req.getQuantity());
         //update del carrello
@@ -115,15 +112,13 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
 
         detailsCartR.delete(detailsCarts.get());
 
-        //update del carrello
+        //update orario del carrello del carrello
         Date now = new Date();
         carts.get().setUpdatedAt(now);
 
         cartR.save(carts.get()); 
     }
 
-    //per il checkout
-    //@Transactional(rollbackFor=Exception.class)
     @Override
     public void deleteAllByCart(Integer id) throws Exception {
 
@@ -135,19 +130,6 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
         List<DetailsCart> dCl = detailsCartR.findByCart(carts.get());
         
         detailsCartR.deleteAll(dCl);
-        
-        //trucco
-        //carts.get().setListDetailsCart(null);
-
-        // dCl.forEach(dC ->{
-        //     detailsCartR.delete(dC);
-        // });
-
-        //====NON RIESCO A CANCELLARE IL CART====
-
-        //carts.get().getListDetailsCart().removeAll(dCl);
-        //cartR.save(carts.get());
-        //cartR.delete(carts.get());
     }
 
     @Override
@@ -167,11 +149,4 @@ public class DetailsCartsImplementation implements IDetailsCartsService{
 
         return buildDetailsCartsDTO(lDetailsCarts);
     }
-
-
-    // private boolean existGame (List<DetailsCart> detailsCart, String search) {
-	// 	return detailsCart.stream()
-	// 			.map(DetailsCart :: getCart)
-	// 			.equals(descrizione -> descrizione.equalsIgnoreCase(search) );
-	// }
 }

@@ -32,21 +32,24 @@ public class Users {
     @Column(name = "pwd", nullable = false)
     private String pwd;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user")
     private Carts cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Reviews> listReviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Orders> listOrders;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<PayCards> listPayCards;
 
     @ManyToOne()
     @JoinColumn(name = "id_role")
     private Roles role;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     public Integer getId() {
         return id;
@@ -119,5 +122,15 @@ public class Users {
     public void setRole(Roles role) {
         this.role = role;
     }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    
 
 }// class 

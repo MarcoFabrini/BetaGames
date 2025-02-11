@@ -93,8 +93,9 @@ public class UsersImplementation implements IUsersService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void createAdmin(UsersRequest req) throws Exception {
-		Date now = new Date();
 
+		Date now = new Date();
+    
 		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
 		if (!role.isPresent())
 			throw new Exception("This role is not present");

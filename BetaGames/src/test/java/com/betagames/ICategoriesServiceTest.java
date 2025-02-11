@@ -124,26 +124,26 @@ public class ICategoriesServiceTest {
     void testUpdate() throws Exception {
         CategoriesRequest req = new CategoriesRequest();
         req.setName("Prova");
-    
+
         categoriesService.create(req);
-    
+
         List<CategoriesDTO> lC = categoriesService.searchByTyping(null, null);
         CategoriesDTO createdCategory = lC.stream()
                 .filter(elemento -> "Prova".equals(elemento.getName()))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Created category not found"));
-    
+
         req.setId(createdCategory.getId());
         req.setName("PokUpdate");
-    
+
         categoriesService.update(req);
-    
+
         List<CategoriesDTO> updatedList = categoriesService.searchByTyping(null, null);
         CategoriesDTO updatedCategory = updatedList.stream()
                 .filter(elemento -> "PokUpdate".equals(elemento.getName()))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Updated category not found"));
-    
+
         Assertions.assertThat(updatedCategory.getName()).isEqualTo("PokUpdate");
     }
 
@@ -191,20 +191,52 @@ public class ICategoriesServiceTest {
     @Order(8)
     void testDelete() throws Exception {
         CategoriesRequest req = new CategoriesRequest();
-        CategoriesRequest req2 = new CategoriesRequest();
-
         req.setName("Terror");
         req.setGamesId(1);
+
+        CategoriesRequest req2 = new CategoriesRequest();
         req2.setName("Pokemon");
 
         categoriesService.create(req);
         categoriesService.create(req2);
 
-        List<CategoriesDTO> lC = categoriesService.list();
+        List<CategoriesDTO> categoriesList = categoriesService.list();
+        CategoriesDTO categoryToDelete = categoriesList.stream()
+                .filter(c -> "Terror".equals(c.getName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Category not found"));
 
-        CategoriesDTO c1 = lC.stream().filter(c -> "Terror".equals(c.getName()))
-                .findFirst().orElseThrow(() -> new AssertionError("Category don't find"));
+        CategoriesRequest deleteRequest = new CategoriesRequest();
+        deleteRequest.setId(categoryToDelete.getId());
 
+        categoriesService.delete(deleteRequest);
+
+        List<CategoriesDTO> updatedList = categoriesService.list();
+        Assertions.assertThat(updatedList.stream()
+                .noneMatch(c -> "Terror".equals(c.getName())))
+                .isTrue();
+    }
+
+    @Test
+    @Order(9)
+    void testDeleteWithNull() throws Exception {
+        CategoriesRequest req = new CategoriesRequest();
+        req.setName("Terror");
+        req.setGamesId(1);
+
+        CategoriesRequest req2 = new CategoriesRequest();
+        req2.setName("Pokemon");
+
+        categoriesService.create(req);
+        categoriesService.create(req2);
+
+        List<CategoriesDTO> categoriesList = categoriesService.list();
+
+        CategoriesRequest deleteRequest = new CategoriesRequest();
+        deleteRequest.setId(null);
+        assertThrows(Exception.class, () -> {
+            categoriesService.delete(deleteRequest);
+        });
     }
 
 }

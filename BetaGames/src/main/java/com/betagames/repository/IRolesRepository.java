@@ -17,5 +17,5 @@ public interface IRolesRepository extends JpaRepository<Roles,Integer>{
     Optional<Roles> findByName(String name);
 
     Optional<Roles> findByNameIgnoreCase(String name);
-    
+
 }

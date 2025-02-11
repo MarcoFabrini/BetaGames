@@ -12,7 +12,7 @@ import com.betagames.model.Reviews;
  * @author FabriniMarco
  */
 @Repository
-public interface IReviewsRepository extends JpaRepository<Reviews, Integer>{
+public interface IReviewsRepository extends JpaRepository<Reviews, Integer> {
     List<Reviews> findByUserId(Integer userId);
 
 }// interface

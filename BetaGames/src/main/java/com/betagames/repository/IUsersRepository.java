@@ -20,7 +20,8 @@ public interface IUsersRepository extends JpaRepository<Users, Integer> {
     @Query(name = "users.searchByTyping")
     List<Users> searchByTyping(@Param("id") Integer id,
             @Param("username") String username,
-            @Param("email") String email);
+            @Param("email") String email,
+            @Param("active") Boolean active);
 
     Optional<Users> findByUsername(String username);
 

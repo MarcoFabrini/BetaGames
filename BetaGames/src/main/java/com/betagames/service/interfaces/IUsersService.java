@@ -15,7 +15,7 @@ public interface IUsersService {
     /*
     * da completare per ricercare tramite ordine
     */
-    List<UsersDTO> searchByTyping(Integer id, String username, String email) throws Exception;
+    List<UsersDTO> searchByTyping(Integer id, String username, String email, Boolean active) throws Exception;
 
     void createUser(UsersRequest req) throws Exception;
 

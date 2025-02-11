@@ -127,6 +127,7 @@ public class UsersImplementation implements IUsersService {
 		u.setRole(role.get());
 
 		usersRepository.save(u);
+
 	}// createAdmin
 
 	/**

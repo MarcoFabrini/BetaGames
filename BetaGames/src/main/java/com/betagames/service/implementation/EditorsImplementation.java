@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,6 @@ import static com.betagames.utility.Utilities.buildEditorsDTO;
 @Service
 public class EditorsImplementation implements IEditorsService {
 
-    @Autowired
-    Logger log;
     @Autowired
     IEditorsRepository editorsRepository;
 
@@ -64,13 +61,11 @@ public class EditorsImplementation implements IEditorsService {
         Optional<Editors> editors = editorsRepository.findById(req.getId());
         if (!editors.isPresent())
             throw new Exception("Editor not found");
-
-        Optional<Editors> ed = editorsRepository.findByName(req.getName());
-        if (ed.isPresent())
+        
+        if (editorsRepository.findByNameAndIdNot(req.getName(), req.getId()).isPresent())
             throw new Exception("This editor is already present");
 
-        ed = editorsRepository.findByWebsite(req.getWebsite());
-        if (ed.isPresent())
+        if (editorsRepository.findByWebsiteAndIdNot(req.getWebsite(), req.getId()).isPresent())
             throw new Exception("This editor website is already present");
 
         editors.get().setName(req.getName());

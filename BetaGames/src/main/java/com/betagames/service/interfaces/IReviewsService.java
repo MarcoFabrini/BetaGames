@@ -15,12 +15,12 @@ import com.betagames.request.ReviewsRequest;
  * @author FabriniMarco
  */
 public interface IReviewsService {
-    List<ReviewsDTO> listByUserId(Integer idUser);
+    List<ReviewsDTO> listByUserId(Integer idUser); 
 
-    void create (ReviewsRequest req) throws Exception;
+    void create(ReviewsRequest req) throws Exception;
 
-    void update (ReviewsRequest req) throws Exception;
+    void update(ReviewsRequest req) throws Exception;
 
-    // solo per admin 
+    // solo per admin
     void delete(ReviewsRequest req) throws Exception;
-}
+}// interface

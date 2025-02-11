@@ -36,7 +36,6 @@ public class EditorsServiceTest {
 
         editorsR.setName("editorsName");
         editorsR.setWebsite("website");
-
         editorsS.create(editorsR);
 
         List<EditorsDTO> listEditors = editorsS.list();
@@ -44,12 +43,9 @@ public class EditorsServiceTest {
         EditorsDTO creaEditorsDTO = listEditors.stream()
                 .filter(e -> "editorsName".equals(e.getName()))
                 .findFirst()
-                // .filter(e -> "website".equals(e.getEmail()))
                 .orElseThrow(() -> new AssertionError("Editor not found"));
 
         Assertions.assertThat(creaEditorsDTO.getId()).isEqualTo(1);
-
-        listEditors.forEach(e -> log.debug("Test: " + e.toString()));
     }// createTest
 
 }// class

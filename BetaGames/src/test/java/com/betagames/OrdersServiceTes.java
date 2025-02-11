@@ -104,7 +104,7 @@ public class OrdersServiceTes {
         usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
 
-        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com");
+        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
 
         UsersDTO creaUsersDTO = listUsers.stream()
                 .filter(e -> "userTest".equals(e.getUsername()))

@@ -45,12 +45,13 @@ public class UsersController {
     @GetMapping("/searchByTyping")
     public ResponseList<UsersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
                                                  @RequestParam(value = "username", required = false) String username,
-                                                 @RequestParam(value = "email", required = false) String email) {
+                                                 @RequestParam(value = "email", required = false) String email,
+                                                 @RequestParam(value = "active", required = false) Boolean active) {
         ResponseList<UsersDTO> list = new ResponseList<>();
         list.setRc(true);
 
         try {
-            list.setData(usersService.searchByTyping(id, username, email));
+            list.setData(usersService.searchByTyping(id, username, email, active));
         } catch (Exception e) {
             log.error(e.getMessage());
             list.setMsg(e.getMessage());

@@ -72,8 +72,8 @@ public class DetailsCartsController {
         return response;
     }
 
-    @PostMapping("/checkout")
-    public ResponseBase checkout(@RequestBody(required = true) Integer id) {
+    @PostMapping("/deleteAllByCart")
+    public ResponseBase deleteAllByCart(@RequestBody(required = true) Integer id) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {

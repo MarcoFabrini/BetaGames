@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import com.betagames.dto.CartsDTO;
 import com.betagames.dto.DetailsCartDTO;
@@ -50,69 +51,11 @@ import com.betagames.service.interfaces.IPayCardsService;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class DetailsCartsServiceTest {
-
-    // @Autowired
-    // protected TestDataUtils testDataUtil;
-
-    // @Autowired
-    // ICartsRepository cartR;
-
-    // @Autowired
-    // ICartsService cartS;
-
-    // @Autowired
-    // IDetailsCartsService detailsCartS;
-
-    // @Autowired
-    // IGamesService gamesService;
-
-    // @Autowired
-    // IEditorsService editorsService;
-
-    // @Autowired
-    // IUsersService usersS;
-
-    // @Autowired
-    // IRolesService rolesS;
-
-    // @BeforeEach
-    // public void init() {
-    //     testDataUtil.createRoleTest("user");
-    //     testDataUtil.createUserTest("ciccio", "ciccio@gmail.com", "1234");
-    // }
-
-    // @Test
-	// @Order(1)
-    // public void createDetailsCartsTest() throws Exception{
-
-    //     // UsersRequest usersRequest = new UsersRequest();
-
-    //     // RolesRequest rolesRequest = new RolesRequest();
-
-    //     // EditorsRequest editorsRequest = new EditorsRequest();
-
-    //     // GamesRequest gamesRequest = new GamesRequest();
-
-    //     List<RolesDTO> listRole = rolesS.listRoles();
-
-
-    //     Assertions.assertThat(( listRole.get(0).getName() )).isEqualTo("user");
-    //     Assertions.assertThat(( listRole.size() )).isEqualTo(1);
-
-    //     List<CartsDTO> lCarts = cartS.list();
-    //     List<Carts> lC = cartR.findAll();
-
-    //     List<UsersDTO> lU = usersS.list();
-    //     lU.forEach(x->{
-    //         System.out.println(x);  
-    //     });
-        
-    //     Assertions.assertThat(( lC.get(0).getUser().getId() )).isEqualTo(0);
-    //     Assertions.assertThat(( lC.size() )).isEqualTo(1);
-    // }
 
     @Autowired
     private IOrdersService ordersService;
@@ -134,9 +77,8 @@ public class DetailsCartsServiceTest {
     @Autowired
     Logger log;
 
-   
-    @Test
     @Order(1)
+    @Test
     public void createTest() throws Exception {
 
         PayCardsRequest payCardsRequest = new PayCardsRequest();
@@ -227,9 +169,9 @@ public class DetailsCartsServiceTest {
         Assertions.assertThat((lstGames.size())).isEqualTo(1);
 
     }
-
-    @Test
+    //=========================CREATE==============================
     @Order(2)
+    @Test
     public void createDetailsCartsTest() throws Exception {
 
         DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
@@ -242,7 +184,10 @@ public class DetailsCartsServiceTest {
         List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
 
         Assertions.assertThat((listDetailsCart.size())).isEqualTo(1);
-
+    }
+    @Order(3)
+    @Test
+    public void createDetailsCartsExceptionGameIdnotPresentTest() throws Exception {
         //gestisco l'eccezione di un game id non presente
         DetailsCartRequest detailsCartRequest2 = new DetailsCartRequest();
         detailsCartRequest2.setCartId(1);
@@ -252,6 +197,11 @@ public class DetailsCartsServiceTest {
         assertThrows(Exception.class, ()->{
 			detailsCartsService.create(detailsCartRequest2);
 		});
+    }
+
+    @Order(4)
+    @Test
+    public void createDetailsCartsExceptioDuplicateGameIdTest() throws Exception {
 
         //gestisco l'eccezione di un game id duplicato
         DetailsCartRequest detailsCartRequest3 = new DetailsCartRequest();
@@ -263,11 +213,10 @@ public class DetailsCartsServiceTest {
 			detailsCartsService.create(detailsCartRequest3);
 		});
     }
-
+    //==================================UPDATE=======================================
+    @Order(5)
     @Test
-    @Order(3)
-    public void updateDetailsCartsTest() throws Exception {
-
+    public void updateDetailsCartsExceptionDetailsCartIdTest() throws Exception {
         //eccezione id detailsCart non presente
         DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
         detailsCartRequest.setId(2);
@@ -277,7 +226,7 @@ public class DetailsCartsServiceTest {
         assertThrows(Exception.class, ()->{
 			detailsCartsService.update(detailsCartRequest);
 		});
-
+    }
         //eccezione di un game id non presente
         // DetailsCartRequest detailsCartRequest3 = new DetailsCartRequest();
         // detailsCartRequest3.setId(1);
@@ -302,7 +251,10 @@ public class DetailsCartsServiceTest {
         // Assertions.assertThat((listDetailsCart.get(0).getQuantity())).isEqualTo(2);
 
 
-        //===============update corretto==========================
+    @Order(6)
+    @Test
+    public void updateDetailsCartsTest() throws Exception {
+        //update corretto
         DetailsCartRequest detailsCartRequest2 = new DetailsCartRequest();
         detailsCartRequest2.setId(1);
         detailsCartRequest2.setGameId(1);
@@ -315,11 +267,10 @@ public class DetailsCartsServiceTest {
         Assertions.assertThat((listDetailsCart.get(0).getPriceAtTime())).isEqualTo(149.97);
 
     }
-
+    //============================DELETE================================
+    @Order(7)
     @Test
-    @Order(4)
-    public void deleteDetailsCartsTest() throws Exception {
-
+    public void deleteDetailsCartsExceptionIdTest() throws Exception {
         //eccezione detailsCart id non presente
         DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
         detailsCartRequest.setId(2);
@@ -330,7 +281,10 @@ public class DetailsCartsServiceTest {
 
         List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
         Assertions.assertThat((listDetailsCart.size())).isEqualTo(1);
-
+    }
+    @Order(8)
+    @Test
+    public void deleteDetailsCartsTest() throws Exception {
         //delete corretto
         DetailsCartRequest detailsCartRequest2 = new DetailsCartRequest();
         detailsCartRequest2.setId(1);
@@ -340,29 +294,46 @@ public class DetailsCartsServiceTest {
         List<DetailsCartDTO> listDetailsCart2 = detailsCartsService.list();
         Assertions.assertThat((listDetailsCart2.size())).isEqualTo(0);
     }
+    //======================DELETE ALL=========================
+    @Order(9)
     @Test
-    @Order(5)
-    public void deleteAllByCartDetailsCartsTest() throws Exception {
-
+    public void deleteAllByCartDetailsExceptionIdCartsTest() throws Exception {
         //eccezione detailsCart id non presente
-        // DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
-        // detailsCartRequest.setId(2);
+        Integer id = 2;
 
-        // assertThrows(Exception.class, ()->{
-		// 	detailsCartsService.deleteAllByCart(detailsCartRequest);
-		// });
-
-        // List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
-        // Assertions.assertThat((listDetailsCart.size())).isEqualTo(1);
-
+        assertThrows(Exception.class, ()->{
+			detailsCartsService.deleteAllByCart(id);
+		});
+    }
+    @Order(10)
+    @Test
+    public void deleteAllByCartDetailsCartsTest() throws Exception {
         //delete all corretto
-        Integer detailsCartRequest2 = 1;
-        // assertThrows(Exception.class, ()->{
-		// 	detailsCartsService.deleteAllByCart(detailsCartRequest2);
-		// });
+        Integer id2 = 1;
 
-        // List<DetailsCart> dCl = detailsCartR.findByCart(carts.get()); 
-        // detailsCartsService.deleteAllByCart(detailsCartRequest2);
+        detailsCartsService.deleteAllByCart(id2);
+
+        List<DetailsCartDTO> listDetailsCart2 = detailsCartsService.list();
+        Assertions.assertThat((listDetailsCart2.size())).isEqualTo(0);
+    }
+    //======================LIST BY CART=========================
+    @Order(11)
+    @Test
+    public void listByCartsDetailsCartsExceptionIdTest() throws Exception {
+        //eccezione detailsCart id non presente
+        Integer id = 2;
+
+        assertThrows(Exception.class, ()->{
+			detailsCartsService.listByCarts(id);
+		});
+    }
+    @Order(12)
+    @Test
+    public void listByCartsDetailsCartsTest() throws Exception {
+        //delete all corretto
+        Integer id2 = 1;
+
+        detailsCartsService.listByCarts(id2);
 
         List<DetailsCartDTO> listDetailsCart2 = detailsCartsService.list();
         Assertions.assertThat((listDetailsCart2.size())).isEqualTo(0);

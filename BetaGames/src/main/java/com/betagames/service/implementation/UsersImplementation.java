@@ -69,8 +69,7 @@ public class UsersImplementation implements IUsersService {
 	public void createUser(UsersRequest req) throws Exception {
 		Date now = new Date();
 
-		Optional<Roles> role = rolesRepository.findByName("user");
-
+		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("user");
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 		if (users.isPresent())
 			throw new Exception("This username is already present");
@@ -103,7 +102,7 @@ public class UsersImplementation implements IUsersService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void createAdmin(UsersRequest req) throws Exception {
-		Optional<Roles> role = rolesRepository.findByName("admin");
+		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
 
 		Optional<Users> admin = usersRepository.findByUsername(req.getUsername());
 		if (admin.isPresent())
@@ -167,7 +166,7 @@ public class UsersImplementation implements IUsersService {
 		user.setUsername(req.getUsername());
 		user.setEmail(req.getEmail());
 
-		// implementare controllo se la pw cambia 
+		// implementare controllo se la pw cambia
 		String hashedPassword = passwordEncoder.encode(req.getPwd());
 		user.setPwd(hashedPassword);
 

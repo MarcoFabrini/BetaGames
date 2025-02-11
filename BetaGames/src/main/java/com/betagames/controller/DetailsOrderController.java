@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @RestController
 @RequestMapping("/rest/details")
 public class DetailsOrderController {
@@ -24,10 +22,10 @@ public class DetailsOrderController {
     IDetailsOrderService detOrderS;
 
     @GetMapping("/readDetailsOrder")
-    public ResponseList<DetailsOrderDTO> listDetailsOrder(@RequestParam ("id")Integer id) {
+    public ResponseList<DetailsOrderDTO> listDetailsOrder(@RequestParam("id") Integer id) {
         ResponseList<DetailsOrderDTO> responseList = new ResponseList<DetailsOrderDTO>();
         responseList.setRc(true);
-        System.out.println("Richiesta: " +id);
+        System.out.println("Richiesta: " + id);
         try {
             responseList.setData(detOrderS.searchByOrder(id));
         } catch (Exception e) {
@@ -36,7 +34,6 @@ public class DetailsOrderController {
         }
         return responseList;
     }
-    
 
     @PostMapping("/createDetailsOrder")
     public ResponseBase create(@RequestBody(required = true) DetailsOrderRequest req) {
@@ -64,22 +61,7 @@ public class DetailsOrderController {
             response.setRc(false);
             response.setMsg(e.getMessage());
         }
-        
-        return response;
-    }
-    
-    @PostMapping("/deleteDetailsOrder")
-    public ResponseBase delete(@RequestBody(required = true) DetailsOrderRequest req){
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
 
-        try {
-            detOrderS.delete(req);
-        } catch (Exception e) {
-            response.setRc(false);
-            response.setMsg(e.getMessage());
-        }
         return response;
     }
-    
 }

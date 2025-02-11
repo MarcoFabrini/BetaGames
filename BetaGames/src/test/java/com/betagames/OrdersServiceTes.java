@@ -17,6 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.betagames.dto.AuthorsDTO;
+import com.betagames.dto.DetailsCartDTO;
 import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
 import com.betagames.dto.GamesDTO;
@@ -25,7 +26,9 @@ import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
 import com.betagames.model.PayCards;
+import com.betagames.repository.IDetailsCartsRepository;
 import com.betagames.request.AuthorsRequest;
+import com.betagames.request.DetailsCartRequest;
 import com.betagames.request.DetailsOrderRequest;
 import com.betagames.request.EditorsRequest;
 import com.betagames.request.GamesRequest;
@@ -34,6 +37,7 @@ import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
 import com.betagames.service.interfaces.IAuthorsService;
+import com.betagames.service.interfaces.IDetailsCartsService;
 import com.betagames.service.interfaces.IDetailsOrderService;
 import com.betagames.service.interfaces.IEditorsService;
 import com.betagames.service.interfaces.IGamesService;
@@ -53,19 +57,21 @@ import com.betagames.service.interfaces.IUsersService;
 public class OrdersServiceTes {
 
     @Autowired
-    IOrdersService ordersService;
+    private IOrdersService ordersService;
     @Autowired
-    IDetailsOrderService detailsOrderService;
+    private IDetailsOrderService detailsOrderService;
     @Autowired
-    IPayCardsService payCardsService;
+    private IPayCardsService payCardsService;
     @Autowired
-    IUsersService usersService;
+    private IUsersService usersService;
     @Autowired
-    IRolesService rolesService;
+    private IRolesService rolesService;
     @Autowired
-    IGamesService gamesService;
+    private IGamesService gamesService;
     @Autowired
     private IEditorsService editorsService;
+    @Autowired
+    private IDetailsCartsService detailsCartsService;
 
     @Autowired
     Logger log;
@@ -89,8 +95,10 @@ public class OrdersServiceTes {
 
         GamesRequest gamesRequest = new GamesRequest();
 
+        DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
+
         // ---------create Roles----------
-        rolesRequest.setName("User");
+        rolesRequest.setName("user");
         rolesService.create(rolesRequest);
 
         List<RolesDTO> listRoles = rolesService.listRoles();
@@ -132,19 +140,6 @@ public class OrdersServiceTes {
 
         Assertions.assertThat(createPayCardDTO.getId()).isEqualTo(1);
 
-        // -----------Create Order---------
-        orderRequest.setTotalAmount(52.68);
-        orderRequest.setCreatedAt("31/12/2025");
-        orderRequest.setUpdatedAt("31/12/2025");
-        orderRequest.setOrderStatus("ready");
-        orderRequest.setPayCardId(1);
-        orderRequest.setUserId(1);
-
-        ordersService.create(orderRequest);
-        List<OrdersDTO> listOrder = ordersService.findAllOrders();
-
-        Assertions.assertThat((listOrder.size())).isEqualTo(1);
-
         // --------Create Editors--------
         editorsRequest.setName("editorsName");
         editorsRequest.setWebsite("website");
@@ -178,6 +173,31 @@ public class OrdersServiceTes {
         List<GamesDTO> lstGames = gamesService.list();
 
         Assertions.assertThat((lstGames.size())).isEqualTo(1);
+
+        // -----------Create DetailsCart---------
+        detailsCartRequest.setCartId(creaUsersDTO.getCarts().getId());
+        detailsCartRequest.setGameId(lstGames.get(0).getId());
+        detailsCartRequest.setPriceAtTime(12.56);
+        detailsCartRequest.setQuantity(2);
+
+        detailsCartsService.create(detailsCartRequest);
+
+        List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
+
+        Assertions.assertThat((listDetailsCart.size())).isEqualTo(1);
+
+        // -----------Create Order---------
+        orderRequest.setTotalAmount(52.68);
+        orderRequest.setCreatedAt("31/12/2025");
+        orderRequest.setUpdatedAt("31/12/2025");
+        orderRequest.setOrderStatus("ready");
+        orderRequest.setPayCardId(1);
+        orderRequest.setUserId(1);
+
+        ordersService.create(orderRequest);
+        List<OrdersDTO> listOrder = ordersService.findAllOrders();
+
+        Assertions.assertThat((listOrder.size())).isEqualTo(1);
 
         // -------Create DetailsOrder--------
         detailsOrderRequest.setPriceAtTime(12.56);
@@ -236,15 +256,6 @@ public class OrdersServiceTes {
         List<OrdersDTO> listOrders = ordersService.findByUser(1);
 
         Assertions.assertThat(listOrders.size()).isEqualTo(1);
-    }
-
-    @Test
-    @Order(5)
-    public void deleteOrders() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-        ordersRequest.setId(1);
-        ordersService.delete(ordersRequest);
-
     }
 
 }

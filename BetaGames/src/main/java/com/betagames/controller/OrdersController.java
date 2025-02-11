@@ -1,6 +1,8 @@
 package com.betagames.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,7 @@ import com.betagames.service.interfaces.IOrdersService;
 @RestController
 @RequestMapping("/rest/orders")
 public class OrdersController {
-    
+
     @Autowired
     private IOrdersService ordersService;
 
@@ -37,10 +39,24 @@ public class OrdersController {
 
         return responseList;
     }
-    
+
+    @GetMapping("/searchByTyping")
+    public ResponseList<OrdersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
+            @RequestParam(value = "payCardId", required = false) Integer payCardId,
+            @RequestParam(value = "userId", required = false) Integer userId) {
+        ResponseList<OrdersDTO> list = new ResponseList<OrdersDTO>();
+        list.setRc(true);
+        try {
+            list.setData(ordersService.searchByTyping(id, payCardId, userId));
+        } catch (Exception e) {
+            list.setRc(false);
+            list.setMsg(e.getMessage());
+        }
+        return list;
+    }
 
     @GetMapping("/userOrders")
-    public ResponseList<OrdersDTO> listOrdersByUsers(Integer id){
+    public ResponseList<OrdersDTO> listOrdersByUsers(Integer id) {
         ResponseList<OrdersDTO> listResponse = new ResponseList<OrdersDTO>();
         listResponse.setRc(true);
 
@@ -56,7 +72,7 @@ public class OrdersController {
     }
 
     @PostMapping("/createOrders")
-    public ResponseBase create(@RequestBody(required = true) OrdersRequest req){
+    public ResponseBase create(@RequestBody(required = true) OrdersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         response.setMsg("Ordine Creato con successo");
@@ -66,12 +82,12 @@ public class OrdersController {
             response.setRc(false);
             response.setMsg(e.getMessage());
         }
-        
 
         return response;
     }
+
     @PostMapping("/updateOrders")
-    public ResponseBase update(@RequestBody (required = true) OrdersRequest req) {
+    public ResponseBase update(@RequestBody(required = true) OrdersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         response.setMsg("Ordine Aggiornato con successo");
@@ -81,23 +97,8 @@ public class OrdersController {
             response.setRc(false);
             response.setMsg(e.getMessage());
         }
-        
+
         return response;
     }
 
-    @PostMapping("/deleteOrders")
-    public ResponseBase delete(@RequestBody (required = true) OrdersRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-        response.setMsg("Ordine eliminato con successo");
-        try {
-            ordersService.delete(req);
-        } catch (Exception e) {
-            response.setRc(false);
-            response.setMsg(e.getMessage());
-        }
-        
-        return response;
-    }
-    
 }

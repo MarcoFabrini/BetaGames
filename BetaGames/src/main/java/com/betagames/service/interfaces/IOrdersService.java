@@ -11,16 +11,14 @@ import com.betagames.request.OrdersRequest;
  */
 
 public interface IOrdersService {
-    
+
     List<OrdersDTO> findAllOrders() throws Exception;
 
     List<OrdersDTO> findByUser(Integer id) throws Exception;
 
-    List<OrdersDTO> searchByTyping() throws Exception;
+    List<OrdersDTO> searchByTyping(Integer id, Integer idPayCard, Integer idUsers) throws Exception;
 
     void create(OrdersRequest req) throws Exception;
 
     void update(OrdersRequest req) throws Exception;
-
-    void delete(OrdersRequest req ) throws Exception;
 }

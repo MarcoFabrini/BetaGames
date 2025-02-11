@@ -61,7 +61,6 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
         return buildDetailsOrderDTO(listaDettagli);
     }
 
-    
     @Override
     public void create(DetailsOrderRequest req) throws Exception {
         Optional<Orders> order = orderRep.findById(req.getOrdersId());
@@ -71,7 +70,7 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
         Optional<Carts> carts = cartRep.findByUser(user.get());
         List<DetailsCart> lDetailsCarts = detailsCartRep.findByCart(carts.get());
 
-        lDetailsCarts.forEach(x ->{
+        lDetailsCarts.forEach(x -> {
             DetailsOrder detailOrder = new DetailsOrder();
             detailOrder.setPriceAtTime(x.getPriceAtTime());
             detailOrder.setQuantity(x.getQuantity());
@@ -108,18 +107,6 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
         detailOrder.setGame(game.get());
 
         detOrderRep.save(detailOrder);
-    }
-
-    @Override
-    public void delete(DetailsOrderRequest req) throws Exception {
-        Optional<DetailsOrder> detOrder = detOrderRep.findById(req.getId());
-
-        if (detOrder.isEmpty()) {
-            throw new Exception("Dettagli ordine non esistente");
-        }
-
-        DetailsOrder detailOrder = detOrder.get();
-        detOrderRep.delete(detailOrder);
     }
 
 }

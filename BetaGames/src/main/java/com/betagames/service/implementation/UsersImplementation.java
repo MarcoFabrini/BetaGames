@@ -69,7 +69,7 @@ public class UsersImplementation implements IUsersService {
 	public void createUser(UsersRequest req) throws Exception {
 		Date now = new Date();
 
-		Optional<Roles> role = rolesRepository.findByName("user");
+		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("user");
 
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 		if (users.isPresent())
@@ -103,7 +103,7 @@ public class UsersImplementation implements IUsersService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void createAdmin(UsersRequest req) throws Exception {
-		Optional<Roles> role = rolesRepository.findByName("admin");
+		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
 
 		Optional<Users> admin = usersRepository.findByUsername(req.getUsername());
 		if (admin.isPresent())

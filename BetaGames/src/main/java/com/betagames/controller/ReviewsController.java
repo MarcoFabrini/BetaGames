@@ -33,7 +33,7 @@ public class ReviewsController {
     @Autowired
     IReviewsService reviewsService;
 
-    @GetMapping("/list")
+    @GetMapping("/listByUserId")
     public ResponseList<ReviewsDTO> listByUserId(@RequestParam(value = "id", required = true) Integer id) {
         ResponseList<ReviewsDTO> list = new ResponseList<>();
         list.setRc(true);
@@ -46,7 +46,7 @@ public class ReviewsController {
             list.setRc(false);
         }
         return list;
-    }// list
+    }// listByUserId
 
     @PostMapping("/create")
     public ResponseBase create(@RequestBody(required = true) ReviewsRequest req) {
@@ -61,6 +61,36 @@ public class ReviewsController {
             response.setRc(false);
         }
         return response;
-    }// list
+    }// create
+
+    @PostMapping("/update")
+    public ResponseBase update(@RequestBody(required = true) ReviewsRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+           reviewsService.update(req);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// update
+
+    @PostMapping("/delete")
+    public ResponseBase delete(@RequestBody(required = true) ReviewsRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+           reviewsService.delete(req);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// delete
 
 }// class

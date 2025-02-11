@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.betagames.service.implementation;
 
 import java.util.Date;
@@ -73,17 +68,29 @@ public class ReviewsImplementation implements IReviewsService {
 
     @Override
     public void update(ReviewsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
+        Date now = new Date();
+
+        Optional<Reviews> review = reviewsRepository.findById(req.getId());
+        if(!review.isPresent())
+            throw new Exception("Review not found");
+
+        review.get().setCreatedAt(now);
+        review.get().setScore(req.getScore());
+        review.get().setDescription(req.getDescription());
+
+        reviewsRepository.save(review.get());
+    }// update
 
     /*
      * solo per admin
      */
     @Override
     public void delete(ReviewsRequest req) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
+        Optional<Reviews> review = reviewsRepository.findById(req.getId());
+        if(!review.isPresent())
+            throw new Exception("Review not found");
+        
+        reviewsRepository.delete(review.get());
+    }// delete
 
 }// class

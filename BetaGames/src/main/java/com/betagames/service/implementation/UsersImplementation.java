@@ -11,13 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.UsersDTO;
 import com.betagames.model.Carts;
-import com.betagames.model.Orders;
-import com.betagames.model.Reviews;
 import com.betagames.model.Roles;
 import com.betagames.model.Users;
 import com.betagames.repository.ICartsRepository;
-import com.betagames.repository.IOrdersRepository;
-import com.betagames.repository.IReviewsRepository;
 import com.betagames.repository.IRolesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
@@ -33,33 +29,27 @@ public class UsersImplementation implements IUsersService {
 	private final Logger log;
 	private final IUsersRepository usersRepository;
 	private final ICartsRepository cartsRepository;
-	private final IOrdersRepository ordersRepository;
 	private final IRolesRepository rolesRepository;
-	private final IReviewsRepository reviewsRepository;
 	private final PasswordEncoder passwordEncoder;
 
 	public UsersImplementation(Logger log, IUsersRepository usersRepository, ICartsRepository cartsRepository,
-			IOrdersRepository ordersRepository, IRolesRepository rolesRepository, IReviewsRepository reviewsRepository,
-			PasswordEncoder passwordEncoder) {
+			IRolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
 		this.log = log;
 		this.usersRepository = usersRepository;
 		this.cartsRepository = cartsRepository;
-		this.ordersRepository = ordersRepository;
 		this.rolesRepository = rolesRepository;
-		this.reviewsRepository = reviewsRepository;
 		this.passwordEncoder = passwordEncoder;
-	}
+	}// costructor 
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
 		List<Users> listUsers = usersRepository.findAll();
-
 		return buildUsersDTO(listUsers);
 	}// list
 
 	@Override
-	public List<UsersDTO> searchByTyping(Integer id, String username, String email) throws Exception {
-		List<Users> listUsers = usersRepository.searchByTyping(id, username, email);
+	public List<UsersDTO> searchByTyping(Integer id, String username, String email, Boolean active) throws Exception {
+		List<Users> listUsers = usersRepository.searchByTyping(id, username, email, active);
 
 		return buildUsersDTO(listUsers);
 	}// searchByTyping
@@ -103,25 +93,40 @@ public class UsersImplementation implements IUsersService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void createAdmin(UsersRequest req) throws Exception {
-		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
 
-		Optional<Users> admin = usersRepository.findByUsername(req.getUsername());
-		if (admin.isPresent())
+		Date now = new Date();
+    
+		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
+		if (!role.isPresent())
+			throw new Exception("This role is not present");
+
+		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
+		if (users.isPresent())
 			throw new Exception("This username is already present");
 
-		admin = usersRepository.findByEmail(req.getEmail());
-		if (admin.isPresent())
+		users = usersRepository.findByEmail(req.getEmail());
+		if (users.isPresent())
 			throw new Exception("This user email is already present");
 
-		Users a = new Users();
-		a.setUsername(req.getUsername());
-		a.setEmail(req.getEmail());
+		Users u = new Users();
+		u.setUsername(req.getUsername());
+		u.setEmail(req.getEmail());
 
 		String hashedPassword = passwordEncoder.encode(req.getPwd());
-		a.setPwd(hashedPassword);
-		a.setRole(role.get());
+		u.setPwd(hashedPassword);
 
-		usersRepository.save(a);
+		u.setActive(true);
+
+		Carts cart = new Carts();
+		cart.setUser(u);
+		cart.setCreatedAt(now);
+		cart.setUpdatedAt(now);
+		cartsRepository.save(cart);
+
+		u.setCart(cart);
+		u.setRole(role.get());
+
+		usersRepository.save(u);
 	}// createAdmin
 
 	/**
@@ -137,42 +142,36 @@ public class UsersImplementation implements IUsersService {
 			throw new Exception("Invalid password or username");
 	}// login
 
-	/**
-	 * sistemare update di pw
-	 * fare mach della pw
-	 * creare nuova pw e hash
-	 * salvare
-	 */
 	@Override
 	public void update(UsersRequest req) throws Exception {
-		Optional<Users> users = usersRepository.findById(req.getId());
-		if (!users.isPresent())
+		Optional<Users> optionalUser = usersRepository.findById(req.getId());
+		if (!optionalUser.isPresent())
 			throw new Exception("This user is not present");
 
 		Integer userId = req.getId();
 
-		// Verifica se l'username è già usato da un altro utente escludendo l'utente
-		// corrente
+		// Verifica se l'username è già usato da un altro utente escludendo l'utente corrente
 		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), userId).isPresent()) {
 			throw new Exception("This username is already in use by another user");
 		}
 
-		// Verifica se l'email è già usata da un altro utente escludendo l'utente
-		// corrente
+		// Verifica se l'email è già usata da un altro utente escludendo l'utente corrente
 		if (usersRepository.findByEmailAndIdNot(req.getEmail(), userId).isPresent()) {
 			throw new Exception("This email is already in use by another user");
 		}
 
-		Users user = users.get();
+		Users user = optionalUser.get();
 		user.setUsername(req.getUsername());
 		user.setEmail(req.getEmail());
 
-		// implementare controllo se la pw cambia 
-		String hashedPassword = passwordEncoder.encode(req.getPwd());
-		user.setPwd(hashedPassword);
+		// Controlla se la password nel request è diversa da quella salvata (decriptata)
+		if (!passwordEncoder.matches(req.getPwd(), user.getPwd())) {
+			String hashedPassword = passwordEncoder.encode(req.getPwd());
+			user.setPwd(hashedPassword);
+		}
 
 		usersRepository.save(user);
-	}
+	}// update
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)

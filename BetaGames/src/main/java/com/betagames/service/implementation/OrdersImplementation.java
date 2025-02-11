@@ -46,7 +46,7 @@ public class OrdersImplementation implements IOrdersService {
     @Autowired
     IDetailsOrderRepository detailsOrdersRep;
 
-    //====CART===
+    // ====CART===
     @Autowired
     ICartsRepository cartRep;
 
@@ -86,13 +86,14 @@ public class OrdersImplementation implements IOrdersService {
 
     // metodo che restituisce gli ordini tramite la ricerca -> testato su postman
     @Override
-    public List<OrdersDTO> searchByTyping() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchByTyping'");
+    public List<OrdersDTO> searchByTyping(Integer id, Integer idPayCard, Integer idUsers) throws Exception {
+        List<Orders> listOrders = orderRep.searchByTyping(id, idPayCard, idUsers);
+
+        return buildOrdersDTO(listOrders);
     }
 
     // metodo per creare un ordine
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void create(OrdersRequest req) throws Exception {
         Date now = new Date();
@@ -108,8 +109,8 @@ public class OrdersImplementation implements IOrdersService {
             throw new Exception("cart has no items");
         }
         Double totalAmount = lDetailsCart.stream()
-                          .map(DetailsCart::getPriceAtTime)
-                          .reduce(0.0, (a, b) -> a + b);
+                .map(DetailsCart::getPriceAtTime)
+                .reduce(0.0, (a, b) -> a + b);
         /*
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
          * accettiamo pagamenti da carte già registrate
@@ -130,8 +131,8 @@ public class OrdersImplementation implements IOrdersService {
         ord.setPayCard(card.get());
 
         Orders newOrd = orderRep.save(ord);
-    
-        lDetailsCart.forEach(x ->{
+
+        lDetailsCart.forEach(x -> {
             DetailsOrder detailOrder = new DetailsOrder();
             detailOrder.setPriceAtTime(x.getPriceAtTime());
             detailOrder.setQuantity(x.getQuantity());
@@ -140,7 +141,7 @@ public class OrdersImplementation implements IOrdersService {
 
             detailsOrdersRep.save(detailOrder);
         });
-        
+
         detailsCartRep.deleteAll(lDetailsCart);
     }
 
@@ -159,18 +160,6 @@ public class OrdersImplementation implements IOrdersService {
         ord.setUpdatedAt(convertStringToDate(req.getUpdatedAt()));
 
         orderRep.save(ord);
-    }
-
-    @Override
-    public void delete(OrdersRequest req) throws Exception {
-        Optional<Orders> order = orderRep.findById(req.getId());
-
-        if (order.isEmpty()) {
-            throw new Exception("Ordine");
-        }
-
-        Orders ord = order.get();
-        orderRep.delete(ord);
     }
 
 }

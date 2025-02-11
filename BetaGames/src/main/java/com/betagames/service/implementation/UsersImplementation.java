@@ -94,6 +94,7 @@ public class UsersImplementation implements IUsersService {
 	@Transactional(rollbackFor = Exception.class)
 	public void createAdmin(UsersRequest req) throws Exception {
 
+
 		Date now = new Date();
     
 		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
@@ -164,6 +165,7 @@ public class UsersImplementation implements IUsersService {
 		Users user = optionalUser.get();
 		user.setUsername(req.getUsername());
 		user.setEmail(req.getEmail());
+
 
 		// Controlla se la password nel request è diversa da quella salvata (decriptata)
 		if (!passwordEncoder.matches(req.getPwd(), user.getPwd())) {

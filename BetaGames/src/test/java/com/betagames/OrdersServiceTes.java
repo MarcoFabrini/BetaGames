@@ -90,7 +90,7 @@ public class OrdersServiceTes {
         GamesRequest gamesRequest = new GamesRequest();
 
         // ---------create Roles----------
-        rolesRequest.setName("user");
+        rolesRequest.setName("User");
         rolesService.create(rolesRequest);
 
         List<RolesDTO> listRoles = rolesService.listRoles();
@@ -104,7 +104,7 @@ public class OrdersServiceTes {
         usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
 
-        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", true);
+        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
 
         UsersDTO creaUsersDTO = listUsers.stream()
                 .filter(e -> "userTest".equals(e.getUsername()))

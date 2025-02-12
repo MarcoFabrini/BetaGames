@@ -27,7 +27,6 @@ import com.betagames.service.interfaces.IOrdersService;
 import static com.betagames.utility.Utilities.buildDetailsOrderDTO;
 import static com.betagames.utility.Utilities.buildOrdersDTO;
 import static com.betagames.utility.Utilities.buildPayCardsDTO;
-import static com.betagames.utility.Utilities.convertStringToDate;
 
 /*
  * @author Simone Checco
@@ -153,6 +152,7 @@ public class OrdersImplementation implements IOrdersService {
 
     @Override
     public void update(OrdersRequest req) throws Exception {
+        Date now = new Date();
         Optional<Orders> order = orderRep.findById(req.getId());
 
         if (order.isEmpty()) {
@@ -160,10 +160,8 @@ public class OrdersImplementation implements IOrdersService {
         }
 
         Orders ord = order.get();
-        ord.setTotalAmmount(req.getTotalAmount());
         ord.setOrderStatus(req.getOrderStatus());
-        ord.setCreatedAt(convertStringToDate(req.getCreatedAt()));
-        ord.setUpdatedAt(convertStringToDate(req.getUpdatedAt()));
+        ord.setUpdatedAt(now);
 
         orderRep.save(ord);
     }

@@ -1,12 +1,14 @@
 package com.betagames.request;
 
+import com.betagames.dto.DetailsOrderDTO;
+import com.betagames.response.ResponseList;
 
 /*
  * 
  * @author Simone Checco
  */
 public class DetailsOrderRequest {
-    
+
     private Integer Id;
 
     private Integer quantity;
@@ -57,5 +59,4 @@ public class DetailsOrderRequest {
         this.gameId = gameId;
     }
 
-    
 }

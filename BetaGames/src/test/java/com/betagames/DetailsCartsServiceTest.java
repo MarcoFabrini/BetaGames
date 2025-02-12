@@ -38,7 +38,7 @@ import com.betagames.service.interfaces.IUsersService;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-// @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class DetailsCartsServiceTest {
 
     @Autowired

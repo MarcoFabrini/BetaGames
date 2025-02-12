@@ -2,6 +2,8 @@ package com.betagames;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -13,10 +15,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.betagames.controller.DetailsCartsController;
+import com.betagames.dto.CartsDTO;
 import com.betagames.dto.DetailsCartDTO;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
+import com.betagames.service.interfaces.ICartsService;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,14 +28,17 @@ import com.betagames.response.ResponseList;
 public class DetailsCartsControllerTest {
     
     @Autowired
-    DetailsCartsController dCController;
+    private DetailsCartsController dCController;
+	
+    @Autowired
+    private ICartsService cartsService;
 
     @Autowired
     Logger log;
 
     @Test
 	@Order(1)
-	public void listTest() {
+	public void listDetailsCartsTest() {
 		ResponseList<DetailsCartDTO> res = dCController.list();
 		
 		Assertions.assertThat(res.getRc()).isEqualTo(true);
@@ -39,7 +46,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(2)
-	public void createTest() {
+	public void createDetailsCartsTest(){
         DetailsCartRequest req = new DetailsCartRequest();
         req.setGameId(1);
         req.setCartId(1);
@@ -53,7 +60,7 @@ public class DetailsCartsControllerTest {
 
     @Test
 	@Order(3)
-	public void listByCartsTest() {
+	public void listByCartsDetailsCartsTest() {
 
 		ResponseList<DetailsCartDTO> res = dCController.listByCarts(1);
 		
@@ -70,7 +77,7 @@ public class DetailsCartsControllerTest {
 
     @Test
 	@Order(4)
-	public void listByCartsExceptionTest() {
+	public void listByCartsDetailsCartsExceptionTest() {
 		ResponseList<DetailsCartDTO> res = dCController.listByCarts(2);
 		
 		Assertions.assertThat(res.getRc()).isEqualTo(false);
@@ -79,7 +86,7 @@ public class DetailsCartsControllerTest {
 
     @Test
 	@Order(5)
-	public void updateTest() {
+	public void updateDetailsCartsTest() {
         DetailsCartRequest req = new DetailsCartRequest();
         req.setId(1);
         req.setQuantity(10);
@@ -91,7 +98,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(6)
-	public void updateExceptionTest() {
+	public void updateDetailsCartsExceptionTest() {
         DetailsCartRequest req = new DetailsCartRequest();
         req.setId(300);
         req.setQuantity(10);
@@ -108,7 +115,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(7)
-	public void deleteExceptionTest() {
+	public void deleteDetailsCartsExceptionTest() {
         DetailsCartRequest req = new DetailsCartRequest();
         req.setId(3);
 
@@ -119,7 +126,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(8)
-	public void deleteTest() {
+	public void deleteDetailsCartsTest() {
         DetailsCartRequest req = new DetailsCartRequest();
         req.setId(1);
 
@@ -130,7 +137,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(9)
-	public void deleteAllByCartExceptionTest() {
+	public void deleteAllByCartDetailsCartsExceptionTest() {
 
 		ResponseBase res = dCController.deleteAllByCart(10);
 		//non torna
@@ -139,7 +146,7 @@ public class DetailsCartsControllerTest {
 	}
     @Test
 	@Order(10)
-	public void deleteAllByCartTest() {
+	public void deleteAllByCartDetailsCartsTest() {
 
 		ResponseBase res = dCController.deleteAllByCart(1);
 		//non torna

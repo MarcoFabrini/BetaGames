@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Suite
 @SelectClasses({
 
+
 	// RolesServiceTest.class,
 	EditorsServiceTest.class,
 	ReviewsServiceTest.class,
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 	// DetailsCartsServiceTest.class,
 	// ICategoriesServiceTest.class
 	//DetailsCartsControllerTest.class
+
 
 
 })

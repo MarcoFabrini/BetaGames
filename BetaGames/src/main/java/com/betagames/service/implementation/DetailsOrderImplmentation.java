@@ -40,27 +40,4 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
         return buildDetailsOrderDTO(listaDettagli);
     }
 
-    // crea i dettagli dell'ordine in base ai dettagli carrello
-    // @Override
-    // public void create(DetailsOrderRequest req) throws Exception {
-    // Optional<Orders> order = orderRep.findById(req.getOrdersId());
-    // Optional<Games> game = gamesRep.findById(req.getGameId());
-
-    // Optional<Users> user = userRep.findById(order.get().getId());
-    // Optional<Carts> carts = cartRep.findByUser(user.get());
-    // List<DetailsCart> lDetailsCarts = detailsCartRep.findByCart(carts.get());
-
-    // lDetailsCarts.forEach(x -> {
-    // System.out.println("soto cilcando");
-    // DetailsOrder detailOrder = new DetailsOrder();
-    // detailOrder.setPriceAtTime(x.getPriceAtTime());
-    // detailOrder.setQuantity(x.getQuantity());
-    // detailOrder.setOrder(order.get());
-    // detailOrder.setGame(x.getGame());
-
-    // detOrderRep.save(detailOrder);
-    // });
-
-    // }
-
 }

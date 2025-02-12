@@ -17,9 +17,8 @@ import com.betagames.service.interfaces.IRolesService;
  * @author Simone Checco
  */
 
-
 @Service
-public class RolesImplementation implements IRolesService{
+public class RolesImplementation implements IRolesService {
 
     @Autowired
     IRolesRepository rolesRep;
@@ -29,15 +28,18 @@ public class RolesImplementation implements IRolesService{
         List<Roles> listRoles = rolesRep.findAll();
 
         return listRoles.stream()
-                    .map(role -> new RolesDTO(role.getId(), role.getName()))
-                    .collect(Collectors.toList());
+                .map(role -> new RolesDTO(role.getId(), role.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void create(RolesRequest req) throws Exception {
+        if (req.getName() == "") {
+            throw new Exception("dare un nome al nuovo ruolo");
+        }
         Optional<Roles> role = rolesRep.findByName(req.getName());
-        if(req.getName() == "" || role.isPresent()){
-            throw new Exception("dare un nome al nuovo ruolo o nome già presente");
+        if (role.isPresent()) {
+            throw new Exception("nome già presente");
         }
         Roles r = new Roles();
         r.setName(req.getName());
@@ -47,7 +49,7 @@ public class RolesImplementation implements IRolesService{
     @Override
     public void update(RolesRequest req) throws Exception {
         Optional<Roles> roles = rolesRep.findById(req.getId());
-        if(roles.isEmpty()){
+        if (roles.isEmpty()) {
             throw new Exception("l'ID non assegnato a nessun ruolo");
         }
         Roles r = roles.get();
@@ -59,12 +61,12 @@ public class RolesImplementation implements IRolesService{
     public void delete(RolesRequest req) throws Exception {
         Optional<Roles> roles = rolesRep.findById(req.getId());
 
-        if(roles.isEmpty()){
+        if (roles.isEmpty()) {
             throw new Exception("id del ruolo inesistente");
         }
 
         Roles r = roles.get();
         rolesRep.delete(r);
     }
-    
+
 }

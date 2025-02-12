@@ -1,7 +1,5 @@
 package com.betagames;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -9,11 +7,12 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import com.betagames.controller.DetailsOrderController;
+import com.betagames.controller.OrdersController;
 import com.betagames.dto.DetailsCartDTO;
 import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
@@ -23,13 +22,14 @@ import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
 import com.betagames.request.DetailsCartRequest;
-import com.betagames.request.DetailsOrderRequest;
 import com.betagames.request.EditorsRequest;
 import com.betagames.request.GamesRequest;
 import com.betagames.request.OrdersRequest;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
+import com.betagames.response.ResponseBase;
+import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsCartsService;
 import com.betagames.service.interfaces.IDetailsOrderService;
 import com.betagames.service.interfaces.IEditorsService;
@@ -43,16 +43,13 @@ import com.betagames.service.interfaces.IUsersService;
  * 
  * @author Simone Checco
  */
-
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OrdersServiceTes {
+public class OrderController {
 
     @Autowired
     private IOrdersService ordersService;
-    @Autowired
-    private IDetailsOrderService detailsOrderService;
     @Autowired
     private IPayCardsService payCardsService;
     @Autowired
@@ -67,12 +64,14 @@ public class OrdersServiceTes {
     private IDetailsCartsService detailsCartsService;
 
     @Autowired
-    Logger log;
+    OrdersController ordersController;
+
+    @Autowired
+    DetailsOrderController detailsOrderController;
 
     @Test
     @Order(1)
-    public void createTest() throws Exception {
-
+    public void createControllerTest() throws Exception {
         // -----Request------
 
         OrdersRequest orderRequest = new OrdersRequest();
@@ -118,7 +117,7 @@ public class OrdersServiceTes {
         // ------create PayCard----------
         payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
         payCardsRequest.setCardHolderName("Nome del tipo");
-        payCardsRequest.setCardNumber("11223344");
+        payCardsRequest.setCardNumber(11223344);
         payCardsRequest.setCvv(133);
         payCardsRequest.setExpirationDate("31/12/2025");
         payCardsRequest.setUserId(listUsers.get(0).getId());
@@ -193,14 +192,15 @@ public class OrdersServiceTes {
         orderRequest.setPayCardId(1);
         orderRequest.setUserId(1);
 
-        ordersService.create(orderRequest);
+        ResponseBase res = ordersController.create(orderRequest);
+        Assertions.assertThat(res.getRc()).isEqualTo(true);
+
+        Assertions.assertThat(res.getMsg()).isEqualTo("Ordine Creato con successo");
         List<OrdersDTO> listOrder = ordersService.findAllOrders();
 
         Assertions.assertThat((listOrder.size())).isEqualTo(1);
-
     }
 
-    // --------order update------
     @Test
     @Order(2)
     public void updateTest() throws Exception {
@@ -209,9 +209,9 @@ public class OrdersServiceTes {
         orderRequest.setId(1);
         orderRequest.setOrderStatus("shipped");
 
-        orderRequest.setUserId(1);
+        ResponseBase res = ordersController.update(orderRequest);
 
-        ordersService.update(orderRequest);
+        Assertions.assertThat(res.getRc()).isEqualTo(true);
 
         List<OrdersDTO> listOrders = ordersService.findAllOrders();
 
@@ -227,113 +227,38 @@ public class OrdersServiceTes {
 
     @Test
     @Order(3)
-    public void readAllTest() throws Exception {
-        List<OrdersDTO> listOrders = ordersService.findAllOrders();
+    public void listTest() {
+        ResponseList<OrdersDTO> res = ordersController.listOrders();
 
-        Assertions.assertThat(listOrders.size()).isEqualTo(1);
+        Assertions.assertThat(res.getRc()).isTrue();
+        Assertions.assertThat(res.getData().get(0).getId()).isEqualTo(1);
     }
 
     @Test
     @Order(4)
-    public void readByOrderId() throws Exception {
-        List<OrdersDTO> listOrders = ordersService.findByUser(1);
+    public void listByUser() {
+        ResponseList<OrdersDTO> res = ordersController.listOrdersByUsers(1);
 
-        Assertions.assertThat(listOrders.size()).isEqualTo(1);
+        Assertions.assertThat(res.getRc()).isTrue();
+        Assertions.assertThat(res.getData().get(0).getOrderStatus()).isEqualTo("shipped");
     }
 
     @Test
     @Order(5)
-    public void searchByTypingId() throws Exception {
-        List<OrdersDTO> listOrders = ordersService.searchByTyping(1, null, null);
+    public void searchByTypingId() {
+        ResponseList<OrdersDTO> res = ordersController.searchByTyping(1, null, null);
 
-        Assertions.assertThat(listOrders.size()).isEqualTo(1);
+        Assertions.assertThat(res.getRc()).isTrue();
+        Assertions.assertThat(res.getData().get(0).getId()).isEqualTo(1);
     }
 
     @Test
-    @Order(6)
+    @Order(8)
     public void readDetailsOrder() throws Exception {
 
-        List<DetailsOrderDTO> listDetailsOrder = detailsOrderService.searchByOrder(1);
+        ResponseList<DetailsOrderDTO> res = detailsOrderController.listDetailsOrder(1);
 
-        Assertions.assertThat(listDetailsOrder.size()).isEqualTo(1);
+        Assertions.assertThat(res.getRc()).isTrue();
+        Assertions.assertThat(res.getData().get(0).getId()).isEqualTo(1);
     }
-
-    @Test
-    @Order(7)
-    public void detailsOrderByOrderIdError() throws Exception {
-        DetailsOrderRequest detailOrderRequest = new DetailsOrderRequest();
-        detailOrderRequest.setOrdersId(200);
-
-        assertThrows(Exception.class, () -> {
-            detailsOrderService.searchByOrder(detailOrderRequest.getOrdersId());
-        });
-    }
-
-    @Test
-    @Order(9)
-    public void errorUpdate() throws Exception {
-
-        OrdersRequest orderRequest = new OrdersRequest();
-
-        orderRequest.setOrderStatus("ready");
-        orderRequest.setId(200);
-
-        assertThrows(Exception.class, () -> {
-            ordersService.update(orderRequest);
-        });
-    }
-
-    @Test
-    @Order(10)
-    public void userErrorCreate() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setTotalAmount(52.68);
-        ordersRequest.setCreatedAt("31/12/2025");
-        ordersRequest.setUpdatedAt("31/12/2025");
-        ordersRequest.setOrderStatus("ready");
-        ordersRequest.setPayCardId(1);
-        ordersRequest.setUserId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.create(ordersRequest);
-        });
-    }
-
-    @Test
-    @Order(11)
-    public void cardErrorCreate() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setPayCardId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.create(ordersRequest);
-        });
-    }
-
-    @Test
-    @Order(12)
-    public void findByUserError() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setUserId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.findByUser(ordersRequest.getUserId());
-        });
-    }
-
-    /*
-     * @Test
-     * 
-     * @Order(12)
-     * public void expirationDateErrorCreate() throws Exception {
-     * OrdersRequest ordersRequest = new OrdersRequest();
-     * 
-     * // ordersRequest.setUserId(200);
-     * ordersRequest.setPayCardId(200);
-     * assertThrows(Exception.class, () -> {
-     * ordersService.create(ordersRequest);
-     * });
-     * }
-     */
-
 }

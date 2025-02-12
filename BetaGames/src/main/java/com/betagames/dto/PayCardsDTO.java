@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class PayCardsDTO {
     private Integer id;
-    private Integer cardNumber;
+    private String cardNumber;
     private String cardHolderName;
     private Date expirationDate;
     private Integer cvv;
@@ -18,7 +18,7 @@ public class PayCardsDTO {
     private Boolean active;
 
 
-    public PayCardsDTO(Integer id, Integer cardNumber, String cardHolderName, Date expirationDate, Integer cvv,
+    public PayCardsDTO(Integer id, String cardNumber, String cardHolderName, Date expirationDate, Integer cvv,
             String billingAddress, Date createdAt, Date updatedAt, Boolean active) {
         this.id = id;
         this.cardNumber = cardNumber;
@@ -37,10 +37,10 @@ public class PayCardsDTO {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
     public String getCardHolderName() {

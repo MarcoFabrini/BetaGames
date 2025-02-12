@@ -86,7 +86,6 @@
 
     create table pay_cards (
         active bit not null,
-        card_number integer,
         cvv integer,
         id integer not null auto_increment,
         id_users integer,
@@ -95,6 +94,7 @@
         updated_at datetime(6),
         billing_address varchar(255),
         card_holder_name varchar(255),
+        card_number varchar(255),
         primary key (id)
     ) engine=InnoDB;
 

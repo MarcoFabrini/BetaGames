@@ -23,7 +23,7 @@ public class PayCards {
     private Integer id;
 
     @Column(name = "card_number")
-    private Integer cardNumber;
+    private String cardNumber;
 
     @Column(name = "card_holder_name")
     private String cardHolderName;
@@ -61,11 +61,11 @@ public class PayCards {
         this.id = id;
     }
 
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

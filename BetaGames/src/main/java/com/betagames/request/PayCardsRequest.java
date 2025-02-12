@@ -9,7 +9,7 @@ import java.util.Date;
 public class PayCardsRequest {
 
     private Integer id;
-    private Integer cardNumber;
+    private String cardNumber;
     private Integer cvv;
     private Integer userId;
     private Date createdAt;
@@ -27,11 +27,11 @@ public class PayCardsRequest {
         this.id = id;
     }
 
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

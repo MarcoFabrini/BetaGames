@@ -15,12 +15,12 @@ import com.betagames.model.PayCards;
  @Repository
 public interface IPayCardsRepository extends JpaRepository<PayCards, Integer> {
 
-    Optional<PayCards> findByCardNumber(Integer cardNumber);
+    Optional<PayCards> findByCardNumber(String cardNumber);
 
-    //vedere come fare il find by number ingnorando l'id
+    //vedere come fare il find by number ignorando l'id
     //per inserirere più carte con lo stesso numero
-    //Optional<Users> findByUsernameAndIdNot(String username, Integer id);
-    Optional<PayCards> findByCardNumberAndUserId(Integer cardNumber, Integer userId);
+
+    Optional<PayCards> findByCardNumberAndUserId(String cardNumber, Integer userId);
     
     //probabilmente mi servirà un findByIdAndUserId per l'update delle card
 

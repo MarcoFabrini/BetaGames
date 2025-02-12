@@ -62,6 +62,7 @@ public class ReviewsServiceTest {
         globalUserRequest.setUsername("userTest");
         globalUserRequest.setPwd("userTest");
         globalUserRequest.setEmail("userTest@example.com");
+        globalUserRequest.setActive(true);
         globalUserRequest.setRoleId(1);
         userService.createUser(globalUserRequest);
     }// user

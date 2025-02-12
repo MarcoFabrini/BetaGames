@@ -60,6 +60,8 @@ public class UsersImplementation implements IUsersService {
 		Date now = new Date();
 
 		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("user");
+		if(!role.isPresent())
+			throw new Exception("Role not found");
 
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 		if (users.isPresent())

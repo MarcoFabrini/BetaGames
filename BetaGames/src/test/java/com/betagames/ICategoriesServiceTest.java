@@ -230,13 +230,10 @@ public class ICategoriesServiceTest {
         categoriesService.create(req);
         categoriesService.create(req2);
 
-        List<CategoriesDTO> categoriesList = categoriesService.list();
-
         CategoriesRequest deleteRequest = new CategoriesRequest();
         deleteRequest.setId(null);
         assertThrows(Exception.class, () -> {
             categoriesService.delete(deleteRequest);
         });
     }
-
 }

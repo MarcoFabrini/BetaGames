@@ -103,6 +103,8 @@ public class GamesImplementation implements IGamesService {
                 }
                 g.getListAuthors().add(author);
             }
+        } else {
+            g.setListAuthors(new ArrayList<>());
         }
 
         if (req.getCategoryId() != null) {
@@ -114,6 +116,8 @@ public class GamesImplementation implements IGamesService {
                 }
                 g.getListCategory().add(category);
             }
+        } else {
+            g.setListCategory(new ArrayList<>());
         }
 
         if (req.getReviewsId() != null) {
@@ -125,6 +129,8 @@ public class GamesImplementation implements IGamesService {
                 }
                 g.getListReviews().add(review);
             }
+        } else {
+            g.setListReviews(new ArrayList<>());
         }
         // save
         gamesR.save(g);
@@ -187,8 +193,30 @@ public class GamesImplementation implements IGamesService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(GamesRequest req) throws Exception {
         Optional<Games> game = gamesR.findById(req.getId());
-        if (!game.isPresent())
+        if (!game.isPresent()) {
             throw new Exception("Game not found!");
+        }
+
+        Games gameEntity = game.get();
+
+        
+        if (gameEntity.getListAuthors() != null) {
+            gameEntity.getListAuthors().forEach(author -> author.getListGames().remove(game));
+            gameEntity.getListAuthors().clear();
+        }
+        
+        if (gameEntity.getListCategory() != null) {
+            gameEntity.getListCategory().forEach(category -> category.getListGames().remove(gameEntity));
+            gameEntity.getListCategory().clear();
+        }
+        
+        if (gameEntity.getListReviews() != null) {
+            gameEntity.getListReviews().forEach(review -> review.setGame(null));
+            gameEntity.getListReviews().clear();
+        }
+    
+        gamesR.save(gameEntity);
+
         gamesR.delete(game.get());
     }// delete
 

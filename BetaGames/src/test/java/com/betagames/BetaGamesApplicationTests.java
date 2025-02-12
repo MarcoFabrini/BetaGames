@@ -15,7 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 	DetailsCartsServiceTest.class,
 
-	ICategoriesServiceTest.class
+	ICategoriesServiceTest.class,
+
+	IAuthorsServiceTest.class,
+	
+	IGamesServicesTest.class
 
 })
 @SpringBootTest(classes = BetaGamesApplication.class)

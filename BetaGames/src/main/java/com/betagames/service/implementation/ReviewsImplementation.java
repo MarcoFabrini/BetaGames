@@ -49,13 +49,13 @@ public class ReviewsImplementation implements IReviewsService {
     public void create(ReviewsRequest req) throws Exception {
         Date now = new Date();
         Optional<Games> game = gamesRepository.findById(req.getGameId());
-        if(!game.isPresent())
+        if (!game.isPresent())
             throw new Exception("Game not found");
-        
+
         Optional<Users> user = usersRepository.findById(req.getUsersId());
-        if(!user.isPresent())
+        if (!user.isPresent())
             throw new Exception("User not found");
-        
+
         Reviews review = new Reviews();
         review.setGame(game.get());
         review.setUser(user.get());
@@ -64,15 +64,23 @@ public class ReviewsImplementation implements IReviewsService {
         review.setDescription(req.getDescription());
 
         reviewsRepository.save(review);
-    }// create 
+    }// create
 
     @Override
     public void update(ReviewsRequest req) throws Exception {
         Date now = new Date();
 
         Optional<Reviews> review = reviewsRepository.findById(req.getId());
-        if(!review.isPresent())
+        if (!review.isPresent())
             throw new Exception("Review not found");
+
+        Optional<Games> game = gamesRepository.findById(req.getGameId());
+        if (!game.isPresent())
+            throw new Exception("Game not found");
+
+        Optional<Users> user = usersRepository.findById(req.getUsersId());
+        if (!user.isPresent())
+            throw new Exception("User not found");
 
         review.get().setCreatedAt(now);
         review.get().setScore(req.getScore());
@@ -87,9 +95,9 @@ public class ReviewsImplementation implements IReviewsService {
     @Override
     public void delete(ReviewsRequest req) throws Exception {
         Optional<Reviews> review = reviewsRepository.findById(req.getId());
-        if(!review.isPresent())
+        if (!review.isPresent())
             throw new Exception("Review not found");
-        
+
         reviewsRepository.delete(review.get());
     }// delete
 

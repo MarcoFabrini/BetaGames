@@ -52,15 +52,17 @@ public class PayCardsImplementation implements IPayCardsService {
             throw new Exception("User non trovato");
         }
         return buildPayCardsDTO(user.get().getListPayCards());
-    }//listByUser
+    }// listByUser
 
     @Override
     public void create(PayCardsRequest req) throws Exception {
 
-        //Verifico che non esistano già altre carte associate allo stesso user con lo stesso cardNumber
-        //2 user diversi dovrebbero poter avere una carta con lo stesso numero (esempio padre e figlio)
+        // Verifico che non esistano già altre carte associate allo stesso user con lo
+        // stesso cardNumber
+        // 2 user diversi dovrebbero poter avere una carta con lo stesso numero (esempio
+        // padre e figlio)
         Optional<PayCards> paycard = paycardsR.findByCardNumberAndUserId(req.getCardNumber(), req.getUserId());
-        if (paycard.isPresent()){
+        if (paycard.isPresent()) {
             throw new Exception("Pay Card already present for this user!");
 
         }
@@ -84,26 +86,30 @@ public class PayCardsImplementation implements IPayCardsService {
     @Override
     public void update(PayCardsRequest req) throws Exception {
 
+        // controlli da rivedere
+        Optional<PayCards> paycard = paycardsR.findByCardNumber(req.getCardNumber());
+        if (paycard.isPresent())
+            throw new Exception("Pay Card already present");
 
-        //controlli da rivedere
-        Optional<PayCards> paycard = paycardsR.findById(req.getId());
-        if(!paycard.isPresent()) throw new Exception("Pay Card not found!");
-        paycard = paycardsR.findByCardNumber(req.getCardNumber());
-        if(!paycard.isPresent()) throw new Exception("Pay Card not found!");
+        paycard = paycardsR.findById(req.getId());
+        if (!paycard.isPresent())
+            throw new Exception("Pay Card not found!");
 
-        //controllo da rivedere per far si che non si possa andare a duplicare una carta con lo stesso user
-            // paycard = paycardsR.findByCardNumberAndUserId(req.getCardNumber(), req.getUserId());
-            // if(!paycard.isPresent()) throw new Exception("Pay Card not found!");
+        // controllo da rivedere per far si che non si possa andare a duplicare una
+        // carta con lo stesso user
+        // paycard = paycardsR.findByCardNumberAndUserId(req.getCardNumber(),
+        // req.getUserId());
+        // if(!paycard.isPresent()) throw new Exception("Pay Card not found!");
 
-        Optional<Users> user = usersR.findById(req.getUserId());    //recupero lo user di riferimento
-        PayCards updtPayCard = paycard.get();       //creo la paycard che contiene i campi updatati (PayCardUpdated)
-        //popolo i campi
+        Optional<Users> user = usersR.findById(req.getUserId()); // recupero lo user di riferimento
+        PayCards updtPayCard = paycard.get(); // creo la paycard che contiene i campi updatati (PayCardUpdated)
+        // popolo i campi
         updtPayCard.setCardNumber(req.getCardNumber());
         updtPayCard.setCvv(req.getCvv());
         updtPayCard.setCardHolderName(req.getCardHolderName());
-        updtPayCard.setUser(user.get());              //CAPIRE SE SERVE ANDARE A MODIFICARE L'USER... HA SENSO?
-        updtPayCard.setCreatedAt((req.getCreatedAt()) );     //mettere che non possa essere cambiato(?) 
-        updtPayCard.setUpdatedAt((req.getUpdatedAt()));      //impostarlo in automatico all'update
+        updtPayCard.setUser(user.get()); // CAPIRE SE SERVE ANDARE A MODIFICARE L'USER... HA SENSO?
+        updtPayCard.setCreatedAt((req.getCreatedAt())); // mettere che non possa essere cambiato(?)
+        updtPayCard.setUpdatedAt((req.getUpdatedAt())); // impostarlo in automatico all'update
 
         updtPayCard.setExpirationDate(convertStringToDate(req.getExpirationDate()));
         updtPayCard.setBillingAddress(req.getBillingAddress());

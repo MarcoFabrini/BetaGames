@@ -34,34 +34,4 @@ public class DetailsOrderController {
         }
         return responseList;
     }
-
-    @PostMapping("/createDetailsOrder")
-    public ResponseBase create(@RequestBody(required = true) DetailsOrderRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-
-        try {
-            detOrderS.create(req);
-        } catch (Exception e) {
-            response.setRc(false);
-            response.setMsg(e.getMessage());
-        }
-
-        return response;
-    }
-
-    @PostMapping("/updateDetailsOrder")
-    public ResponseBase update(@RequestBody(required = true) DetailsOrderRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-
-        try {
-            detOrderS.update(req);
-        } catch (Exception e) {
-            response.setRc(false);
-            response.setMsg(e.getMessage());
-        }
-
-        return response;
-    }
 }

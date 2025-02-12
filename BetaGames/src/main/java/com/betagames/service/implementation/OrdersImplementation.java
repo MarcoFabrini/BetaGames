@@ -34,17 +34,20 @@ import static com.betagames.utility.Utilities.convertStringToDate;
  */
 @Service
 public class OrdersImplementation implements IOrdersService {
+    // ====ORDER====
     @Autowired
     IOrdersRepository orderRep;
 
     @Autowired
+    IDetailsOrderRepository detailsOrdersRep;
+
+    // =====USER====
+    @Autowired
     IUsersRepository userRep;
 
+    // ====PAY CARD===
     @Autowired
     IPayCardsRepository cardRep;
-
-    @Autowired
-    IDetailsOrderRepository detailsOrdersRep;
 
     // ====CART===
     @Autowired
@@ -53,7 +56,7 @@ public class OrdersImplementation implements IOrdersService {
     @Autowired
     IDetailsCartsRepository detailsCartRep;
 
-    // metodo che restituisce tutti gli ordini -> testato su postman
+    // metodo che restituisce tutti gli ordini
     @Override
     public List<OrdersDTO> findAllOrders() throws Exception {
         List<Orders> listOrders = orderRep.findAll();
@@ -71,8 +74,7 @@ public class OrdersImplementation implements IOrdersService {
 
     }
 
-    // metodo che restituisce tutti gli ordini fatti da un utente -> testato su
-    // postman
+    // metodo che restituisce tutti gli ordini fatti da un utente
     @Override
     public List<OrdersDTO> findByUser(Integer id) throws Exception {
         Optional<Users> user = userRep.findById(id);
@@ -84,7 +86,7 @@ public class OrdersImplementation implements IOrdersService {
         return buildOrdersDTO(user.get().getListOrders());
     }
 
-    // metodo che restituisce gli ordini tramite la ricerca -> testato su postman
+    // metodo che restituisce gli ordini tramite la ricerca
     @Override
     public List<OrdersDTO> searchByTyping(Integer id, Integer idPayCard, Integer idUsers) throws Exception {
         List<Orders> listOrders = orderRep.searchByTyping(id, idPayCard, idUsers);
@@ -121,6 +123,10 @@ public class OrdersImplementation implements IOrdersService {
 
         if (card.isEmpty()) {
             throw new Exception("Carta di Pagamento non esistente");
+        }
+
+        if (card.get().getExpirationDate().compareTo(now) == -1) {
+            throw new Exception("Carta di pagamento scaduta");
         }
         Orders ord = new Orders();
         ord.setTotalAmmount(totalAmount);

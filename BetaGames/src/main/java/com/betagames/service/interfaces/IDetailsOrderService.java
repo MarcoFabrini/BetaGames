@@ -13,8 +13,4 @@ public interface IDetailsOrderService {
 
     List<DetailsOrderDTO> searchByOrder(Integer id) throws Exception;
 
-    void create(DetailsOrderRequest req) throws Exception;
-
-    void update(DetailsOrderRequest req) throws Exception;
-
 }

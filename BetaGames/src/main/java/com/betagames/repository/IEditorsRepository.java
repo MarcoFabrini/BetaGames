@@ -21,8 +21,11 @@ public interface IEditorsRepository extends JpaRepository<Editors, Integer> {
        @Param("name") String name,
        @Param("website") String website);
 
-
     Optional<Editors> findByName(String name);
 
     Optional<Editors> findByWebsite(String website);
+
+    Optional<Editors> findByNameAndIdNot(String name, Integer id);
+
+    Optional<Editors> findByWebsiteAndIdNot(String website, Integer id);
 }// interface

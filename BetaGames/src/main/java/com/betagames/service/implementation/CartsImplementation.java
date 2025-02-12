@@ -34,39 +34,39 @@ public class CartsImplementation implements ICartsService{
     @Autowired
 	private Logger log;
 
-    @Override
-    public  void create(CartsRequest req) throws Exception{
+    // @Override
+    // public  void create(CartsRequest req) throws Exception{
 
-        Date now = new Date();
+    //     Date now = new Date();
 
-        Optional<Users> users = usersR.findById(req.getUserId());
+    //     Optional<Users> users = usersR.findById(req.getUserId());
 
-        Optional<Carts> cartsUser = cartR.findByUser(users.get());
+    //     Optional<Carts> cartsUser = cartR.findByUser(users.get());
 
-        if (users.isEmpty())
-			throw new Exception("user not found");
+    //     if (users.isEmpty())
+	// 		throw new Exception("user not found");
 
-        //gestisco l'errore delle chiavi duplicate
-        if(cartsUser.isPresent())
-            throw new Exception("user can have one cart");
+    //     //gestisco l'errore delle chiavi duplicate
+    //     if(cartsUser.isPresent())
+    //         throw new Exception("user can have one cart");
         
-        Carts carts = new Carts();
+    //     Carts carts = new Carts();
 
-        carts.setUser(users.get());
-        carts.setCreatedAt(now);
-        carts.setUpdatedAt(now);
+    //     carts.setUser(users.get());
+    //     carts.setCreatedAt(now);
+    //     carts.setUpdatedAt(now);
 
-        cartR.save(carts);
-    }
+    //     cartR.save(carts);
+    // }
 
-    @Override
-    public void delete(CartsRequest req) throws Exception {
+    // @Override
+    // public void delete(CartsRequest req) throws Exception {
 
-        Optional<Carts> carts = cartR.findById(req.getId());
-        if (carts.isEmpty())
-			throw new Exception("cart not found");
-        cartR.delete(carts.get());
-    }
+    //     Optional<Carts> carts = cartR.findById(req.getId());
+    //     if (carts.isEmpty())
+	// 		throw new Exception("cart not found");
+    //     cartR.delete(carts.get());
+    // }
 
     @Override
 	public List<CartsDTO> list() throws Exception {

@@ -8,9 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Suite
 @SelectClasses({
-	EditorsServiceTest.class,
 
 	RolesServiceTest.class,
+
+	EditorsServiceTest.class,
+
+	DetailsCartsServiceTest.class,
 
 	ICategoriesServiceTest.class
 

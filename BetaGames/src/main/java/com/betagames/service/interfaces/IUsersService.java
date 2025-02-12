@@ -19,11 +19,11 @@ public interface IUsersService {
 
     void createUser(UsersRequest req) throws Exception;
 
-    void createAdmin(UsersRequest req) throws Exception;
-
     void login(UsersRequest req) throws Exception;
 
     void update(UsersRequest req) throws Exception;
+
+    void upgradeToAdmin(UsersRequest req) throws Exception;
 
     void delete(UsersRequest req) throws Exception;
 }// class

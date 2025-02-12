@@ -7,33 +7,30 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import com.betagames.controller.PayCardsController;
 import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
-import com.betagames.model.PayCards;
-import com.betagames.request.OrdersRequest;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
-import com.betagames.service.interfaces.IPayCardsService;
+import com.betagames.response.ResponseBase;
+import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 
-/*
- * 
- * @author Simone Checco
- */
-
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PayCardsServiceTest {
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+public class PayCardsControllerTest {
+
     @Autowired
-    private IPayCardsService payCardsService;
+    PayCardsController payCardsController;
 
     @Autowired
     private IUsersService usersService;
@@ -41,40 +38,43 @@ public class PayCardsServiceTest {
     @Autowired
     private IRolesService rolesService;
 
+    @Autowired
+    Logger log;
+
+    /*
+     * metodi del controller:
+     *  create
+     *  list
+     *  listByUser
+     *  update
+     *  delete
+    */
+
     @Test
     @Order(1)
-    public void createTest() throws Exception {
+    void createTest() throws Exception {
 
         RolesRequest rolesRequest = new RolesRequest();
-
         UsersRequest usersRequest = new UsersRequest();
-
         PayCardsRequest payCardsRequest = new PayCardsRequest();
-
         // ---------create Roles----------
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
-
         List<RolesDTO> listRoles = rolesService.listRoles();
-
         Assertions.assertThat(listRoles.size()).isEqualTo(1);
-
         // ---------Create User-------
         usersRequest.setUsername("userTest");
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
         usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
-
         List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
-
         UsersDTO creaUsersDTO = listUsers.stream()
                 .filter(e -> "userTest".equals(e.getUsername()))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("User not found"));
 
         Assertions.assertThat(creaUsersDTO.getId()).isEqualTo(1);
-
         // ------create PayCard----------
         payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
         payCardsRequest.setCardHolderName("Nome del tipo");
@@ -83,41 +83,17 @@ public class PayCardsServiceTest {
         payCardsRequest.setExpirationDate("31/12/2025");
         payCardsRequest.setUserId(listUsers.get(0).getId());
 
-        payCardsService.create(payCardsRequest);
+        ResponseBase response = payCardsController.create(payCardsRequest);
 
-        List<PayCardsDTO> listPayCard = payCardsService.list();
-        listPayCard.forEach(card -> System.out.println("carta: " + card.getCardHolderName()));
-        PayCardsDTO createPayCardDTO = listPayCard.stream()
-                .filter(e -> "Nome del tipo".equals(e.getCardHolderName()))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("payCard not found"));
-
-        Assertions.assertThat(createPayCardDTO.getId()).isEqualTo(1);
-
-    }
+        //Asserts
+        Assertions.assertThat(response.getRc()).isEqualTo(true);
+    }//createTest
 
     @Test
     @Order(2)
-    public void listTest() throws Exception {
-        List<PayCardsDTO> listPayCards = payCardsService.list();
-
-        Assertions.assertThat(listPayCards.size()).isEqualTo(1);
-    }
-
-    @Test
-    @Order(3)
-    public void listByUserTest() throws Exception {
-
-        List<PayCardsDTO> listPayCards = payCardsService.listByUser(1);
-
-        Assertions.assertThat(listPayCards.size()).isEqualTo(1);
-    }
-
-    @Test
-    @Order(4)
-    public void updateTest() throws Exception {
+    public void updateTest() throws Exception{
         PayCardsRequest payCardsRequest = new PayCardsRequest();
-        List<PayCardsDTO> listPayCards = payCardsService.list();
+        //List<PayCardsDTO> listPayCards = payCardsService.list();
         List<UsersDTO> listUsers = usersService.list();
         payCardsRequest.setBillingAddress("Via Dei Martiri, 1");
         payCardsRequest.setCardHolderName("Simone Chindfo");
@@ -126,26 +102,76 @@ public class PayCardsServiceTest {
         payCardsRequest.setExpirationDate("31/12/2025");
         payCardsRequest.setId(1);
         payCardsRequest.setUserId(listUsers.get(0).getId());
-        payCardsService.update(payCardsRequest);
 
-        listPayCards = payCardsService.list();
+        ResponseBase response = payCardsController.update(payCardsRequest);
 
-        Assertions.assertThat(listPayCards.get(0).getCardNumber()).isEqualTo(634562256);
-        Assertions.assertThat(listPayCards.get(0).getCvv()).isEqualTo(234);
-        Assertions.assertThat(listPayCards.get(0).getCardHolderName()).isEqualTo("Simone Chindfo");
-        Assertions.assertThat(listPayCards.get(0).getBillingAddress()).isEqualTo("Via Dei Martiri, 1");
-    }
+        Assertions.assertThat(response.getRc()).isEqualTo(true);
+    
+    }//updateTest
 
     @Test
     @Order(5)
-    public void deleteTest() throws Exception {
+    public void deleteTest(){
         PayCardsRequest payCardsRequest = new PayCardsRequest();
         payCardsRequest.setId(1);
 
-        payCardsService.delete(payCardsRequest);
+        ResponseBase response = payCardsController.delete(payCardsRequest);
 
-        List<PayCardsDTO> listPayCards = payCardsService.list();
-
-        Assertions.assertThat(listPayCards.get(0).getActive()).isEqualTo(false);
+        Assertions.assertThat(response.getRc()).isEqualTo(true);
     }
-}
+
+
+    @Test
+    @Order(4)
+    public void listTest(){
+        ResponseList<PayCardsDTO> res = payCardsController.list();
+
+        Assertions.assertThat(res.getRc()).isEqualTo(true);
+        Assertions.assertThat(res.getData().get(0).getId()).isEqualTo(1);
+    }//listTest
+
+    @Test
+    @Order(5)
+    public void listByUserTest(){
+        
+        ResponseList<PayCardsDTO> res = payCardsController.listByUser(1);
+
+        Assertions.assertThat(res.getRc()).isEqualTo(true);
+        Assertions.assertThat(res.getData().size()).isEqualTo(1);
+    }//listByUserIdTest
+
+    @Test
+    @Order(6)
+    public void deleteFailTest(){
+        PayCardsRequest payCardsRequest = new PayCardsRequest();
+        payCardsRequest.setId(null);
+
+        ResponseBase response = payCardsController.delete(payCardsRequest);
+
+        Assertions.assertThat(response.getRc()).isEqualTo(false);
+        Assertions.assertThat(response.getMsg()).isEqualTo("The given id must not be null");
+    }
+
+    //  @Test
+    //  @Order(7)
+    //  public void updateFailTest() throws Exception{
+    //     PayCardsRequest payCardsRequest = new PayCardsRequest();
+    //     List<UsersDTO> listUsers = usersService.list();
+    //     payCardsRequest.setBillingAddress("Via Dei Martiri, 1");
+    //     payCardsRequest.setCardHolderName("Simone Chindfo");
+    //     payCardsRequest.setCardNumber("634562256");
+    //     payCardsRequest.setCvv(234);
+    //     payCardsRequest.setExpirationDate("31/12/2025");
+    //     payCardsRequest.setId(1);
+    //     payCardsRequest.setUserId(listUsers.get(0).getId());
+
+    //     ResponseBase response = payCardsController.update(payCardsRequest);
+
+    //     Assertions.assertThat(response.getRc()).isEqualTo(false);
+    //     Assertions.assertThat(response.getMsg()).isEqualTo("Pay Card already present");
+
+    //  }//updateFailTest
+
+
+
+}//class

@@ -89,7 +89,7 @@ public class ICategoriesServiceTest {
         CategoriesRequest req = new CategoriesRequest();
         CategoriesRequest req2 = new CategoriesRequest();
 
-        req.setName("Terror");
+        req.setName("Aventura");
         req.setGamesId(1);
         req2.setName("Pokemon");
 
@@ -98,7 +98,7 @@ public class ICategoriesServiceTest {
 
         List<CategoriesDTO> lC = categoriesService.list();
 
-        CategoriesDTO c1 = lC.stream().filter(c -> "Terror".equals(c.getName()))
+        CategoriesDTO c1 = lC.stream().filter(c -> "Aventura".equals(c.getName()))
                 .findFirst().orElseThrow(() -> new AssertionError("Category don't find"));
         Assertions.assertThat(c1.getId()).isEqualTo(1);
         lC.forEach(s -> log.debug(s.toString()));

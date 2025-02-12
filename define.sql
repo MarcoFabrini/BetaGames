@@ -85,6 +85,7 @@
     ) engine=InnoDB;
 
     create table pay_cards (
+        active bit not null,
         card_number integer,
         cvv integer,
         id integer not null auto_increment,
@@ -114,6 +115,7 @@
     ) engine=InnoDB;
 
     create table users (
+        active bit not null,
         id integer not null auto_increment,
         id_role integer,
         email varchar(255) not null,
@@ -124,9 +126,6 @@
 
     alter table carts 
        add constraint UK1eyx4jkn3tmk5cc9itor35q84 unique (id_users);
-
-    alter table orders 
-       add constraint UKqp7c29im80j09sjdnit5wxaq4 unique (id_pay_cards);
 
     alter table authors_games 
        add constraint FKqgd6l1vsxbw40b80frhpds3a7 

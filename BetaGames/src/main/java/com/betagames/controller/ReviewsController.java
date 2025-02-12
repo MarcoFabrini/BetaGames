@@ -24,7 +24,6 @@ import com.betagames.service.interfaces.IReviewsService;
  *
  * @author FabriniMarco
  */
-
 @RestController
 @RequestMapping("/rest/reviews")
 public class ReviewsController {

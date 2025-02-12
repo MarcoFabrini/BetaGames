@@ -27,6 +27,10 @@ import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 import static com.betagames.utility.Utilities.convertDateToString;
 
+/**
+ *
+ * @author FabriniMarco
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
@@ -44,16 +48,21 @@ public class ReviewsServiceTest {
     @Autowired
     IGamesService gamesService;
 
-    private RolesRequest globalRolesRequest;
+    private RolesRequest globalRolesAdminRequest;
+    private RolesRequest globalRolesUserRequest;
     private UsersRequest globalUserRequest;
     private EditorsRequest globalEditorsRequest;
     private GamesRequest globalGamesRequest;
     private final Date now = new Date();
 
     private void roles() throws Exception{
-        globalRolesRequest = new RolesRequest();
-        globalRolesRequest.setName("user");
-        rolesService.create(globalRolesRequest);
+        globalRolesAdminRequest = new RolesRequest();
+        globalRolesAdminRequest.setName("admin");
+        rolesService.create(globalRolesAdminRequest);
+
+        globalRolesUserRequest = new RolesRequest();
+        globalRolesUserRequest.setName("user");
+        rolesService.create(globalRolesUserRequest);
     }// roles
 
     private void user() throws Exception{
@@ -62,8 +71,6 @@ public class ReviewsServiceTest {
         globalUserRequest.setUsername("userTest");
         globalUserRequest.setPwd("userTest");
         globalUserRequest.setEmail("userTest@example.com");
-        globalUserRequest.setActive(true);
-        globalUserRequest.setRoleId(1);
         userService.createUser(globalUserRequest);
     }// user
 
@@ -129,9 +136,10 @@ public class ReviewsServiceTest {
         reviewsRequest.setUsersId(100);
         reviewsRequest.setGameId(1);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.create(reviewsRequest);
         });
+        log.debug("createReviewsNotUserIdTest: {}", exception.getMessage());
     }// createReviewsNotUserIdTest
 
     @Test
@@ -142,9 +150,10 @@ public class ReviewsServiceTest {
         reviewsRequest.setUsersId(1);
         reviewsRequest.setGameId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.create(reviewsRequest);
         });
+        log.debug("createReviewsNotGameIdTest: {}", exception.getMessage());
     }// createReviewsNotGameIdTest
 
     @Test
@@ -179,9 +188,10 @@ public class ReviewsServiceTest {
         ReviewsRequest reviewsRequest = new ReviewsRequest();
         reviewsRequest.setId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.update(reviewsRequest);
         });
+        log.debug("updateReviewsNotIdTest: {}", exception.getMessage());
     }// updateReviewsNotIdTest
 
     @Test
@@ -192,9 +202,10 @@ public class ReviewsServiceTest {
         reviewsRequest.setUsersId(100);
         reviewsRequest.setGameId(1);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.update(reviewsRequest);
         });
+        log.debug("updateReviewsNotUserIdTest: {}", exception.getMessage());
     }// updateReviewsNotIdTest
 
     @Test
@@ -205,9 +216,10 @@ public class ReviewsServiceTest {
         reviewsRequest.setUsersId(1);
         reviewsRequest.setGameId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.update(reviewsRequest);
         });
+        log.debug("updateReviewsNotGameIdTest: {}", exception.getMessage());
     }// updateReviewsNotIdTest
 
     @Test
@@ -216,9 +228,10 @@ public class ReviewsServiceTest {
         ReviewsRequest reviewsRequest = new ReviewsRequest();
         reviewsRequest.setId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             reviewsService.delete(reviewsRequest);
         });
+        log.debug("deleteReviewsNotIdTest: {}", exception.getMessage());
     }// deleteReviewsNotIdTest
 
     @Test

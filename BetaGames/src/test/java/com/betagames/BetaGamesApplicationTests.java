@@ -10,6 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SelectClasses({
 
 
+	// RolesServiceTest.class,
+	EditorsServiceTest.class,
+	ReviewsServiceTest.class,
+	UsersServiceTest.class
+	// DetailsCartsServiceTest.class,
+	// ICategoriesServiceTest.class
+	//DetailsCartsControllerTest.class
+
+
 
 })
 @SpringBootTest(classes = BetaGamesApplication.class)

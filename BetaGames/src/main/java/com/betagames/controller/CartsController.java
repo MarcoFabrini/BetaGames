@@ -24,35 +24,35 @@ public class CartsController {
     @Autowired
     ICartsService cartsService;
 
-    @PostMapping("/create")
-    public ResponseBase create(@RequestBody(required = true) CartsRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-        try {
-            cartsService.create(req);
-            response.setMsg("Successfully created Cart");
-        } catch (Exception e) {
-            log.error("Failed to create Cart: " + e.getMessage());
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }
+    // @PostMapping("/create")
+    // public ResponseBase create(@RequestBody(required = true) CartsRequest req) {
+    //     ResponseBase response = new ResponseBase();
+    //     response.setRc(true);
+    //     try {
+    //         cartsService.create(req);
+    //         response.setMsg("Successfully created Cart");
+    //     } catch (Exception e) {
+    //         log.error("Failed to create Cart: " + e.getMessage());
+    //         response.setMsg(e.getMessage());
+    //         response.setRc(false);
+    //     }
+    //     return response;
+    // }
 
-    @PostMapping("/delete")
-    public ResponseBase delete(@RequestBody(required = true) CartsRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-        try {
-            cartsService.delete(req);
-            response.setMsg("Successfully deleted Cart");
-        } catch (Exception e) {
-            log.error("Failed to delete Cart: " + e.getMessage());
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }
+    // @PostMapping("/delete")
+    // public ResponseBase delete(@RequestBody(required = true) CartsRequest req) {
+    //     ResponseBase response = new ResponseBase();
+    //     response.setRc(true);
+    //     try {
+    //         cartsService.delete(req);
+    //         response.setMsg("Successfully deleted Cart");
+    //     } catch (Exception e) {
+    //         log.error("Failed to delete Cart: " + e.getMessage());
+    //         response.setMsg(e.getMessage());
+    //         response.setRc(false);
+    //     }
+    //     return response;
+    // }
 
     @GetMapping("/list")
     public ResponseList<CartsDTO> list() {

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -15,33 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.betagames.dto.CartsDTO;
 import com.betagames.dto.DetailsCartDTO;
-import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
 import com.betagames.dto.GamesDTO;
-import com.betagames.dto.OrdersDTO;
 import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
-import com.betagames.model.Carts;
-import com.betagames.model.DetailsCart;
-import com.betagames.repository.ICartsRepository;
 import com.betagames.request.DetailsCartRequest;
-import com.betagames.request.DetailsOrderRequest;
-import com.betagames.model.Carts;
-import com.betagames.model.DetailsCart;
-import com.betagames.repository.ICartsRepository;
-import com.betagames.request.DetailsCartRequest;
-import com.betagames.request.DetailsOrderRequest;
 import com.betagames.request.EditorsRequest;
 import com.betagames.request.GamesRequest;
-import com.betagames.request.OrdersRequest;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
-import com.betagames.response.ResponseList;
-import com.betagames.service.interfaces.ICartsService;
 import com.betagames.service.interfaces.IDetailsCartsService;
 import com.betagames.service.interfaces.IDetailsOrderService;
 import com.betagames.service.interfaces.IEditorsService;
@@ -57,10 +41,6 @@ import com.betagames.service.interfaces.IUsersService;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class DetailsCartsServiceTest {
 
-    @Autowired
-    private IOrdersService ordersService;
-    @Autowired
-    private IDetailsOrderService detailsOrderService;
     @Autowired
     private IPayCardsService payCardsService;
     @Autowired

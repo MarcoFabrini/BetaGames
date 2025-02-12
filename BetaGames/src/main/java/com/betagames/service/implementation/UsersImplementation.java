@@ -60,6 +60,8 @@ public class UsersImplementation implements IUsersService {
 		Date now = new Date();
 
 		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("user");
+		if(!role.isPresent())
+			throw new Exception("Role not found");
 
 		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 		if (users.isPresent())
@@ -150,22 +152,19 @@ public class UsersImplementation implements IUsersService {
 		if (!optionalUser.isPresent())
 			throw new Exception("This user is not present");
 
-		Integer userId = req.getId();
-
 		// Verifica se l'username è già usato da un altro utente escludendo l'utente corrente
-		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), userId).isPresent()) {
+		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), req.getId()).isPresent()) {
 			throw new Exception("This username is already in use by another user");
 		}
 
 		// Verifica se l'email è già usata da un altro utente escludendo l'utente corrente
-		if (usersRepository.findByEmailAndIdNot(req.getEmail(), userId).isPresent()) {
+		if (usersRepository.findByEmailAndIdNot(req.getEmail(), req.getId()).isPresent()) {
 			throw new Exception("This email is already in use by another user");
 		}
 
 		Users user = optionalUser.get();
 		user.setUsername(req.getUsername());
 		user.setEmail(req.getEmail());
-
 
 		// Controlla se la password nel request è diversa da quella salvata (decriptata)
 		if (!passwordEncoder.matches(req.getPwd(), user.getPwd())) {

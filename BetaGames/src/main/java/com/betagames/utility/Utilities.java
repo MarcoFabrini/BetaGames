@@ -1,5 +1,6 @@
 package com.betagames.utility;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +39,11 @@ public class Utilities {
   public static Date convertStringToDate(String dataString) throws ParseException {
     SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
     return formatter.parse(dataString);
+  }
+
+  public static String convertDateToString(Date date) throws ParseException{
+    DateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);
+		return formatter.format(date);
   }
 
   public static AuthorsDTO builAuthorsDTO(Authors authors) {

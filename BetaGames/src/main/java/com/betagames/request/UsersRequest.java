@@ -9,6 +9,7 @@ public class UsersRequest {
     private String username;
     private String email;
     private String pwd;
+    private Boolean active;
     private Integer roleId;
 
     public Integer getId() {
@@ -41,6 +42,14 @@ public class UsersRequest {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Integer getRoleId() {

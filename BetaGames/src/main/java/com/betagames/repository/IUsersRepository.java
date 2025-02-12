@@ -29,6 +29,6 @@ public interface IUsersRepository extends JpaRepository<Users, Integer> {
 
     // esclude se stesso dal db e cerca negli altri record 
     Optional<Users> findByUsernameAndIdNot(String username, Integer id);
+    
     Optional<Users> findByEmailAndIdNot(String email, Integer id);
-
 }// interface

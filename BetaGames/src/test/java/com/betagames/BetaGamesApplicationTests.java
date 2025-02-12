@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 	// RolesServiceTest.class,
 	EditorsServiceTest.class,
 	ReviewsServiceTest.class,
-	UsersServiceTest.class
+	UsersServiceTest.class,
 	// DetailsCartsServiceTest.class,
 	//DetailsCartsControllerTest.class
 	ICategoriesServiceTest.class,

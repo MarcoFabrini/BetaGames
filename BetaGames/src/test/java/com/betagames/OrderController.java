@@ -117,7 +117,7 @@ public class OrderController {
         // ------create PayCard----------
         payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
         payCardsRequest.setCardHolderName("Nome del tipo");
-        payCardsRequest.setCardNumber(11223344);
+        payCardsRequest.setCardNumber("11223344");
         payCardsRequest.setCvv(133);
         payCardsRequest.setExpirationDate("31/12/2025");
         payCardsRequest.setUserId(listUsers.get(0).getId());

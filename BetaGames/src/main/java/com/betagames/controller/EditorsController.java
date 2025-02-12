@@ -68,7 +68,7 @@ public class EditorsController {
             editorsService.create(req);
             response.setMsg("Successfully created editor");
         } catch (Exception e) {
-            log.error("Failed to create editor" + e.getMessage());
+            log.error("Failed to create editor " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }

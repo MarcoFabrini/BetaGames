@@ -96,17 +96,17 @@ public class AuthorsImplementation implements IAuthorsService {
         Objects.requireNonNull(req.getName(), "The author's name is not present.");
         Objects.requireNonNull(req.getLastname(), "The author's lastname is not present.");
         Optional<Authors> author = authorsRepository.findByNameAndLastname(req.getName(), req.getLastname());
-       
+
         if (!author.isPresent())
-        throw new Exception("This authors name or lastname isn't present");
-        
+            throw new Exception("This authors name or lastname isn't present");
+
         Authors a = author.get();
 
-        if (req.getBiography()!=null) {
-            a.setBiography(req.getBiography()); 
+        if (req.getBiography() != null) {
+            a.setBiography(req.getBiography());
         }
-        if (req.getCountry()!=null) {
-            a.setCountry(req.getCountry());        
+        if (req.getCountry() != null) {
+            a.setCountry(req.getCountry());
         }
 
         if (req.getGameId() != null) {
@@ -117,7 +117,8 @@ public class AuthorsImplementation implements IAuthorsService {
                     a.setListGames(new ArrayList<>());
                 }
                 a.getListGames().add(game);
-            }}
+            }
+        }
 
         authorsRepository.save(a);
     }// update
@@ -135,12 +136,15 @@ public class AuthorsImplementation implements IAuthorsService {
         Authors a = author.get();
 
         if (a.getListGames() != null) {
-            a.getListGames().forEach(game -> game.getListAuthors().remove(a));
+            a.getListGames().forEach(game -> {
+                if (game.getListAuthors() != null) { // ✅ Verifica que no sea null antes de eliminar
+                    game.getListAuthors().remove(a);
+                }
+            });
             a.getListGames().clear();
         }
 
         authorsRepository.delete(a);
     }
-
 
 }// class

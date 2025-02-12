@@ -39,7 +39,7 @@ public class UsersImplementation implements IUsersService {
 		this.cartsRepository = cartsRepository;
 		this.rolesRepository = rolesRepository;
 		this.passwordEncoder = passwordEncoder;
-	}// costructor 
+	}// costructor
 
 	@Override
 	public List<UsersDTO> list() throws Exception {
@@ -59,79 +59,41 @@ public class UsersImplementation implements IUsersService {
 	public void createUser(UsersRequest req) throws Exception {
 		Date now = new Date();
 
-		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("user");
-		if(!role.isPresent())
-			throw new Exception("Role not found");
+		Optional<Roles> roleUser = rolesRepository.findByNameIgnoreCase("user");
+		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
 
-		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
-		if (users.isPresent())
+		if (!roleUser.isPresent() || !roleAdmin.isPresent())
+			throw new Exception("Roles not found");
+
+		// Verifica se è il primo utente nel sistema
+		boolean isFirstUser = !usersRepository.findTopBy().isPresent();
+
+		if (usersRepository.findByUsername(req.getUsername()).isPresent())
 			throw new Exception("This username is already present");
 
-		users = usersRepository.findByEmail(req.getEmail());
-		if (users.isPresent())
+		if (usersRepository.findByEmail(req.getEmail()).isPresent())
 			throw new Exception("This user email is already present");
 
-		Users u = new Users();
-		u.setUsername(req.getUsername());
-		u.setEmail(req.getEmail());
+		Users newUser = new Users();
+		newUser.setUsername(req.getUsername());
+		newUser.setEmail(req.getEmail());
 
 		String hashedPassword = passwordEncoder.encode(req.getPwd());
-		u.setPwd(hashedPassword);
-
-		u.setActive(true);
+		newUser.setPwd(hashedPassword);
 
 		Carts cart = new Carts();
-		cart.setUser(u);
+		cart.setUser(newUser);
 		cart.setCreatedAt(now);
 		cart.setUpdatedAt(now);
 		cartsRepository.save(cart);
 
-		u.setCart(cart);
-		u.setRole(role.get());
+		newUser.setActive(true);
+		newUser.setCart(cart);
 
-		usersRepository.save(u);
+		newUser.setRole(isFirstUser ? roleAdmin.get() : roleUser.get());
+
+		usersRepository.save(newUser);
 	}// createUser
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void createAdmin(UsersRequest req) throws Exception {
-
-
-		Date now = new Date();
-    
-		Optional<Roles> role = rolesRepository.findByNameIgnoreCase("admin");
-		if (!role.isPresent())
-			throw new Exception("This role is not present");
-
-		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
-		if (users.isPresent())
-			throw new Exception("This username is already present");
-
-		users = usersRepository.findByEmail(req.getEmail());
-		if (users.isPresent())
-			throw new Exception("This user email is already present");
-
-		Users u = new Users();
-		u.setUsername(req.getUsername());
-		u.setEmail(req.getEmail());
-
-		String hashedPassword = passwordEncoder.encode(req.getPwd());
-		u.setPwd(hashedPassword);
-
-		u.setActive(true);
-
-		Carts cart = new Carts();
-		cart.setUser(u);
-		cart.setCreatedAt(now);
-		cart.setUpdatedAt(now);
-		cartsRepository.save(cart);
-
-		u.setCart(cart);
-		u.setRole(role.get());
-
-		usersRepository.save(u);
-
-	}// createAdmin
 
 	/**
 	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
@@ -148,32 +110,53 @@ public class UsersImplementation implements IUsersService {
 
 	@Override
 	public void update(UsersRequest req) throws Exception {
-		Optional<Users> optionalUser = usersRepository.findById(req.getId());
-		if (!optionalUser.isPresent())
+		Optional<Users> user = usersRepository.findById(req.getId());
+		if (!user.isPresent())
 			throw new Exception("This user is not present");
 
-		// Verifica se l'username è già usato da un altro utente escludendo l'utente corrente
+		// Verifica se l'username è già usato da un altro utente escludendo l'utente
+		// attuale
 		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), req.getId()).isPresent()) {
 			throw new Exception("This username is already in use by another user");
 		}
 
-		// Verifica se l'email è già usata da un altro utente escludendo l'utente corrente
+		// Verifica se l'email è già usata da un altro utente escludendo l'utente
+		// attuale
 		if (usersRepository.findByEmailAndIdNot(req.getEmail(), req.getId()).isPresent()) {
 			throw new Exception("This email is already in use by another user");
 		}
 
-		Users user = optionalUser.get();
-		user.setUsername(req.getUsername());
-		user.setEmail(req.getEmail());
+		Users users = user.get();
+		users.setUsername(req.getUsername());
+		users.setEmail(req.getEmail());
 
 		// Controlla se la password nel request è diversa da quella salvata (decriptata)
-		if (!passwordEncoder.matches(req.getPwd(), user.getPwd())) {
+		if (!passwordEncoder.matches(req.getPwd(), users.getPwd())) {
 			String hashedPassword = passwordEncoder.encode(req.getPwd());
-			user.setPwd(hashedPassword);
+			users.setPwd(hashedPassword);
 		}
 
-		usersRepository.save(user);
+		usersRepository.save(users);
 	}// update
+
+	/*
+	 * solo admin può accedere a questo metodo
+	 */
+	@Override
+	public void upgradeToAdmin(UsersRequest req) throws Exception {
+		Optional<Users> user = usersRepository.findById(req.getId());
+		if (!user.isPresent())
+			throw new Exception("This user is not present");
+
+		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
+		if (!roleAdmin.isPresent())
+			throw new Exception("Roles not found");
+
+		Users users = user.get();
+		users.setRole(roleAdmin.get());
+
+		usersRepository.save(users);
+	}// upgradeToAdmin
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)

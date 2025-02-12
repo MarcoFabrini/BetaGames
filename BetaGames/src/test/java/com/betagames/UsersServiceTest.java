@@ -19,6 +19,10 @@ import com.betagames.request.UsersRequest;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 
+/**
+ *
+ * @author FabriniMarco
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
@@ -30,156 +34,258 @@ public class UsersServiceTest {
     @Autowired
     IUsersService userService;
 
-    private RolesRequest globalRolesRequest;
+    private RolesRequest globalRolesAdminRequest;
+    private RolesRequest globalRolesUserRequest;
+    private UsersRequest globalAdminRequest;
     private UsersRequest globalUserRequest;
 
-    private void roles() throws Exception{
-        globalRolesRequest = new RolesRequest();
-        globalRolesRequest.setName("user");
-        rolesService.create(globalRolesRequest);
+    private void roles() throws Exception {
+        globalRolesAdminRequest = new RolesRequest();
+        globalRolesAdminRequest.setName("admin");
+        rolesService.create(globalRolesAdminRequest);
+
+        globalRolesUserRequest = new RolesRequest();
+        globalRolesUserRequest.setName("user");
+        rolesService.create(globalRolesUserRequest);
     }// roles
 
-    private void user() throws Exception{
+    private void user() throws Exception {
         roles();
+        globalAdminRequest = new UsersRequest();
+        globalAdminRequest.setUsername("adminTest");
+        globalAdminRequest.setPwd("adminTest");
+        globalAdminRequest.setEmail("adminTest@example.com");
+        userService.createUser(globalAdminRequest);
+
         globalUserRequest = new UsersRequest();
         globalUserRequest.setUsername("userTest");
         globalUserRequest.setPwd("userTest");
         globalUserRequest.setEmail("userTest@example.com");
-        globalUserRequest.setActive(true);
-        globalUserRequest.setRoleId(1);
         userService.createUser(globalUserRequest);
     }// user
 
     @Test
     @Order(1)
     public void createUsersTest() throws Exception {
-       user();
+        user();
 
         List<UsersDTO> listUsersDTO = userService.list();
+
+        UsersDTO foundAdmin = listUsersDTO.stream()
+                .filter(u -> "adminTest".equals(u.getUsername()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Review not found"));
 
         UsersDTO foundUsers = listUsersDTO.stream()
                 .filter(u -> "userTest".equals(u.getUsername()))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Review not found"));
 
-        Assertions.assertThat(foundUsers.getId()).isEqualTo(1);
-        Assertions.assertThat(listUsersDTO.size()).isEqualTo(1);
+        Assertions.assertThat(foundAdmin.getId()).isEqualTo(1);
+        Assertions.assertThat(foundAdmin.getRole().getName()).isEqualToIgnoringCase("admin");
+        Assertions.assertThat(foundUsers.getRole().getName()).isEqualToIgnoringCase("user");
+        Assertions.assertThat(listUsersDTO.size()).isEqualTo(2);
 
         listUsersDTO.forEach(r -> log.debug("TEST create UsersTest: " + r.toString()));
     }// createUsersTest
 
     @Test
     @Order(2)
-    public void createUsersNotRoleIdTest() throws Exception {
+    public void createUsersDuplicateNameTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
-        usersRequest.setId(1);
-        usersRequest.setRoleId(100);
+        usersRequest.setId(2);
+        usersRequest.setUsername("adminTest");
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             userService.createUser(usersRequest);
         });
-    }// createReviewsNotUserIdTest
+        log.debug("createUsersDuplicateNameTest: {}", exception.getMessage());
+    }// createUsersDuplicateNameTest
 
-    // @Test
-    // @Order(3)
-    // public void createReviewsNotGameIdTest() throws Exception {
-    //     ReviewsRequest reviewsRequest = new ReviewsRequest();
-    //     reviewsRequest.setId(1);
-    //     reviewsRequest.setUsersId(1);
-    //     reviewsRequest.setGameId(100);
+    @Test
+    @Order(3)
+    public void createUsersDuplicateEmailTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+        usersRequest.setEmail("adminTest@example.com");
 
-    //     assertThrows(Exception.class, () -> {
-    //         reviewsService.create(reviewsRequest);
-    //     });
-    // }// createReviewsNotGameIdTest
-}
-//     @Test
-//     @Order(4)
-//     public void updateReviewsTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(1);
-//         reviewsRequest.setScore(0);
-//         reviewsRequest.setDescription("description updated");
-//         reviewsRequest.setCreatedAt(now);
-//         reviewsRequest.setUsersId(1);
-//         reviewsRequest.setGameId(1);
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.createUser(usersRequest);
+        });
+        log.debug("createUsersDuplicateEmailTest: {}", exception.getMessage());
+    }// createUsersDuplicateEmailTest
 
-//         reviewsService.update(reviewsRequest);
+    @Test
+    @Order(4)
+    public void loginTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(1);
+        usersRequest.setUsername("adminTest");
+        usersRequest.setPwd("adminTest");
 
-//         List<ReviewsDTO> listReviewsDTO = reviewsService.listByUserId(1);
+        userService.login(usersRequest);
 
-//         ReviewsDTO foundReview = listReviewsDTO.stream()
-//                 .filter(e -> "description updated".equals(e.getDescription()))
-//                 .findFirst()
-//                 .orElseThrow(() -> new AssertionError("Review not found"));
+        log.debug("loginTest: {SUCCESS LOGIN}");
+    }// loginTest
 
-//         Assertions.assertThat(foundReview.getId()).isEqualTo(1);
-//         Assertions.assertThat(listReviewsDTO.size()).isEqualTo(1);
+    @Test
+    @Order(5)
+    public void loginWrongPwdTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(1);
+        usersRequest.setUsername("adminTest");
+        usersRequest.setPwd("adminTestERROR");
 
-//         listReviewsDTO.forEach(r -> log.debug("TEST update ReviewsTest: " + r.toString()));
-//     }// updateReviewsTest
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.login(usersRequest);
+        });
+        log.debug("loginWrongPwdTest: {}", exception.getMessage());
+    }// loginWrongPwdTest
 
-//     @Test
-//     @Order(5)
-//     public void updateReviewsNotIdTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(100);
+    @Test
+    @Order(6)
+    public void loginWrongUsernameTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(1);
+        usersRequest.setUsername("adminTestERROR");
+        usersRequest.setPwd("adminTest");
 
-//         assertThrows(Exception.class, () -> {
-//             reviewsService.update(reviewsRequest);
-//         });
-//     }// updateReviewsNotIdTest
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.login(usersRequest);
+        });
+        log.debug("loginWrongUsernameTest: {}", exception.getMessage());
+    }// loginWrongUsernameTest
 
-//     @Test
-//     @Order(6)
-//     public void updateReviewsNotUserIdTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(1);
-//         reviewsRequest.setUsersId(100);
-//         reviewsRequest.setGameId(1);
+    @Test
+    @Order(7)
+    public void updateUsersTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+        usersRequest.setUsername("userTestUpdate");
+        usersRequest.setPwd("userTestUpdate");
+        usersRequest.setEmail("userTestupdate@example.com");
 
-//         assertThrows(Exception.class, () -> {
-//             reviewsService.update(reviewsRequest);
-//         });
-//     }// updateReviewsNotIdTest
+        userService.update(usersRequest);
 
-//     @Test
-//     @Order(7)
-//     public void updateReviewsNotGameIdTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(1);
-//         reviewsRequest.setUsersId(1);
-//         reviewsRequest.setGameId(100);
+        List<UsersDTO> listUsersDTO = userService.list();
 
-//         assertThrows(Exception.class, () -> {
-//             reviewsService.update(reviewsRequest);
-//         });
-//     }// updateReviewsNotIdTest
+        UsersDTO foundUsers = listUsersDTO.stream()
+                .filter(u -> "userTestUpdate".equals(u.getUsername()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Review not found"));
 
-//     @Test
-//     @Order(8)
-//     public void deleteReviewsNotIdTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(100);
+        Assertions.assertThat(foundUsers.getRole().getName()).isEqualToIgnoringCase("user");
+        Assertions.assertThat(foundUsers.getEmail()).isEqualToIgnoringCase("userTestupdate@example.com");
 
-//         assertThrows(Exception.class, () -> {
-//             reviewsService.delete(reviewsRequest);
-//         });
-//     }// deleteReviewsNotIdTest
+        listUsersDTO.forEach(r -> log.debug("TEST update UsersTest: " + r.toString()));
+    }// updateUsersTest
 
-//     @Test
-//     @Order(9)
-//     public void deleteReviewsTest() throws Exception {
-//         ReviewsRequest reviewsRequest = new ReviewsRequest();
-//         reviewsRequest.setId(1);
+    @Test
+    @Order(7)
+    public void updateUsersNotIdTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(100);
 
-//         reviewsService.delete(reviewsRequest);
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.update(usersRequest);
+        });
+        log.debug("updateUsersNotIdTest: {}", exception.getMessage());
+    }// updateUsersNotIdTest
 
-//         List<ReviewsDTO> listReviewsDTO = reviewsService.listByUserId(1);
+    @Test
+    @Order(8)
+    public void updateDuplicateUsernameTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+        usersRequest.setUsername("adminTest");
+        usersRequest.setEmail("userTestupdate@example.com");
 
-//         Assertions.assertThat(listReviewsDTO.size()).isEqualTo(0);
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.update(usersRequest);
+        });
+        log.debug("updateDuplicateUsernameTest: {}", exception.getMessage());
+    }// updateDuplicateUsernameTest
 
-//         listReviewsDTO.forEach(r -> log.debug("TEST delete ReviewsTest: " + r.toString()));
-//     }// deleteReviewsTest
+    @Test
+    @Order(9)
+    public void updateDuplicateEmailTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+        usersRequest.setUsername("userTestUpdate");
+        usersRequest.setEmail("adminTest@example.com");
 
-// }// class
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.update(usersRequest);
+        });
+        log.debug("updateDuplicateEmailTest: {}", exception.getMessage());
+    }// updateDuplicateEmailTest
+
+    @Test
+    @Order(10)
+    public void updateNotPwdTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+        usersRequest.setUsername("userTest");
+        usersRequest.setPwd("userTestUpdate");
+        usersRequest.setEmail("userTest@example.com");
+
+        userService.update(usersRequest);
+
+        List<UsersDTO> listUsersDTO = userService.searchByTyping(null, "userTest", null, true);
+
+        listUsersDTO.forEach(r -> log.debug("updateNotPwdTest: {}" + r.toString()));
+    }// updatePwdTest
+
+    @Test
+    @Order(11)
+    public void upgradeToAdminTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+
+        userService.upgradeToAdmin(usersRequest);
+
+        List<UsersDTO> listUsersDTO = userService.searchByTyping(null, "userTest", null, true);
+
+        listUsersDTO.forEach(r -> log.debug("upgradeToAdminTest: {}" + r.toString()));
+    }// upgradeToAdminTest
+
+    @Test
+    @Order(12)
+    public void upgradeToAdminNotUserIdTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(100);
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.upgradeToAdmin(usersRequest);
+        });
+        log.debug("upgradeToAdminNotUserIdTest: {}", exception.getMessage());
+    }// upgradeToAdminNotUserIdTest
+
+    @Test
+    @Order(13)
+    public void deleteUsersNotIdTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(100);
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            userService.delete(usersRequest);
+        });
+        log.debug("deleteUsersNotIdTest: {}", exception.getMessage());
+    }// deleteUsersNotIdTest
+
+    @Test
+    @Order(13)
+    public void deleteUsersTest() throws Exception {
+        UsersRequest usersRequest = new UsersRequest();
+        usersRequest.setId(2);
+
+        userService.delete(usersRequest);
+
+        List<UsersDTO> listUsersDTO = userService.list();
+        
+        Assertions.assertThat(listUsersDTO.size()).isEqualTo(2);
+
+        listUsersDTO.forEach(r -> log.debug("deleteUsersTest: {}" + r.toString()));
+    }// deleteUsersTest
+
+}// class

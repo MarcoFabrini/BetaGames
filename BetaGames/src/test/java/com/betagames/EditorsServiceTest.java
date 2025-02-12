@@ -61,9 +61,10 @@ public class EditorsServiceTest {
         EditorsRequest editorsRequest = new EditorsRequest();
         editorsRequest.setName("Editors 1");
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.create(editorsRequest);
         });
+        log.debug("createEditorsDuplicateNameTest: {}", exception.getMessage());
     }// createEditorsDuplicateNameTest
 
     @Test
@@ -72,9 +73,10 @@ public class EditorsServiceTest {
         EditorsRequest editorsRequest = new EditorsRequest();
         editorsRequest.setWebsite("Editors 1 web");
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.create(editorsRequest);
         });
+        log.debug("createEditorsDuplicateWebmailTest: {}", exception.getMessage());
     }// createEditorsDuplicateWebmailTest
 
     @Test
@@ -106,9 +108,10 @@ public class EditorsServiceTest {
         editorsRequest.setId(2);
         editorsRequest.setName("Editors 1 update");
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.update(editorsRequest);
         });
+        log.debug("updateEditorsDuplicateNameTest: {}", exception.getMessage());
     }// updateEditorsDuplicateNameTest
 
     @Test
@@ -118,9 +121,10 @@ public class EditorsServiceTest {
         editorsRequest.setId(2);
         editorsRequest.setWebsite("Editors 1 web update");
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.update(editorsRequest);
         });
+        log.debug("updateEditorsDuplicateWebmailTest: {}", exception.getMessage());
     }// updateEditorsDuplicateWebmailTest
 
     @Test
@@ -129,9 +133,10 @@ public class EditorsServiceTest {
         EditorsRequest editorsRequest = new EditorsRequest();
         editorsRequest.setId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.update(editorsRequest);
         });
+        log.debug("updateEditorsNotIdTest: {}", exception.getMessage());
     }// updateEditorsDuplicateWebmailTest
 
     @Test
@@ -150,9 +155,10 @@ public class EditorsServiceTest {
         EditorsRequest editorsRequest = new EditorsRequest();
         editorsRequest.setId(100);
 
-        assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             editorsService.delete(editorsRequest);
         });
+        log.debug("deleteEditorsNotIdTest: {}", exception.getMessage());
     }// deleteEditorsNotIdTest
 
     @Test

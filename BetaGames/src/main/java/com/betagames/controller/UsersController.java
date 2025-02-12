@@ -44,9 +44,9 @@ public class UsersController {
 
     @GetMapping("/searchByTyping")
     public ResponseList<UsersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
-                                                 @RequestParam(value = "username", required = false) String username,
-                                                 @RequestParam(value = "email", required = false) String email,
-                                                 @RequestParam(value = "active", required = false) Boolean active) {
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "active", required = false) Boolean active) {
         ResponseList<UsersDTO> list = new ResponseList<>();
         list.setRc(true);
 
@@ -75,22 +75,6 @@ public class UsersController {
         }
         return response;
     }// createUser
-
-    @PostMapping("/createAdmin")
-    public ResponseBase createAdmin(@RequestBody(required = true) UsersRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-
-        try {
-            usersService.createAdmin(req);
-            response.setMsg("Successfully created admin");
-        } catch (Exception e) {
-            log.error("Failed to create admin " + e.getMessage());
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }// createAdmin
 
     @PostMapping("/login")
     public ResponseBase login(@RequestBody(required = true) UsersRequest req) {
@@ -122,6 +106,21 @@ public class UsersController {
         }
         return response;
     }// update
+
+    @PostMapping("/upgradeToAdmin")
+    public ResponseBase upgradeToAdmin(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+        try {
+            usersService.upgradeToAdmin(req);
+            response.setMsg("Successfully upgraded user to admin");
+        } catch (Exception e) {
+            log.error("Failed to upgraded user to admin " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// upgradeToAdmin
 
     @PostMapping("/delete")
     public ResponseBase delete(@RequestBody(required = true) UsersRequest req) {

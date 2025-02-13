@@ -105,15 +105,15 @@ public class DetailsCartsControllerTest {
 
 
     @Test
-	@Order(2)
+	@Order(1)
 	public void listDetailsCartsTest() throws Exception{
 		ResponseList<DetailsCartDTO> res = dCController.list();
 		
 		Assertions.assertThat(res.getRc()).isEqualTo(true);
-		Assertions.assertThat(res.getData().size()).isEqualTo(1);
+		Assertions.assertThat(res.getData().size()).isEqualTo(0);
 	}
     @Test
-	@Order(1)
+	@Order(2)
 	public void createDetailsCartsTest() throws Exception{
 		user();
 		game();
@@ -197,13 +197,15 @@ public class DetailsCartsControllerTest {
 		ResponseBase res = dCController.delete(req);
 		//non torna
 		Assertions.assertThat(res.getRc()).isEqualTo(true);
-		Assertions.assertThat(res.getMsg()).isEqualTo("Successfully updated detailsCart");
+		Assertions.assertThat(res.getMsg()).isEqualTo("Successfully delete detailsCart");
 	}
     @Test
 	@Order(9)
 	public void deleteAllByCartDetailsCartsExceptionTest() throws Exception{
 
-		ResponseBase res = dCController.deleteAllByCart(10);
+        DetailsCartRequest req = new DetailsCartRequest();
+        req.setCartId(10);
+		ResponseBase res = dCController.deleteAllByCart(req);
 		//non torna
 		Assertions.assertThat(res.getRc()).isEqualTo(false);
 		Assertions.assertThat(res.getMsg()).isEqualTo("cart not found");
@@ -212,10 +214,12 @@ public class DetailsCartsControllerTest {
 	@Order(10)
 	public void deleteAllByCartDetailsCartsTest() throws Exception{
 
-		ResponseBase res = dCController.deleteAllByCart(1);
+        DetailsCartRequest req = new DetailsCartRequest();
+        req.setCartId(1);
+		ResponseBase res = dCController.deleteAllByCart(req);
 		//non torna
 		Assertions.assertThat(res.getRc()).isEqualTo(true);
-		Assertions.assertThat(res.getMsg()).isEqualTo("Successfully updated detailsCart");
+		Assertions.assertThat(res.getMsg()).isEqualTo("Successfully delete all detailsCart");
 	}
    
 }

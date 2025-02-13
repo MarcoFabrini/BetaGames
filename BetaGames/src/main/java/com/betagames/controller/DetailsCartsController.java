@@ -63,7 +63,7 @@ public class DetailsCartsController {
         response.setRc(true);
         try {
             detailsCartsService.delete(req);
-            response.setMsg("Successfully updated detailsCart");
+            response.setMsg("Successfully delete detailsCart");
         } catch (Exception e) {
             log.error("Failed to update detailsCart" + e.getMessage());
             response.setMsg(e.getMessage());
@@ -73,12 +73,12 @@ public class DetailsCartsController {
     }
 
     @PostMapping("/deleteAllByCart")
-    public ResponseBase deleteAllByCart(@RequestBody(required = true) Integer id) {
+    public ResponseBase deleteAllByCart(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            detailsCartsService.deleteAllByCart(id);
-            response.setMsg("Successfully updated detailsCart");
+            detailsCartsService.deleteAllByCart(req);
+            response.setMsg("Successfully delete all detailsCart");
         } catch (Exception e) {
             log.error("Failed to update detailsCart" + e.getMessage());
             response.setMsg(e.getMessage());

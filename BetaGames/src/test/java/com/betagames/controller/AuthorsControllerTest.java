@@ -14,7 +14,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.AuthorsDTO;
-import com.betagames.dto.CategoriesDTO;
 import com.betagames.request.AuthorsRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
@@ -76,7 +75,7 @@ public class AuthorsControllerTest {
     @Order(3)
     public void testSearchByTypingError() throws Exception {
         ResponseList<AuthorsDTO> r = authorsController.searchByTyping(3000, "ssss", "ssss", "ssss", "ssss");
-        Assertions.assertThat(r.getRc()).isFalse();
+        Assertions.assertThat(r.getRc()).isTrue();
         Assertions.assertThat(r.getData()).isNullOrEmpty();
     }
 
@@ -156,7 +155,7 @@ public class AuthorsControllerTest {
         Assertions.assertThat(r.getMsg()).isEqualTo("Successfully deleted author");
         Assertions.assertThat(r.getRc()).isTrue();
         ResponseList<AuthorsDTO> rList = authorsController.list();
-        Assertions.assertThat(rList.getRc()).isFalse();
-        Assertions.assertThat(rList.getMsg()).isEqualTo("The Authors list isn't present");
+        Assertions.assertThat(rList.getRc()).isTrue();
+        Assertions.assertThat(rList.getData()).isEmpty();
     }
 }

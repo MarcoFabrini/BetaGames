@@ -46,9 +46,6 @@ public class CategoriesImplementation implements ICategoriesService {
     @Override
     public List<CategoriesDTO> searchByTyping(Integer id, String name) throws Exception {
         List<Categories> listCategories = categoriesRepository.searchByFilter(id, name);
-        if (listCategories.isEmpty()) {
-            throw new Exception("The Categories List isn't present in DB!!!");
-        }
         return buildCategoriesDTO(listCategories);
     }// SearchByTyping
 

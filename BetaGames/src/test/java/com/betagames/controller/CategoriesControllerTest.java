@@ -84,7 +84,7 @@ public class CategoriesControllerTest {
     @Order(3)
     public void testSearchByTypingError() throws Exception {
         ResponseList<CategoriesDTO> r = categoriesController.searchByTyping(200, "hola");
-        Assertions.assertThat(r.getRc()).isEqualTo(false);
+        Assertions.assertThat(r.getRc()).isTrue();
         Assertions.assertThat(r.getData()).isNullOrEmpty();
     }
 
@@ -154,6 +154,4 @@ public class CategoriesControllerTest {
         Assertions.assertThat(r.getMsg()).isEqualTo("The category isn't present");
         Assertions.assertThat(r.getRc()).isFalse();
     }
-
-
 }// class

@@ -31,7 +31,6 @@ import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsCartsService;
-import com.betagames.service.interfaces.IDetailsOrderService;
 import com.betagames.service.interfaces.IEditorsService;
 import com.betagames.service.interfaces.IGamesService;
 import com.betagames.service.interfaces.IOrdersService;

@@ -63,7 +63,7 @@ public class UsersImplementation implements IUsersService {
 		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
 
 		if (!roleUser.isPresent() || !roleAdmin.isPresent())
-			throw new Exception("Roles not found");
+			throw new Exception("Role not found");
 
 		// Verifica se è il primo utente nel sistema
 		boolean isFirstUser = !usersRepository.findTopBy().isPresent();

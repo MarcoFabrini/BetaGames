@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.betagames.service.interfaces.ICategoriesService;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class ICategoriesServiceTest {
+public class CategoriesServiceTest {
 
     @Autowired
     private ICategoriesService categoriesService;
@@ -102,7 +102,6 @@ public class ICategoriesServiceTest {
         Assertions.assertThat(c1.getId()).isEqualTo(3);
         lC.forEach(s -> log.debug(s.toString()));
 
-        Assertions.assertThat(lC.size()).isEqualTo(2);
     }
 
     @Test

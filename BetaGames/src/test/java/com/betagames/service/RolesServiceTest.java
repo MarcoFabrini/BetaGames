@@ -1,15 +1,14 @@
-package com.betagames;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package com.betagames.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;

@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.controller;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.betagames.controller.GamesController;
 import com.betagames.dto.GamesDTO;
 import com.betagames.request.EditorsRequest;
 import com.betagames.request.GamesRequest;

@@ -1,10 +1,9 @@
-package com.betagames;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package com.betagames.service;
 
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -47,7 +46,7 @@ import com.betagames.service.interfaces.IUsersService;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OrdersServiceTes {
+public class OrdersServiceTest {
 
     @Autowired
     private IOrdersService ordersService;

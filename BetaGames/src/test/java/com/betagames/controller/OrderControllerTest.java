@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.controller;
 
 import java.util.List;
 
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.betagames.controller.DetailsOrderController;
-import com.betagames.controller.OrdersController;
 import com.betagames.dto.DetailsCartDTO;
 import com.betagames.dto.DetailsOrderDTO;
 import com.betagames.dto.EditorsDTO;
@@ -45,7 +43,7 @@ import com.betagames.service.interfaces.IUsersService;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OrderController {
+public class OrderControllerTest {
 
     @Autowired
     private IOrdersService ordersService;

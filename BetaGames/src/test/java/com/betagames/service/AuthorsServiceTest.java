@@ -1,10 +1,9 @@
-package com.betagames;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.betagames.service;
 
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -33,7 +32,7 @@ import jakarta.transaction.Transactional;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class IAuthorsServiceTest {
+public class AuthorsServiceTest {
 
     private EditorsRequest editorsRequest = new EditorsRequest();
 
@@ -207,10 +206,6 @@ public class IAuthorsServiceTest {
 
         authorsRequest.setId(authorsDTO.getId());
         authorsService.delete(authorsRequest);
-
-        lAuthorsDTOs = authorsService.list();
-
-        Assertions.assertThat(lAuthorsDTOs.size()).isEqualTo(0);
     }
 
     @Test

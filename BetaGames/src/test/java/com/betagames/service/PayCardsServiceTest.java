@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.List;
 
@@ -14,8 +14,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
-import com.betagames.model.PayCards;
-import com.betagames.request.OrdersRequest;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
@@ -54,16 +52,18 @@ public class PayCardsServiceTest {
         // ---------create Roles----------
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
+
 
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
-        usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
 
         List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
@@ -130,7 +130,7 @@ public class PayCardsServiceTest {
 
         listPayCards = payCardsService.list();
 
-        Assertions.assertThat(listPayCards.get(0).getCardNumber()).isEqualTo(634562256);
+        Assertions.assertThat(listPayCards.get(0).getCardNumber()).isEqualTo("634562256");
         Assertions.assertThat(listPayCards.get(0).getCvv()).isEqualTo(234);
         Assertions.assertThat(listPayCards.get(0).getCardHolderName()).isEqualTo("Simone Chindfo");
         Assertions.assertThat(listPayCards.get(0).getBillingAddress()).isEqualTo("Via Dei Martiri, 1");

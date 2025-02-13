@@ -1,18 +1,15 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.description;
-
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -42,7 +39,7 @@ import com.betagames.service.interfaces.IUsersService;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class IGamesServicesTest {
+public class GamesServicesTest {
     
     private EditorsRequest editorsRequest = new EditorsRequest();
     private GamesRequest gamesRequest = new GamesRequest();
@@ -75,10 +72,13 @@ public class IGamesServicesTest {
 
         editorsService.create(editorsRequest);
 
-        rolesRequest = new RolesRequest();
+        RolesRequest rolesRequest = new RolesRequest();
         rolesRequest.setName("user");
-
         rolesService.create(rolesRequest);
+
+        RolesRequest rolesRequest2 = new RolesRequest();
+        rolesRequest2.setName("admin");
+        rolesService.create(rolesRequest2);
 
         usersRequest = new UsersRequest();
         usersRequest.setUsername("userTest");

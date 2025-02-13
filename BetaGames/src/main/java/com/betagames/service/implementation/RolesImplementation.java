@@ -34,7 +34,7 @@ public class RolesImplementation implements IRolesService {
 
     @Override
     public void create(RolesRequest req) throws Exception {
-        if (req.getName() == "") {
+        if (req.getName().equalsIgnoreCase("")) {
             throw new Exception("dare un nome al nuovo ruolo");
         }
         Optional<Roles> role = rolesRep.findByName(req.getName());

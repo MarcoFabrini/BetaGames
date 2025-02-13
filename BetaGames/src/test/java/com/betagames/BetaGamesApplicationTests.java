@@ -4,19 +4,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.ActiveProfiles;
+
+import com.betagames.controller.EditorsControllerTest;
+import com.betagames.controller.ReviewsControllerTest;
+import com.betagames.controller.UsersControllerTest;
 
 @Suite
 @SelectClasses({
 	// RolesServiceTest.class,
 	EditorsServiceTest.class,
 	ReviewsServiceTest.class,
-	UsersServiceTest.class
+	UsersServiceTest.class,
+	EditorsControllerTest.class,
+	ReviewsControllerTest.class,
+	UsersControllerTest.class,
 	// DetailsCartsServiceTest.class,
-	//DetailsCartsControllerTest.class
-	ICategoriesServiceTest.class,
-	IAuthorsServiceTest.class,
-	IGamesServicesTest.class
+	// DetailsCartsControllerTest.class
+	// ICategoriesServiceTest.class,
+	// IAuthorsServiceTest.class,
+	// IGamesServicesTest.class
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {

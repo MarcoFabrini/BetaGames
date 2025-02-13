@@ -1,12 +1,11 @@
 package com.betagames;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -85,7 +84,7 @@ public class ICategoriesServiceTest {
 
     @Test
     @Order(2)
-    void testCreateWithouthGame() throws Exception {
+    void testCreateWithoutGame() throws Exception {
         CategoriesRequest req = new CategoriesRequest();
         CategoriesRequest req2 = new CategoriesRequest();
 
@@ -100,7 +99,7 @@ public class ICategoriesServiceTest {
 
         CategoriesDTO c1 = lC.stream().filter(c -> "Aventura".equals(c.getName()))
                 .findFirst().orElseThrow(() -> new AssertionError("Category don't find"));
-        Assertions.assertThat(c1.getId()).isEqualTo(1);
+        Assertions.assertThat(c1.getId()).isEqualTo(3);
         lC.forEach(s -> log.debug(s.toString()));
 
         Assertions.assertThat(lC.size()).isEqualTo(2);

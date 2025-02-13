@@ -1,5 +1,6 @@
 package com.betagames.service.implementation;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class OrdersImplementation implements IOrdersService {
     @Autowired
     ICartsRepository cartRep;
 
+    // ==== DETAILS CART===
     @Autowired
     IDetailsCartsRepository detailsCartRep;
 
@@ -98,17 +100,37 @@ public class OrdersImplementation implements IOrdersService {
     @Override
     public void create(OrdersRequest req) throws Exception {
         Date now = new Date();
+        // controllo l'esistenza dell'utente
         Optional<Users> user = userRep.findById(req.getUserId());
-        Optional<PayCards> card = cardRep.findById(req.getPayCardId());
 
+        if (user.isEmpty()) {
+            throw new Exception("User non trovato");
+        }
+
+        // controllo l'esistenza del carrello
         Optional<Carts> carts = cartRep.findByUser(user.get());
+
         if (carts.isEmpty()) {
             throw new Exception("cart not found");
         }
+        // controllo l'esitenza di articoli all'interno del carrello
         List<DetailsCart> lDetailsCart = detailsCartRep.findByCart(carts.get());
+
         if (lDetailsCart.isEmpty()) {
             throw new Exception("cart has no items");
         }
+        // controllo l'esistenza della carta
+        Optional<PayCards> card = cardRep.findById(req.getPayCardId());
+
+        if (card.isEmpty()) {
+            throw new Exception("Carta di Pagamento non esistente");
+        }
+        // controllo sulla scadenza della carta
+        if (card.get().getExpirationDate().compareTo(now) == -1) {
+            throw new Exception("Carta di pagamento scaduta");
+        }
+
+        // calcolo del prezzo totale
         Double totalAmount = lDetailsCart.stream()
                 .map(DetailsCart::getPriceAtTime)
                 .reduce(0.0, (a, b) -> a + b);
@@ -116,17 +138,8 @@ public class OrdersImplementation implements IOrdersService {
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
          * accettiamo pagamenti da carte già registrate
          */
-        if (user.isEmpty()) {
-            throw new Exception("User non trovato");
-        }
 
-        if (card.isEmpty()) {
-            throw new Exception("Carta di Pagamento non esistente");
-        }
-
-        if (card.get().getExpirationDate().compareTo(now) == -1) {
-            throw new Exception("Carta di pagamento scaduta");
-        }
+        // creo un nuovo ordine subito dopo aver accettato il pagamento
         Orders ord = new Orders();
         ord.setTotalAmmount(totalAmount);
         ord.setOrderStatus("pending");
@@ -137,6 +150,8 @@ public class OrdersImplementation implements IOrdersService {
 
         Orders newOrd = orderRep.save(ord);
 
+        // creo un lista dettagli ordine facendo riferimento alla lista dettagli
+        // carrello
         lDetailsCart.forEach(x -> {
             DetailsOrder detailOrder = new DetailsOrder();
             detailOrder.setPriceAtTime(x.getPriceAtTime());
@@ -150,6 +165,7 @@ public class OrdersImplementation implements IOrdersService {
         detailsCartRep.deleteAll(lDetailsCart);
     }
 
+    // metodo per aggiornare lo stato dell'ordine
     @Override
     public void update(OrdersRequest req) throws Exception {
         Date now = new Date();

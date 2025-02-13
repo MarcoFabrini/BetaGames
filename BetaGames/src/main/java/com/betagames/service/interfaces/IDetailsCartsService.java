@@ -18,6 +18,6 @@ public interface IDetailsCartsService {
     List<DetailsCartDTO> listByCarts(Integer id)throws Exception;
     
     //per il checkout
-    void deleteAllByCart(Integer id) throws Exception;
+    void deleteAllByCart(DetailsCartRequest req) throws Exception;
 
 }

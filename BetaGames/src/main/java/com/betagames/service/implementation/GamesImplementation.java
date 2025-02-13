@@ -199,7 +199,6 @@ public class GamesImplementation implements IGamesService {
 
         Games gameEntity = game.get();
 
-        
         if (gameEntity.getListAuthors() != null) {
             gameEntity.getListAuthors().forEach(author -> author.getListGames().remove(game));
             gameEntity.getListAuthors().clear();

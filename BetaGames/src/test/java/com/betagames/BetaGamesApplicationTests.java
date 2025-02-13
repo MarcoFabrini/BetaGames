@@ -17,6 +17,7 @@ import com.betagames.controller.CategoriesControllerTest;
 
 @Suite
 @SelectClasses({
+
 	RolesServiceTest.class,
   RolesControllerTest.class,
 	EditorsServiceTest.class,
@@ -32,6 +33,7 @@ import com.betagames.controller.CategoriesControllerTest;
 	UsersControllerTest.class,
 	DetailsCartsServiceTest.class,
 	DetailsCartsControllerTest.class
+
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {

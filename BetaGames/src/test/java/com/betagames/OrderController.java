@@ -31,7 +31,6 @@ import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsCartsService;
-import com.betagames.service.interfaces.IDetailsOrderService;
 import com.betagames.service.interfaces.IEditorsService;
 import com.betagames.service.interfaces.IGamesService;
 import com.betagames.service.interfaces.IOrdersService;
@@ -91,12 +90,14 @@ public class OrderController {
         DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
 
         // ---------create Roles----------
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
 
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");

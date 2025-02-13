@@ -47,6 +47,7 @@ public class OrdersController {
         ResponseList<OrdersDTO> list = new ResponseList<OrdersDTO>();
         list.setRc(true);
         try {
+            System.out.println("PayCard: " + payCardId);
             list.setData(ordersService.searchByTyping(id, payCardId, userId));
         } catch (Exception e) {
             list.setRc(false);

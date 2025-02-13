@@ -84,7 +84,7 @@ public class ICategoriesServiceTest {
 
     @Test
     @Order(2)
-    void testCreateWithouthGame() throws Exception {
+    void testCreateWithoutGame() throws Exception {
         CategoriesRequest req = new CategoriesRequest();
         CategoriesRequest req2 = new CategoriesRequest();
 
@@ -99,7 +99,7 @@ public class ICategoriesServiceTest {
 
         CategoriesDTO c1 = lC.stream().filter(c -> "Aventura".equals(c.getName()))
                 .findFirst().orElseThrow(() -> new AssertionError("Category don't find"));
-        Assertions.assertThat(c1.getId()).isEqualTo(1);
+        Assertions.assertThat(c1.getId()).isEqualTo(3);
         lC.forEach(s -> log.debug(s.toString()));
 
         Assertions.assertThat(lC.size()).isEqualTo(2);

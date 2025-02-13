@@ -1,12 +1,11 @@
 package com.betagames;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

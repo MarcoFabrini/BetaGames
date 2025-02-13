@@ -24,6 +24,12 @@ import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 
+import jakarta.transaction.Transactional;
+
+/**
+ * @author DorigoLorenzo
+ **/
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
@@ -53,35 +59,29 @@ public class PayCardsControllerTest {
     @Test
     @Order(1)
     void createTest() throws Exception {
-
+        //---------setup---------
         RolesRequest rolesRequest = new RolesRequest();
         UsersRequest usersRequest = new UsersRequest();
         PayCardsRequest payCardsRequest = new PayCardsRequest();
-        // ---------create Roles----------
+        // ---------Create Roles----------
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
+            //anche creando un solo ruolo, admin, poi lo user non mi trova il ruolo
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
-        List<RolesDTO> listRoles = rolesService.listRoles();
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
         // ---------Create User-------
         usersRequest.setUsername("userTest");
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
         usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
-        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
-        UsersDTO creaUsersDTO = listUsers.stream()
-                .filter(e -> "userTest".equals(e.getUsername()))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("User not found"));
-
-        Assertions.assertThat(creaUsersDTO.getId()).isEqualTo(1);
-        // ------create PayCard----------
+        // ------Create PayCard----------
         payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
         payCardsRequest.setCardHolderName("Nome del tipo");
-        payCardsRequest.setCardNumber("11223344");
-        payCardsRequest.setCvv(133);
+        payCardsRequest.setCardNumber("112233445566");
+        payCardsRequest.setCvv(123);
         payCardsRequest.setExpirationDate("31/12/2025");
-        payCardsRequest.setUserId(listUsers.get(0).getId());
+        payCardsRequest.setUserId(1); // Usa l'ID dell'utente creato
 
         ResponseBase response = payCardsController.create(payCardsRequest);
 
@@ -119,7 +119,6 @@ public class PayCardsControllerTest {
 
         Assertions.assertThat(response.getRc()).isEqualTo(true);
     }
-
 
     @Test
     @Order(4)

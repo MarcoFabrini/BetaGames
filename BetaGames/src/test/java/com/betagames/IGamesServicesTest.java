@@ -43,18 +43,13 @@ import com.betagames.service.interfaces.IUsersService;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
 public class IGamesServicesTest {
+    
     private EditorsRequest editorsRequest = new EditorsRequest();
-
     private GamesRequest gamesRequest = new GamesRequest();
-
     private AuthorsRequest authorsRequest = new AuthorsRequest();
-
     private CategoriesRequest categoriesRequest = new CategoriesRequest();
-
     private ReviewsRequest reviewsRequest = new ReviewsRequest();
-
     private UsersRequest usersRequest = new UsersRequest();
-
     private RolesRequest rolesRequest = new RolesRequest();
 
     @Autowired

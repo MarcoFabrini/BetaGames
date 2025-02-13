@@ -61,7 +61,7 @@ public class CartsController {
         try {
             response.setData(cartsService.list());
         } catch (Exception e) {
-            log.error("Failed to delete Cart: " + e.getMessage());
+            log.error("Failed to list Cart: " + e.getMessage());
             response.setMsg(e.getMessage());
             response.setRc(false);
         }

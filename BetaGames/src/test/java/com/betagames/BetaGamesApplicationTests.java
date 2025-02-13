@@ -9,6 +9,8 @@ import com.betagames.controller.EditorsControllerTest;
 import com.betagames.controller.ReviewsControllerTest;
 import com.betagames.controller.UsersControllerTest;
 
+import com.betagames.controller.DetailsCartsControllerTest;
+
 @Suite
 @SelectClasses({
 
@@ -20,11 +22,12 @@ import com.betagames.controller.UsersControllerTest;
 	EditorsControllerTest.class,
 	ReviewsControllerTest.class,
 	UsersControllerTest.class,
-	// DetailsCartsServiceTest.class,
-	// DetailsCartsControllerTest.class
+	DetailsCartsServiceTest.class,
+	DetailsCartsControllerTest.class
 	// ICategoriesServiceTest.class,
 	// IAuthorsServiceTest.class,
 	// IGamesServicesTest.class
+
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {

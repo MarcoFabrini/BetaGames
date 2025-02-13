@@ -89,6 +89,10 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
 
         DetailsCart dC = detailsCarts.get();
 
+        if (req.getQuantity() <= 0) {
+            delete(req);
+        }
+
         dC.setQuantity(req.getQuantity());
         dC.setPriceAtTime(games.get().getPrice() * req.getQuantity());
         // update del carrello
@@ -102,7 +106,7 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(DetailsCartRequest req) throws Exception {
-
+        
         Optional<DetailsCart> detailsCarts = detailsCartR.findById(req.getId());
         if (detailsCarts.isEmpty())
             throw new Exception("details not found");
@@ -121,10 +125,10 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
     }
 
     @Override
-    public void deleteAllByCart(Integer id) throws Exception {
+    public void deleteAllByCart(DetailsCartRequest req) throws Exception {
 
-        Optional<Carts> carts = cartR.findById(id);
-
+        Optional<Carts> carts = cartR.findById(req.getCartId());
+    
         if (carts.isEmpty())
             throw new Exception("cart not found");
 

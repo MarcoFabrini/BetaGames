@@ -1,6 +1,4 @@
-package com.betagames;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package com.betagames.controller;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.betagames.controller.RolesController;
 import com.betagames.dto.RolesDTO;
 import com.betagames.request.RolesRequest;
 import com.betagames.response.ResponseBase;

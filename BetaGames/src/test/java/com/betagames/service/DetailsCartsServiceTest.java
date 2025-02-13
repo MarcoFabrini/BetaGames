@@ -1,12 +1,10 @@
-package com.betagames;
-
-import static com.betagames.utility.Utilities.convertDateToString;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package com.betagames.service;
 
 import java.util.Date;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -26,6 +24,7 @@ import com.betagames.service.interfaces.IEditorsService;
 import com.betagames.service.interfaces.IGamesService;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
+import static com.betagames.utility.Utilities.convertDateToString;
 
 
 @SpringBootTest

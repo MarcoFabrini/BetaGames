@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.Date;
 import java.util.List;
@@ -39,7 +39,7 @@ import com.betagames.service.interfaces.IUsersService;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class IGamesServicesTest {
+public class GamesServicesTest {
     
     private EditorsRequest editorsRequest = new EditorsRequest();
     private GamesRequest gamesRequest = new GamesRequest();

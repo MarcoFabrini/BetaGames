@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import jakarta.transaction.Transactional;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class IAuthorsServiceTest {
+public class AuthorsServiceTest {
 
     private EditorsRequest editorsRequest = new EditorsRequest();
 

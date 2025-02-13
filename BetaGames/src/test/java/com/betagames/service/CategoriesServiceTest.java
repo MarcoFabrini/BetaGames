@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.betagames.service.interfaces.ICategoriesService;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
-public class ICategoriesServiceTest {
+public class CategoriesServiceTest {
 
     @Autowired
     private ICategoriesService categoriesService;

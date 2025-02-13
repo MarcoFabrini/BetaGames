@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.service;
 
 import java.util.List;
 
@@ -14,8 +14,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.betagames.dto.PayCardsDTO;
 import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
-import com.betagames.model.PayCards;
-import com.betagames.request.OrdersRequest;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;

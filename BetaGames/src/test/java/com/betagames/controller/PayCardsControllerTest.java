@@ -1,4 +1,4 @@
-package com.betagames;
+package com.betagames.controller;
 
 import java.util.List;
 
@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.betagames.controller.PayCardsController;
 import com.betagames.dto.PayCardsDTO;
-import com.betagames.dto.RolesDTO;
 import com.betagames.dto.UsersDTO;
 import com.betagames.request.PayCardsRequest;
 import com.betagames.request.RolesRequest;
@@ -23,8 +21,6 @@ import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
-
-import jakarta.transaction.Transactional;
 
 /**
  * @author DorigoLorenzo

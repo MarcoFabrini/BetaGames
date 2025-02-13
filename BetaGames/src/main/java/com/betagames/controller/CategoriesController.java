@@ -66,8 +66,8 @@ public class CategoriesController {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
         try {
-            categoriesService.create(req);
-            response.setMsg("Successfully created Category");
+                categoriesService.create(req);
+                response.setMsg("Successfully created Category");   
         } catch (Exception e) {
             log.error("Failed to create Category" + e.getMessage());
             response.setMsg(e.getMessage());

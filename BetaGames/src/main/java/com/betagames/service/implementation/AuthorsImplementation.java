@@ -42,6 +42,9 @@ public class AuthorsImplementation implements IAuthorsService {
         log.debug("Cercando lista di autori con filtri");
         List<Authors> listAuthors = authorsRepository.searchByFilter(id, name,
                 lastname, country, biography);
+        if (listAuthors.isEmpty()) {
+            throw new Exception("The Authors list isn't present");
+        }
         log.debug("List SearchByTyping: " + listAuthors);
         return buildAuthorsDTO(listAuthors);
     }// List Search
@@ -50,6 +53,9 @@ public class AuthorsImplementation implements IAuthorsService {
     public List<AuthorsDTO> list() throws Exception {
         log.debug("Cercando lista di autori");
         List<Authors> listAuthors = authorsRepository.findAll();
+        if (listAuthors.isEmpty()) {
+            throw new Exception("The Authors list isn't present");
+        }
         log.debug("List SearchByTyping: " + listAuthors);
         return buildAuthorsDTO(listAuthors);
     }// List

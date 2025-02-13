@@ -91,12 +91,14 @@ public class OrderController {
         DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
 
         // ---------create Roles----------
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
 
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");
@@ -117,7 +119,7 @@ public class OrderController {
         // ------create PayCard----------
         payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
         payCardsRequest.setCardHolderName("Nome del tipo");
-        payCardsRequest.setCardNumber(11223344);
+        payCardsRequest.setCardNumber("11223344");
         payCardsRequest.setCvv(133);
         payCardsRequest.setExpirationDate("31/12/2025");
         payCardsRequest.setUserId(listUsers.get(0).getId());

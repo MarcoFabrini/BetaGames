@@ -71,8 +71,7 @@ public class OrdersServiceTes {
 
     @Test
     @Order(1)
-    public void createTest() throws Exception {
-
+    public void noCartDetailsError() throws Exception {
         // -----Request------
 
         OrdersRequest orderRequest = new OrdersRequest();
@@ -87,23 +86,19 @@ public class OrdersServiceTes {
 
         GamesRequest gamesRequest = new GamesRequest();
 
-        DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
-
-        DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
-
         // ---------create Roles----------
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
-
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
-        usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
 
         List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
@@ -168,6 +163,73 @@ public class OrdersServiceTes {
 
         Assertions.assertThat((listGames.size())).isEqualTo(1);
 
+        // -----------Create Order---------
+        orderRequest.setTotalAmount(52.68);
+        orderRequest.setCreatedAt("31/12/2025");
+        orderRequest.setUpdatedAt("31/12/2025");
+        orderRequest.setOrderStatus("ready");
+        orderRequest.setPayCardId(1);
+        orderRequest.setUserId(1);
+
+        assertThrows(Exception.class, () -> {
+            ordersService.create(orderRequest);
+        });
+    }
+
+    @Test
+    @Order(2)
+    public void createTest() throws Exception {
+
+        // -----Request------
+
+        OrdersRequest orderRequest = new OrdersRequest();
+
+        DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
+
+        DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
+
+        List<RolesDTO> listRoles = rolesService.listRoles();
+
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
+
+        List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
+
+        UsersDTO creaUsersDTO = listUsers.stream()
+                .filter(e -> "userTest".equals(e.getUsername()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("User not found"));
+
+        Assertions.assertThat(creaUsersDTO.getId()).isEqualTo(1);
+
+        // ------create PayCard----------
+
+        List<PayCardsDTO> listPayCard = payCardsService.list();
+        listPayCard.forEach(card -> System.out.println("carta: " + card.getCardHolderName()));
+        PayCardsDTO createPayCardDTO = listPayCard.stream()
+                .filter(e -> "Nome del tipo".equals(e.getCardHolderName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("payCard not found"));
+
+        Assertions.assertThat(createPayCardDTO.getId()).isEqualTo(1);
+
+        // --------Create Editors--------
+
+        List<EditorsDTO> listEditors = editorsService.list();
+
+        EditorsDTO creaEditorsDTO = listEditors.stream()
+                .filter(e -> "editorsName".equals(e.getName()))
+                .findFirst()
+                // .filter(e -> "website".equals(e.getEmail()))
+                .orElseThrow(() -> new AssertionError("Editor not found"));
+
+        Assertions.assertThat(creaEditorsDTO.getId()).isEqualTo(1);
+
+        // -------Create Games--------
+
+        List<GamesDTO> listGames = gamesService.list();
+
+        Assertions.assertThat((listGames.size())).isEqualTo(1);
+
         // -----------Create DetailsCart---------
         detailsCartRequest.setCartId(creaUsersDTO.getCarts().getId());
         detailsCartRequest.setGameId(listGames.get(0).getId());
@@ -187,8 +249,6 @@ public class OrdersServiceTes {
 
         // -----------Create Order---------
         orderRequest.setTotalAmount(52.68);
-        orderRequest.setCreatedAt("31/12/2025");
-        orderRequest.setUpdatedAt("31/12/2025");
         orderRequest.setOrderStatus("ready");
         orderRequest.setPayCardId(1);
         orderRequest.setUserId(1);
@@ -200,9 +260,106 @@ public class OrdersServiceTes {
 
     }
 
+    @Test
+    @Order(3)
+    public void userErrorCreate() throws Exception {
+        OrdersRequest ordersRequest = new OrdersRequest();
+
+        // DetailsCartRequest detailsCartRequest = new DetailsCartRequest();
+
+        // DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
+
+        // List<GamesDTO> listGames = gamesService.list();
+
+        // List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest",
+        // "userTest@example.com", null);
+
+        // UsersDTO creaUsersDTO = listUsers.stream()
+        // .filter(e -> "userTest".equals(e.getUsername()))
+        // .findFirst()
+        // .orElseThrow(() -> new AssertionError("User not found"));
+
+        // // -----------Create DetailsCart---------
+        // detailsCartRequest.setCartId(creaUsersDTO.getCarts().getId());
+        // detailsCartRequest.setGameId(listGames.get(0).getId());
+        // detailsCartRequest.setPriceAtTime(12.56);
+        // detailsCartRequest.setQuantity(2);
+
+        // detailsCartRequestTwo.setCartId(creaUsersDTO.getCarts().getId());
+        // detailsCartRequestTwo.setGameId(listGames.get(0).getId());
+        // detailsCartRequestTwo.setPriceAtTime(12.56);
+        // detailsCartRequestTwo.setQuantity(2);
+
+        // detailsCartsService.create(detailsCartRequest);
+
+        // List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
+
+        // Assertions.assertThat((listDetailsCart.size())).isEqualTo(1);
+
+        ordersRequest.setTotalAmount(512.68);
+        ordersRequest.setOrderStatus("pending");
+        ordersRequest.setPayCardId(1);
+        ordersRequest.setUserId(200);
+        assertThrows(Exception.class, () -> {
+            ordersService.create(ordersRequest);
+        });
+    }
+
+    @Test
+    @Order(4)
+    public void cardErrorCreate() throws Exception {
+        OrdersRequest ordersRequest = new OrdersRequest();
+
+        ordersRequest.setTotalAmount(512.68);
+        ordersRequest.setOrderStatus("pending");
+        ordersRequest.setPayCardId(200);
+        ordersRequest.setUserId(1);
+        assertThrows(Exception.class, () -> {
+            ordersService.create(ordersRequest);
+        });
+    }
+
+    @Test
+    @Order(5)
+    public void expirationDateError() throws Exception {
+        PayCardsRequest payCardsRequest = new PayCardsRequest();
+
+        OrdersRequest orderRequest = new OrdersRequest();
+
+        payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
+        payCardsRequest.setCardHolderName("Nome del tipo");
+        payCardsRequest.setCardNumber("11223344");
+        payCardsRequest.setCvv(133);
+        payCardsRequest.setExpirationDate("31/12/2023");
+        payCardsRequest.setUserId(1);
+
+        // -----------Create Order---------
+        orderRequest.setTotalAmount(52.68);
+        orderRequest.setCreatedAt("31/12/2025");
+        orderRequest.setUpdatedAt("31/12/2025");
+        orderRequest.setOrderStatus("ready");
+        orderRequest.setPayCardId(2);
+        orderRequest.setUserId(1);
+
+        assertThrows(Exception.class, () -> {
+            ordersService.create(orderRequest);
+        });
+    }
+
+    @Test
+    @Order(6)
+    public void findByUserError() throws Exception {
+        OrdersRequest ordersRequest = new OrdersRequest();
+
+        ordersRequest.setUserId(200);
+        assertThrows(Exception.class, () -> {
+            ordersService.findByUser(ordersRequest.getUserId());
+        });
+    }
+
     // --------order update------
     @Test
-    @Order(2)
+    @Order(7)
     public void updateTest() throws Exception {
 
         OrdersRequest orderRequest = new OrdersRequest();
@@ -226,7 +383,7 @@ public class OrdersServiceTes {
     // ---orderList----
 
     @Test
-    @Order(3)
+    @Order(8)
     public void readAllTest() throws Exception {
         List<OrdersDTO> listOrders = ordersService.findAllOrders();
 
@@ -234,7 +391,7 @@ public class OrdersServiceTes {
     }
 
     @Test
-    @Order(4)
+    @Order(9)
     public void readByOrderId() throws Exception {
         List<OrdersDTO> listOrders = ordersService.findByUser(1);
 
@@ -242,7 +399,7 @@ public class OrdersServiceTes {
     }
 
     @Test
-    @Order(5)
+    @Order(10)
     public void searchByTypingId() throws Exception {
         List<OrdersDTO> listOrders = ordersService.searchByTyping(1, null, null);
 
@@ -250,7 +407,23 @@ public class OrdersServiceTes {
     }
 
     @Test
-    @Order(6)
+    @Order(11)
+    public void searchByTypingCardId() throws Exception {
+        List<OrdersDTO> listOrders = ordersService.searchByTyping(null, 1, null);
+
+        Assertions.assertThat(listOrders.size()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(12)
+    public void searchByTypingUserId() throws Exception {
+        List<OrdersDTO> listOrders = ordersService.searchByTyping(null, null, 1);
+
+        Assertions.assertThat(listOrders.size()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(13)
     public void readDetailsOrder() throws Exception {
 
         List<DetailsOrderDTO> listDetailsOrder = detailsOrderService.searchByOrder(1);
@@ -259,7 +432,7 @@ public class OrdersServiceTes {
     }
 
     @Test
-    @Order(7)
+    @Order(14)
     public void detailsOrderByOrderIdError() throws Exception {
         DetailsOrderRequest detailOrderRequest = new DetailsOrderRequest();
         detailOrderRequest.setOrdersId(200);
@@ -270,7 +443,7 @@ public class OrdersServiceTes {
     }
 
     @Test
-    @Order(9)
+    @Order(15)
     public void errorUpdate() throws Exception {
 
         OrdersRequest orderRequest = new OrdersRequest();
@@ -282,58 +455,5 @@ public class OrdersServiceTes {
             ordersService.update(orderRequest);
         });
     }
-
-    @Test
-    @Order(10)
-    public void userErrorCreate() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setTotalAmount(52.68);
-        ordersRequest.setCreatedAt("31/12/2025");
-        ordersRequest.setUpdatedAt("31/12/2025");
-        ordersRequest.setOrderStatus("ready");
-        ordersRequest.setPayCardId(1);
-        ordersRequest.setUserId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.create(ordersRequest);
-        });
-    }
-
-    @Test
-    @Order(11)
-    public void cardErrorCreate() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setPayCardId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.create(ordersRequest);
-        });
-    }
-
-    @Test
-    @Order(12)
-    public void findByUserError() throws Exception {
-        OrdersRequest ordersRequest = new OrdersRequest();
-
-        ordersRequest.setUserId(200);
-        assertThrows(Exception.class, () -> {
-            ordersService.findByUser(ordersRequest.getUserId());
-        });
-    }
-
-    /*
-     * @Test
-     * 
-     * @Order(12)
-     * public void expirationDateErrorCreate() throws Exception {
-     * OrdersRequest ordersRequest = new OrdersRequest();
-     * 
-     * // ordersRequest.setUserId(200);
-     * ordersRequest.setPayCardId(200);
-     * assertThrows(Exception.class, () -> {
-     * ordersService.create(ordersRequest);
-     * });
-     * }
-     */
 
 }

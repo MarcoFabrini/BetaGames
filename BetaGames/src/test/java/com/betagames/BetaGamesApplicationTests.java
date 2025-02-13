@@ -8,19 +8,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Suite
 @SelectClasses({
-	// RolesServiceTest.class,
-	EditorsServiceTest.class,
-	ReviewsServiceTest.class,
-	UsersServiceTest.class
-	// DetailsCartsServiceTest.class,
-	//DetailsCartsControllerTest.class
-	ICategoriesServiceTest.class,
-	IAuthorsServiceTest.class,
-	IGamesServicesTest.class
+		// RolesServiceTest.class,
+		EditorsServiceTest.class,
+		ReviewsServiceTest.class,
+		UsersServiceTest.class,
+		// DetailsCartsServiceTest.class,
+		// DetailsCartsControllerTest.class
+		// ICategoriesServiceTest.class,
+		IAuthorsServiceTest.class,
+		IGamesServicesTest.class
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-}//class
+}// class

@@ -23,6 +23,6 @@ public interface IOrdersRepository extends JpaRepository<Orders, Integer> {
     @Query(name = "orders.searchByTyping")
     List<Orders> searchByTyping(
             @Param("id") Integer id,
-            @Param("idPayCards") Integer idPayCard,
-            @Param("idUsers") Integer idUsers);
+            @Param("payCard") Integer payCard,
+            @Param("user") Integer user);
 }

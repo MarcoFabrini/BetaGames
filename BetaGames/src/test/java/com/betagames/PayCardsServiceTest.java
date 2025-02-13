@@ -54,16 +54,18 @@ public class PayCardsServiceTest {
         // ---------create Roles----------
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
+
 
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");
         usersRequest.setPwd("userTest");
         usersRequest.setEmail("userTest@example.com");
-        usersRequest.setRoleId(1);
         usersService.createUser(usersRequest);
 
         List<UsersDTO> listUsers = usersService.searchByTyping(1, "userTest", "userTest@example.com", null);
@@ -130,7 +132,7 @@ public class PayCardsServiceTest {
 
         listPayCards = payCardsService.list();
 
-        Assertions.assertThat(listPayCards.get(0).getCardNumber()).isEqualTo(634562256);
+        Assertions.assertThat(listPayCards.get(0).getCardNumber()).isEqualTo("634562256");
         Assertions.assertThat(listPayCards.get(0).getCvv()).isEqualTo(234);
         Assertions.assertThat(listPayCards.get(0).getCardHolderName()).isEqualTo("Simone Chindfo");
         Assertions.assertThat(listPayCards.get(0).getBillingAddress()).isEqualTo("Via Dei Martiri, 1");

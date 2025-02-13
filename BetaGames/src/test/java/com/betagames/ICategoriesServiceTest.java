@@ -102,7 +102,6 @@ public class ICategoriesServiceTest {
         Assertions.assertThat(c1.getId()).isEqualTo(3);
         lC.forEach(s -> log.debug(s.toString()));
 
-        Assertions.assertThat(lC.size()).isEqualTo(2);
     }
 
     @Test

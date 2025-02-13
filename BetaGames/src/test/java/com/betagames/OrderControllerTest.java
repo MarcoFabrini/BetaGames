@@ -45,7 +45,7 @@ import com.betagames.service.interfaces.IUsersService;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class OrderController {
+public class OrderControllerTest {
 
     @Autowired
     private IOrdersService ordersService;

@@ -11,7 +11,9 @@ import com.betagames.controller.UsersControllerTest;
 
 @Suite
 @SelectClasses({
-	// RolesServiceTest.class,
+
+	RolesServiceTest.class,
+  RolesControllerTest.class,
 	EditorsServiceTest.class,
 	ReviewsServiceTest.class,
 	UsersServiceTest.class,
@@ -29,4 +31,4 @@ class BetaGamesApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-}//class
+}// class

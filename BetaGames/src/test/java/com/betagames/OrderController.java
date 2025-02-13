@@ -90,12 +90,14 @@ public class OrderController {
         DetailsCartRequest detailsCartRequestTwo = new DetailsCartRequest();
 
         // ---------create Roles----------
+        rolesRequest.setName("admin");
+        rolesService.create(rolesRequest);
         rolesRequest.setName("user");
         rolesService.create(rolesRequest);
 
         List<RolesDTO> listRoles = rolesService.listRoles();
 
-        Assertions.assertThat(listRoles.size()).isEqualTo(1);
+        Assertions.assertThat(listRoles.size()).isEqualTo(2);
 
         // ---------Create User-------
         usersRequest.setUsername("userTest");

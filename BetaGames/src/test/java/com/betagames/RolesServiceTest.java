@@ -13,13 +13,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.betagames.controller.RolesController;
 import com.betagames.dto.RolesDTO;
 import com.betagames.request.RolesRequest;
-import com.betagames.response.ResponseBase;
-import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IRolesService;
 
 /*
@@ -44,24 +41,17 @@ public class RolesServiceTest {
     public void createRolesTest() throws Exception {
         RolesRequest rolesReq = new RolesRequest();
         RolesRequest rolesReqTwo = new RolesRequest();
-        rolesReq.setName("User");
-        rolesReqTwo.setName("Client");
+        rolesReq.setName("admin");
+        rolesReqTwo.setName("user");
 
-        ResponseBase createRolesOne = rolesController.create(rolesReq);
+        rolesService.create(rolesReq);
+        rolesService.create(rolesReqTwo);
 
-        ResponseBase createRolesTwo = rolesController.create(rolesReqTwo);
+        List<RolesDTO> res = rolesService.listRoles();
 
-        Assertions.assertThat(createRolesOne.getRc()).isTrue();
+        Assertions.assertThat(res.get(0).getName()).isEqualTo("admin");
 
-        Assertions.assertThat(createRolesTwo.getRc()).isTrue();
-
-        ResponseList<RolesDTO> res = rolesController.listRoles();
-
-        Assertions.assertThat(res.getRc()).isTrue();
-
-        Assertions.assertThat(res.getData().get(0).getName()).isEqualTo("User");
-
-        Assertions.assertThat(res.getData().get(1).getName()).isEqualTo("Client");
+        Assertions.assertThat(res.get(1).getName()).isEqualTo("user");
 
     }
 
@@ -70,17 +60,13 @@ public class RolesServiceTest {
     public void updateRolesTest() throws Exception {
         RolesRequest rolesRequest = new RolesRequest();
         rolesRequest.setId(1);
-        rolesRequest.setName("Admin");
+        rolesRequest.setName("superAdmin");
 
-        ResponseBase updateRoles = rolesController.update(rolesRequest);
+        rolesService.update(rolesRequest);
 
-        Assertions.assertThat(updateRoles.getRc()).isTrue();
+        List<RolesDTO> res = rolesService.listRoles();
 
-        ResponseList<RolesDTO> res = rolesController.listRoles();
-
-        Assertions.assertThat(res.getRc()).isTrue();
-
-        Assertions.assertThat(res.getData().get(0).getName()).isEqualTo("Admin");
+        Assertions.assertThat(res.get(0).getName()).isEqualTo("superAdmin");
 
     }
 
@@ -89,15 +75,11 @@ public class RolesServiceTest {
     public void deleteRolesTest() throws Exception {
         RolesRequest rolesRequest = new RolesRequest();
         rolesRequest.setId(2);
-        ResponseBase res = rolesController.delete(rolesRequest);
+        rolesService.delete(rolesRequest);
 
-        Assertions.assertThat(res.getRc()).isTrue();
+        List<RolesDTO> resList = rolesService.listRoles();
 
-        ResponseList<RolesDTO> resList = rolesController.listRoles();
-
-        Assertions.assertThat(resList.getRc()).isTrue();
-
-        Assertions.assertThat(resList.getData().size()).isEqualTo(1);
+        Assertions.assertThat(resList.size()).isEqualTo(1);
     }
 
     @Test
@@ -115,7 +97,8 @@ public class RolesServiceTest {
     @Order(5)
     public void errorRoleExists() throws Exception {
         RolesRequest rolesRequest = new RolesRequest();
-        rolesRequest.setName("Client");
+        List<RolesDTO> resList = rolesService.listRoles();
+        rolesRequest.setName(resList.get(0).getName());
 
         assertThrows(Exception.class, () -> {
             rolesService.create(rolesRequest);

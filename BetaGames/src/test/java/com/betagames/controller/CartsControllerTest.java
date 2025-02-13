@@ -1,6 +1,4 @@
-package com.betagames;
-
-import java.util.List;
+package com.betagames.controller;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -12,8 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.betagames.dto.CartsDTO;
+import com.betagames.dto.DetailsCartDTO;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
+import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.ICartsService;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
@@ -21,14 +21,14 @@ import com.betagames.service.interfaces.IUsersService;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class CartsServiceTest {
-    
+public class CartsControllerTest {
+
     @Autowired
     IRolesService rolesService;
     @Autowired
     IUsersService userService;
     @Autowired
-    ICartsService cartsService;
+    private CartsController cartController;
 
     private RolesRequest globalRolesAdminRequest;
     private RolesRequest globalRolesUserRequest;
@@ -59,14 +59,15 @@ public class CartsServiceTest {
         globalUserRequest.setEmail("userTest@example.com");
         userService.createUser(globalUserRequest);
     }// user
-
-    @Order(1)
+    
     @Test
-    public void listCartsTest() throws Exception {
+	@Order(1)
+	public void listCartsTest() throws Exception{
         user();
 
-        List<CartsDTO> listCart = cartsService.list();
-
-        Assertions.assertThat((listCart.size())).isEqualTo(2);
-    }
+		ResponseList<CartsDTO> res = cartController.list();
+		
+		Assertions.assertThat(res.getRc()).isEqualTo(true);
+		Assertions.assertThat(res.getData().size()).isEqualTo(2);
+	}
 }

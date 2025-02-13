@@ -6,17 +6,27 @@ import org.junit.platform.suite.api.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.ActiveProfiles;
 
+import com.betagames.controller.DetailsCartsControllerTest;
+
 @Suite
 @SelectClasses({
-	// RolesServiceTest.class,
-	EditorsServiceTest.class,
-	ReviewsServiceTest.class,
+	RolesServiceTest.class,
 	UsersServiceTest.class,
-	// DetailsCartsServiceTest.class,
-	//DetailsCartsControllerTest.class
+	CartsServiceTest.class,
+	PayCardsServiceTest.class,
+
+	EditorsServiceTest.class,
+	IGamesServicesTest.class,
 	ICategoriesServiceTest.class,
 	IAuthorsServiceTest.class,
-	IGamesServicesTest.class
+	
+	ReviewsServiceTest.class,
+
+	DetailsCartsServiceTest.class,
+	DetailsCartsControllerTest.class,
+
+	OrdersServiceTes.class,
+
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {

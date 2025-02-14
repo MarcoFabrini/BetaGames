@@ -34,7 +34,6 @@ public class Orders {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-
     @ManyToOne
     @JoinColumn(name = "id_users", nullable = true)
     private Users user;

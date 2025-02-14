@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     }// PasswordEncoder
 
     /*
-     * sistemare poi la configurazione, ora permesso a tutti tutto
+     * sistemare poi la configurazione, ora permesso a tutti
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,5 +32,23 @@ public class SecurityConfiguration {
 
         return http.build();
     }// SecurityFilterChain
+    
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//            .authorizeHttpRequests(authorize -> 
+//            	authorize.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+//                .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                .requestMatchers("/public/**").permitAll()
+//                .anyRequest().authenticated())
+//            .csrf(csrf -> csrf.disable())
+//            .httpBasic()
+//            .and()
+//            .userDetailsService(customUserDetailsService)  // Assicurati di iniettare il tuo CustomUserDetailsService
+//            .passwordEncoder(passwordEncoder());
+//
+//        return http.build();
+//    }
+    
     
 }// class

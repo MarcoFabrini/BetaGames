@@ -13,6 +13,7 @@ import com.betagames.dto.CartsDTO;
 import com.betagames.dto.CategoriesDTO;
 import com.betagames.dto.DetailsCartDTO;
 import com.betagames.dto.DetailsOrderDTO;
+import com.betagames.dto.DetailsShippingDTO;
 import com.betagames.dto.EditorsDTO;
 import com.betagames.dto.GamesDTO;
 import com.betagames.dto.OrdersDTO;
@@ -25,6 +26,7 @@ import com.betagames.model.Carts;
 import com.betagames.model.Categories;
 import com.betagames.model.DetailsCart;
 import com.betagames.model.DetailsOrder;
+import com.betagames.model.DetailsShipping;
 import com.betagames.model.Editors;
 import com.betagames.model.Games;
 import com.betagames.model.Orders;
@@ -288,6 +290,36 @@ public class Utilities {
            ))
         .collect(Collectors.toList());
   }
+  
+  public final static DetailsShippingDTO buildDetailsShipping(DetailsShipping d) {
+	  return new DetailsShippingDTO(
+			  d.getId(),
+			  d.getName(),
+			  d.getLastname(),
+			  d.getCountry(),
+			  d.getStateRegion(),
+			  d.getCap(),
+			  d.getCity(),
+			  d.getAddress(),
+			  d.getActive()
+			  );
+  }// buildDetailsShipping
+  
+  public final static List<DetailsShippingDTO> buildDetailsShipping(List<DetailsShipping> listD) {
+	  return listD.stream()
+			  .map(d -> new DetailsShippingDTO(
+					  d.getId(),
+					  d.getName(),
+					  d.getLastname(),
+					  d.getCountry(),
+					  d.getStateRegion(),
+					  d.getCap(),
+					  d.getCity(),
+					  d.getAddress(),
+					  d.getActive()
+					  ))
+			  .collect(Collectors.toList());
+  }//buildDetailsShipping
 
   public static UsersDTO buildUsersDTO(Users u) {
     return new UsersDTO(
@@ -298,6 +330,7 @@ public class Utilities {
         buildCartsDTO(u.getCart()),
         buildPayCardsDTO(u.getListPayCards()),
         buildRolesDTO(u.getRole()),
+        buildDetailsShipping(u.getListDetailsShippings()),
         u.getActive()
         );
   }// buildUsersDTO
@@ -312,6 +345,7 @@ public class Utilities {
             buildCartsDTO(us.getCart()),
             buildPayCardsDTO(us.getListPayCards()),
             buildRolesDTO(us.getRole()),
+            buildDetailsShipping(us.getListDetailsShippings()),
             us.getActive()
             ))
         .collect(Collectors.toList());

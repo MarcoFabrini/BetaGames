@@ -6,6 +6,7 @@ import static com.betagames.utility.Utilities.convertStringToDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 
@@ -53,16 +54,12 @@ public class GamesImplementation implements IGamesService {
     @Autowired
     Logger log;
 
-    // @Override
-    // public List<GamesDTO> searchByTyping() throws Exception {
-    // return null;
-    // }
+    @Override
+    public List<GamesDTO> searchByTyping(String name, Integer authorsId, Integer categoriesId, Integer editorId) throws Exception {
+        List<Games> listGames = gamesR.searchByTyping(name, authorsId, categoriesId, editorId);
+        return buildGamesDTO(listGames);
+    }//searchByTyping
 
-    /*
-     * Per il create di tutte i collegamenti molti a molti?
-     * es. Category / Authors
-     * Collegamenti con Review? DetailsCart e DetailsOrder?
-     */
 
     @Override
     public List<GamesDTO> list() throws Exception {
@@ -218,5 +215,6 @@ public class GamesImplementation implements IGamesService {
 
         gamesR.delete(game.get());
     }// delete
+
 
 }// class

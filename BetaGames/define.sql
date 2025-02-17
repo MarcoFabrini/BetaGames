@@ -36,7 +36,6 @@
         id integer not null auto_increment,
         id_carts integer,
         id_games integer,
-        price_at_time float(53),
         quantity integer not null,
         primary key (id)
     ) engine=InnoDB;
@@ -47,6 +46,20 @@
         id_orders integer,
         price_at_time float(53),
         quantity integer,
+        primary key (id)
+    ) engine=InnoDB;
+
+    create table details_shipping (
+        active bit,
+        id integer not null auto_increment,
+        id_users integer not null,
+        address varchar(255) not null,
+        cap varchar(255) not null,
+        city varchar(255) not null,
+        country varchar(255) not null,
+        lastname varchar(255) not null,
+        name varchar(255) not null,
+        state_region varchar(255) not null,
         primary key (id)
     ) engine=InnoDB;
 
@@ -171,6 +184,11 @@
        add constraint FKbvxfkfdne3bp5je3swrwrlfrn 
        foreign key (id_orders) 
        references orders (id);
+
+    alter table details_shipping 
+       add constraint FKlor977jsas5s5r376wsp8mt7d 
+       foreign key (id_users) 
+       references users (id);
 
     alter table games 
        add constraint FKonisfsdq4l9lupdi6dd8th74s 

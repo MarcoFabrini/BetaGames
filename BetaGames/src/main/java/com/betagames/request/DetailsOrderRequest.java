@@ -1,8 +1,5 @@
 package com.betagames.request;
 
-import com.betagames.dto.DetailsOrderDTO;
-import com.betagames.response.ResponseList;
-
 /*
  * 
  * @author Simone Checco

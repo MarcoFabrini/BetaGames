@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.ReviewsDTO;
+import com.betagames.model.DetailsOrder;
 import com.betagames.model.Games;
+import com.betagames.model.Orders;
 import com.betagames.model.Reviews;
 import com.betagames.model.Users;
+import com.betagames.repository.IDetailsOrderRepository;
 import com.betagames.repository.IGamesRepository;
+import com.betagames.repository.IOrdersRepository;
 import com.betagames.repository.IReviewsRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.ReviewsRequest;
@@ -29,16 +33,19 @@ public class ReviewsImplementation implements IReviewsService {
     private final IReviewsRepository reviewsRepository;
     private final IGamesRepository gamesRepository;
     private final IUsersRepository usersRepository;
+    private final IDetailsOrderRepository detailsOrderRepository;
 
     public ReviewsImplementation(Logger log, IReviewsRepository reviewsRepository, IGamesRepository gamesRepository,
-            IUsersRepository usersRepository) {
-        this.log = log;
-        this.reviewsRepository = reviewsRepository;
-        this.gamesRepository = gamesRepository;
-        this.usersRepository = usersRepository;
-    }
+			IUsersRepository usersRepository, IDetailsOrderRepository detailsOrderRepository) {
+		super();
+		this.log = log;
+		this.reviewsRepository = reviewsRepository;
+		this.gamesRepository = gamesRepository;
+		this.usersRepository = usersRepository;
+		this.detailsOrderRepository = detailsOrderRepository;
+	} 
 
-    @Override
+	@Override
     public List<ReviewsDTO> listByUserId(Integer idUser) {
         List<Reviews> reviews = reviewsRepository.findByUserId(idUser);
         return buildReviewsDTO(reviews);
@@ -55,6 +62,14 @@ public class ReviewsImplementation implements IReviewsService {
         Optional<Users> user = usersRepository.findById(req.getUsersId());
         if (!user.isPresent())
             throw new Exception("User not found");
+        
+        Long detailsOrder = detailsOrderRepository.findOrderForReview(user.get().getId(), game.get().getId());
+        if(detailsOrder == 0)
+        	throw new Exception("User has not purchased this game and cannot leave a review");
+        
+        Optional<Reviews> existingReview = reviewsRepository.findByUserIdAndGameId(user.get().getId(), game.get().getId());
+        if (existingReview.isPresent())
+            throw new Exception("User has already reviewed this game");
 
         Reviews review = new Reviews();
         review.setGame(game.get());
@@ -81,6 +96,10 @@ public class ReviewsImplementation implements IReviewsService {
         Optional<Users> user = usersRepository.findById(req.getUsersId());
         if (!user.isPresent())
             throw new Exception("User not found");
+        
+        Long detailsOrder = detailsOrderRepository.findOrderForReview(user.get().getId(), game.get().getId());
+        if(detailsOrder == 0)
+        	throw new Exception("User has not purchased this game and cannot leave a review");
 
         review.get().setCreatedAt(now);
         review.get().setScore(req.getScore());

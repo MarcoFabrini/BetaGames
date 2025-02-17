@@ -7,14 +7,12 @@ package com.betagames.dto;
 public class DetailsCartDTO {
 
     private Integer id;
-    private Double priceAtTime;
     private Integer quantity;
 
     private GamesDTO gamesDTO;
 
-    public DetailsCartDTO(Integer id, Double priceAtTime, Integer quantity, GamesDTO gamesDTO) {
+    public DetailsCartDTO(Integer id, Integer quantity, GamesDTO gamesDTO) {
         this.id = id;
-        this.priceAtTime = priceAtTime;
         this.quantity = quantity;
         this.gamesDTO = gamesDTO;
     }
@@ -25,14 +23,6 @@ public class DetailsCartDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Double getPriceAtTime() {
-        return priceAtTime;
-    }
-
-    public void setPriceAtTime(Double priceAtTime) {
-        this.priceAtTime = priceAtTime;
     }
 
     public Integer getQuantity() {
@@ -56,7 +46,6 @@ public class DetailsCartDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("DetailsCartDTO{");
         sb.append("id=").append(id);
-        sb.append(", priceAtTime=").append(priceAtTime);
         sb.append(", quantity=").append(quantity);
         sb.append(", gamesDTO=").append(gamesDTO);
         sb.append('}');

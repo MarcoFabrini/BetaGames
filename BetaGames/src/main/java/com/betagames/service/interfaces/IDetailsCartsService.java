@@ -15,7 +15,7 @@ public interface IDetailsCartsService {
 
 
     List<DetailsCartDTO> list()throws Exception;
-    List<DetailsCartDTO> listByCarts(Integer id)throws Exception;
+    List<DetailsCartDTO> listByCarts(Integer id) throws Exception;
     
     //per il checkout
     void deleteAllByCart(DetailsCartRequest req) throws Exception;

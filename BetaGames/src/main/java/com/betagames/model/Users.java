@@ -18,118 +18,127 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class Users {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+	@Column(name = "username", nullable = false)
+	private String username;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+	@Column(name = "email", nullable = false)
+	private String email;
 
-    @Column(name = "pwd", nullable = false)
-    private String pwd;
+	@Column(name = "pwd", nullable = false)
+	private String pwd;
 
-    @OneToOne(mappedBy = "user")
-    private Carts cart;
+	@OneToOne(mappedBy = "user")
+	private Carts cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Reviews> listReviews;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Reviews> listReviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Orders> listOrders;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Orders> listOrders;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<PayCards> listPayCards;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<PayCards> listPayCards;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_role")
-    private Roles role;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<DetailsShipping> listDetailsShippings;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active;
+	@ManyToOne()
+	@JoinColumn(name = "id_role")
+	private Roles role;
 
-    public Integer getId() {
-        return id;
-    }
+	@Column(name = "active", nullable = false)
+	private Boolean active;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getPwd() {
-        return pwd;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
+	public String getPwd() {
+		return pwd;
+	}
 
-    public Carts getCart() {
-        return cart;
-    }
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 
-    public void setCart(Carts cart) {
-        this.cart = cart;
-    }
+	public Carts getCart() {
+		return cart;
+	}
 
-    public List<Reviews> getListReviews() {
-        return listReviews;
-    }
+	public void setCart(Carts cart) {
+		this.cart = cart;
+	}
 
-    public void setListReviews(List<Reviews> listReviews) {
-        this.listReviews = listReviews;
-    }
+	public List<Reviews> getListReviews() {
+		return listReviews;
+	}
 
-    public List<Orders> getListOrders() {
-        return listOrders;
-    }
+	public void setListReviews(List<Reviews> listReviews) {
+		this.listReviews = listReviews;
+	}
 
-    public void setListOrders(List<Orders> listOrders) {
-        this.listOrders = listOrders;
-    }
+	public List<Orders> getListOrders() {
+		return listOrders;
+	}
 
-    public List<PayCards> getListPayCards() {
-        return listPayCards;
-    }
+	public void setListOrders(List<Orders> listOrders) {
+		this.listOrders = listOrders;
+	}
 
-    public void setListPayCards(List<PayCards> listPayCards) {
-        this.listPayCards = listPayCards;
-    }
+	public List<PayCards> getListPayCards() {
+		return listPayCards;
+	}
 
-    public Roles getRole() {
-        return role;
-    }
+	public void setListPayCards(List<PayCards> listPayCards) {
+		this.listPayCards = listPayCards;
+	}
 
-    public void setRole(Roles role) {
-        this.role = role;
-    }
+	public Roles getRole() {
+		return role;
+	}
 
-    public Boolean getActive() {
-        return active;
-    }
+	public void setRole(Roles role) {
+		this.role = role;
+	}
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+	public Boolean getActive() {
+		return active;
+	}
 
-    
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
-}// class 
+	public List<DetailsShipping> getListDetailsShippings() {
+		return listDetailsShippings;
+	}
+
+	public void setListDetailsShippings(List<DetailsShipping> listDetailsShippings) {
+		this.listDetailsShippings = listDetailsShippings;
+	}
+
+}// class

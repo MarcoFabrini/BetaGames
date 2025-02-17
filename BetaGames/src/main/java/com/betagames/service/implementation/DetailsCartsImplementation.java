@@ -94,7 +94,7 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
         }
 
         dC.setQuantity(req.getQuantity());
-        dC.setPriceAtTime(games.get().getPrice() * req.getQuantity());
+        dC.setPriceAtTime(games.get().getPrice() * detailsCarts.get().getQuantity());//* req.getQuantity()
         // update del carrello
         Date now = new Date();
         carts.get().setUpdatedAt(now);

@@ -1,6 +1,7 @@
 package com.betagames.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.DetailsCartDTO;
@@ -103,7 +104,7 @@ public class DetailsCartsController {
         return response;
     }
     @GetMapping("/listByCarts")
-    public ResponseList<DetailsCartDTO> listByCarts(Integer id) {
+    public ResponseList<DetailsCartDTO> listByCarts(@RequestParam("id") Integer id) {
         ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
         response.setRc(true);
         try {

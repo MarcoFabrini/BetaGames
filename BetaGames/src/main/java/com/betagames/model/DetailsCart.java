@@ -17,9 +17,6 @@ public class DetailsCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "price_at_time")
-    private Double priceAtTime;
-
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
@@ -37,14 +34,6 @@ public class DetailsCart {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Double getPriceAtTime() {
-        return priceAtTime;
-    }
-
-    public void setPriceAtTime(Double priceAtTime) {
-        this.priceAtTime = priceAtTime;
     }
 
     public Integer getQuantity() {

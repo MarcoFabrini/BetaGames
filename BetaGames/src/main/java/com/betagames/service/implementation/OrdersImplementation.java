@@ -129,11 +129,11 @@ public class OrdersImplementation implements IOrdersService {
         if (card.get().getExpirationDate().compareTo(now) == -1) {
             throw new Exception("Carta di pagamento scaduta");
         }
-
-        // calcolo del prezzo totale
+ 
         Double totalAmount = lDetailsCart.stream()
-                .map(DetailsCart::getPriceAtTime)
-                .reduce(0.0, (a, b) -> a + b);
+                .map(x-> x.getGame().getPrice() * x.getQuantity())
+                .reduce(0.0, Double::sum);
+        
         /*
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
          * accettiamo pagamenti da carte già registrate
@@ -154,7 +154,7 @@ public class OrdersImplementation implements IOrdersService {
         // carrello
         lDetailsCart.forEach(x -> {
             DetailsOrder detailOrder = new DetailsOrder();
-            detailOrder.setPriceAtTime(x.getPriceAtTime());
+            detailOrder.setPriceAtTime(x.getGame().getPrice() * x.getQuantity());
             detailOrder.setQuantity(x.getQuantity());
             detailOrder.setOrder(newOrd);
             detailOrder.setGame(x.getGame());

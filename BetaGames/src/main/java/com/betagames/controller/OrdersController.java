@@ -57,7 +57,7 @@ public class OrdersController {
     }
 
     @GetMapping("/userOrders")
-    public ResponseList<OrdersDTO> listOrdersByUsers(Integer id) {
+    public ResponseList<OrdersDTO> listOrdersByUsers(@RequestParam(value = "id") Integer id) {
         ResponseList<OrdersDTO> listResponse = new ResponseList<OrdersDTO>();
         listResponse.setRc(true);
 

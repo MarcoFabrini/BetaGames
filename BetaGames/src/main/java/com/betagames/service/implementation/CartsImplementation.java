@@ -1,38 +1,25 @@
 package com.betagames.service.implementation;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.betagames.dto.CartsDTO;
 import com.betagames.model.Carts;
-import com.betagames.model.Users;
 import com.betagames.repository.ICartsRepository;
-import com.betagames.repository.IDetailsCartsRepository;
-import com.betagames.repository.IUsersRepository;
-import com.betagames.request.CartsRequest;
 import com.betagames.service.interfaces.ICartsService;
-
 import static com.betagames.utility.Utilities.buildCartsDTO;
 
 @Service
 public class CartsImplementation implements ICartsService{
 
-    @Autowired
-    IDetailsCartsRepository detailsCartR;
+
 
     @Autowired
     ICartsRepository cartR;
 
-    @Autowired
-    IUsersRepository usersR;
 
-    @Autowired
-	private Logger log;
 
     // @Override
     // public  void create(CartsRequest req) throws Exception{

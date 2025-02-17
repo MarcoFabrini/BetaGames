@@ -1,6 +1,7 @@
 package com.betagames.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.DetailsCartDTO;
@@ -11,6 +12,7 @@ import com.betagames.service.interfaces.IDetailsCartsService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/rest/detailsCarts")
+@CrossOrigin(origins = "*")
 public class DetailsCartsController {
 
     @Autowired
@@ -101,7 +104,7 @@ public class DetailsCartsController {
         return response;
     }
     @GetMapping("/listByCarts")
-    public ResponseList<DetailsCartDTO> listByCarts(Integer id) {
+    public ResponseList<DetailsCartDTO> listByCarts(@RequestParam("id") Integer id) {
         ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
         response.setRc(true);
         try {

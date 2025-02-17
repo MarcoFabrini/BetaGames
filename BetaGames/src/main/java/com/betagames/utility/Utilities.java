@@ -106,7 +106,6 @@ public class Utilities {
     return dC.stream()
         .map(dCart -> new DetailsCartDTO(
             dCart.getId(),
-            dCart.getPriceAtTime(),
             dCart.getQuantity(),
             buildGamesDTO(dCart.getGame())
         ))
@@ -116,7 +115,6 @@ public class Utilities {
   public static DetailsCartDTO buildDetailsCartsDTO(DetailsCart dC) {
     return new DetailsCartDTO(
         dC.getId(),
-        dC.getPriceAtTime(),
         dC.getQuantity(),
         buildGamesDTO(dC.getGame()
         ));

@@ -183,7 +183,6 @@ public class DetailsCartsServiceTest {
 
         List<DetailsCartDTO> listDetailsCart = detailsCartsService.list();
         Assertions.assertThat((listDetailsCart.get(0).getQuantity())).isEqualTo(3);
-        Assertions.assertThat((listDetailsCart.get(0).getPriceAtTime())).isEqualTo(149.97);
 
     }
     //============================DELETE================================

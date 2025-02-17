@@ -36,7 +36,6 @@
         id integer not null auto_increment,
         id_carts integer,
         id_games integer,
-        price_at_time float(53),
         quantity integer not null,
         primary key (id)
     ) engine=InnoDB;

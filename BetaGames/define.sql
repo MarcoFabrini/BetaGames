@@ -70,6 +70,13 @@
         primary key (id)
     ) engine=InnoDB;
 
+    create table error_messages (
+        code varchar(255) not null,
+        lang varchar(255) not null,
+        message varchar(255),
+        primary key (code, lang)
+    ) engine=InnoDB;
+
     create table games (
         id integer not null auto_increment,
         id_editors integer,

@@ -85,6 +85,8 @@
 
     drop table if exists editors;
 
+    drop table if exists error_messages;
+
     drop table if exists games;
 
     drop table if exists orders;

@@ -19,11 +19,15 @@ import com.betagames.repository.IGamesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.DetailsCartRequest;
 import com.betagames.service.interfaces.IDetailsCartsService;
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 import static com.betagames.utility.Utilities.buildDetailsCartsDTO;
 
 @Service
 public class DetailsCartsImplementation implements IDetailsCartsService {
+
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
 
     @Autowired
     IDetailsCartsRepository detailsCartR;
@@ -48,11 +52,11 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
 
         Optional<Games> games = gamesR.findById(req.getGameId());
         if (games.isEmpty())
-            throw new Exception("item not found");
+            throw new Exception(serviceMessagesService.getMessage("game-id"));
         // cerco nella details_cart se esiste già un record con lo stesso gioco e lo
         // stesso carrello
         if (detailsCartR.existsByCartAndGame(carts.get(), games.get())) {
-            throw new Exception("item already in cart, update or delete instead");
+            throw new Exception(serviceMessagesService.getMessage("cartItem-present"));
         }
 
         DetailsCart detailsCart = new DetailsCart();
@@ -76,15 +80,15 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
 
         Optional<DetailsCart> detailsCarts = detailsCartR.findById(req.getId());
         if (detailsCarts.isEmpty())
-            throw new Exception("details not found");
+            throw new Exception(serviceMessagesService.getMessage("cartItem-noPresent"));
 
         Optional<Games> games = gamesR.findById(detailsCarts.get().getGame().getId());
         if (games.isEmpty())
-            throw new Exception("item not found");
+            throw new Exception(serviceMessagesService.getMessage("game-noPresent"));
 
         Optional<Carts> carts = cartR.findById(detailsCarts.get().getCart().getId());
         if (carts.isEmpty())
-            throw new Exception("cart not found");
+            throw new Exception(serviceMessagesService.getMessage("cart-noPresent"));
 
         DetailsCart dC = detailsCarts.get();
 
@@ -104,14 +108,14 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(DetailsCartRequest req) throws Exception {
-        
+
         Optional<DetailsCart> detailsCarts = detailsCartR.findById(req.getId());
         if (detailsCarts.isEmpty())
-            throw new Exception("details not found");
+            throw new Exception(serviceMessagesService.getMessage("cartItem-noPresent"));
 
         Optional<Carts> carts = cartR.findById(detailsCarts.get().getCart().getId());
         if (carts.isEmpty())
-            throw new Exception("cart not found");
+            throw new Exception(serviceMessagesService.getMessage("cart-noPresent"));
 
         detailsCartR.delete(detailsCarts.get());
 
@@ -126,9 +130,9 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
     public void deleteAllByCart(DetailsCartRequest req) throws Exception {
 
         Optional<Carts> carts = cartR.findById(req.getCartId());
-    
+
         if (carts.isEmpty())
-            throw new Exception("cart not found");
+            throw new Exception(serviceMessagesService.getMessage("cart-noPresent"));
 
         List<DetailsCart> dCl = detailsCartR.findByCart(carts.get());
 
@@ -145,7 +149,7 @@ public class DetailsCartsImplementation implements IDetailsCartsService {
     public List<DetailsCartDTO> listByCarts(Integer id) throws Exception {
         Optional<Carts> carts = cartR.findById(id);
         if (carts.isEmpty()) {
-            throw new Exception("cart not found");
+            throw new Exception(serviceMessagesService.getMessage("cart-noPresent"));
         }
 
         List<DetailsCart> lDetailsCarts = detailsCartR.findByCart(carts.get());

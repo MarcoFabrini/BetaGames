@@ -3,6 +3,7 @@ package com.betagames.controller;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.GamesDTO;
@@ -45,6 +46,23 @@ public class GamesController {
         }
         return list;
     }//list
+
+    @GetMapping("/searchByTyping")
+    public ResponseList<GamesDTO> searchByTyping( @RequestParam(value = "name", required = false) String name,
+                                                  @RequestParam(value = "authorsId", required = false) Integer authorsId,
+                                                  @RequestParam(value = "categoriesId", required = false) Integer categoriesId,
+                                                  @RequestParam(value = "editorId", required = false) Integer editorId) {
+        ResponseList<GamesDTO> list = new ResponseList<>();
+        list.setRc(true);
+        try {
+            list.setData(gamesService.searchByTyping(name, authorsId, categoriesId, editorId));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            list.setMsg(e.getMessage());
+            list.setRc(false);
+        }
+        return list;
+    }//searchByTyping
     
     @PostMapping("/create")
     public ResponseBase create(@RequestBody(required = true) GamesRequest req) {

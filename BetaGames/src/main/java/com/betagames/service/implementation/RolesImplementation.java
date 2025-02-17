@@ -16,10 +16,13 @@ import com.betagames.service.interfaces.IRolesService;
  * 
  * @author Simone Checco
  */
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 @Service
 public class RolesImplementation implements IRolesService {
 
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
     @Autowired
     IRolesRepository rolesRep;
 
@@ -36,11 +39,11 @@ public class RolesImplementation implements IRolesService {
     public void create(RolesRequest req) throws Exception {
 
         if (req.getName().equalsIgnoreCase("")) {
-            throw new Exception("dare un nome al nuovo ruolo");
+            throw new Exception(serviceMessagesService.getMessage("roles-empty"));
         }
         Optional<Roles> role = rolesRep.findByName(req.getName());
         if (role.isPresent()) {
-            throw new Exception("nome già presente");
+            throw new Exception(serviceMessagesService.getMessage("roles-Name"));
         }
         Roles r = new Roles();
         r.setName(req.getName());
@@ -51,7 +54,7 @@ public class RolesImplementation implements IRolesService {
     public void update(RolesRequest req) throws Exception {
         Optional<Roles> roles = rolesRep.findById(req.getId());
         if (roles.isEmpty()) {
-            throw new Exception("l'ID non assegnato a nessun ruolo");
+            throw new Exception(serviceMessagesService.getMessage("roles_Id"));
         }
         Roles r = roles.get();
         r.setName(req.getName());
@@ -63,7 +66,7 @@ public class RolesImplementation implements IRolesService {
         Optional<Roles> roles = rolesRep.findById(req.getId());
 
         if (roles.isEmpty()) {
-            throw new Exception("id del ruolo inesistente");
+            throw new Exception(serviceMessagesService.getMessage("roles_Id"));
         }
 
         Roles r = roles.get();

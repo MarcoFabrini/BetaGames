@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import com.betagames.repository.ICategoriesRepository;
 import com.betagames.repository.IGamesRepository;
 import com.betagames.request.CategoriesRequest;
 import com.betagames.service.interfaces.ICategoriesService;
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 /**
  *
@@ -25,6 +27,9 @@ import com.betagames.service.interfaces.ICategoriesService;
  */
 @Service
 public class CategoriesImplementation implements ICategoriesService {
+
+    @Autowired
+    private IServiceMessagesService serviceMessagesService;
 
     private ICategoriesRepository categoriesRepository;
     private IGamesRepository gamesRepository;
@@ -54,7 +59,7 @@ public class CategoriesImplementation implements ICategoriesService {
     public void create(CategoriesRequest req) throws Exception {
         Optional<Categories> categoria = categoriesRepository.findByName(req.getName());
         if (categoria.isPresent()) {
-            throw new Exception("The Categoiria is present in DB");
+            throw new Exception(serviceMessagesService.getMessage("categories-present"));
         }
 
         Categories c = new Categories();
@@ -74,7 +79,7 @@ public class CategoriesImplementation implements ICategoriesService {
             categoriesRepository.save(c);
             log.debug("The category has been successfully added.");
         } catch (Exception e) {
-            log.debug("There was an issue while adding the category.");
+            log.error("There was an issue while updating the category: " + e.getMessage());
         }
 
     }// Create
@@ -82,16 +87,16 @@ public class CategoriesImplementation implements ICategoriesService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(CategoriesRequest req) throws Exception {
-        Objects.requireNonNull(req.getId(), "The category's id isn't present");
+        Objects.requireNonNull(req.getId(), serviceMessagesService.getMessage("categories-id"));
         Optional<Categories> categoria = categoriesRepository.findById(req.getId());
         if (!categoria.isPresent()) {
-            throw new Exception("The Category isn't present in DB");
+            throw new Exception(serviceMessagesService.getMessage("categories-noPresent"));
         }
 
         Categories c = categoria.get();
 
         if (req.getName() == null || req.getName().trim().isEmpty()) {
-            throw new Exception("The category name cannot be empty.");
+            throw new Exception(serviceMessagesService.getMessage("categories-name"));
         }
 
         c.setName(req.getName());

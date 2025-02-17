@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ import com.betagames.repository.IAuthorsRepository;
 import com.betagames.repository.IGamesRepository;
 import com.betagames.request.AuthorsRequest;
 import com.betagames.service.interfaces.IAuthorsService;
+import com.betagames.service.interfaces.IServiceMessagesService;
+import com.betagames.service.interfaces.IAuthorsService;
 
 import static com.betagames.utility.Utilities.buildAuthorsDTO;
 
@@ -25,6 +28,9 @@ import static com.betagames.utility.Utilities.buildAuthorsDTO;
  */
 @Service
 public class AuthorsImplementation implements IAuthorsService {
+
+    @Autowired
+    private IServiceMessagesService serviceMessagesService;
 
     private IAuthorsRepository authorsRepository;
     private IGamesRepository gamesRepository;
@@ -59,12 +65,12 @@ public class AuthorsImplementation implements IAuthorsService {
     public void create(AuthorsRequest req) throws Exception {
         Optional<Authors> author = authorsRepository.findByNameAndLastname(req.getName(), req.getLastname());
         if (author.isPresent())
-            throw new Exception("This authors name and lastname is present");
+            throw new Exception(serviceMessagesService.getMessage("authors-present"));
 
-        Objects.requireNonNull(req.getName(), "The author's name is not present.");
-        Objects.requireNonNull(req.getLastname(), "The author's lastname is not present.");
-        Objects.requireNonNull(req.getBiography(), "The author's biography is not present.");
-        Objects.requireNonNull(req.getCountry(), "The author's country is not present.");
+        Objects.requireNonNull(req.getName(), serviceMessagesService.getMessage("authors-name"));
+        Objects.requireNonNull(req.getLastname(), serviceMessagesService.getMessage("authors-lastname"));
+        Objects.requireNonNull(req.getBiography(), serviceMessagesService.getMessage("authors-biography"));
+        Objects.requireNonNull(req.getCountry(), serviceMessagesService.getMessage("authors-country"));
 
         Authors a = new Authors();
         a.setName(req.getName());
@@ -86,19 +92,19 @@ public class AuthorsImplementation implements IAuthorsService {
             authorsRepository.save(a);
             log.debug("The author has been successfully added.");
         } catch (Exception e) {
-            log.debug("There was an issue while adding the author.");
+            log.debug(serviceMessagesService.getMessage("generic"));
         }
     }// create
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(AuthorsRequest req) throws Exception {
-        Objects.requireNonNull(req.getName(), "The author's name is not present.");
-        Objects.requireNonNull(req.getLastname(), "The author's lastname is not present.");
+        Objects.requireNonNull(req.getName(), serviceMessagesService.getMessage("authors-name"));
+        Objects.requireNonNull(req.getLastname(), serviceMessagesService.getMessage("authors-lastname"));
         Optional<Authors> author = authorsRepository.findByNameAndLastname(req.getName(), req.getLastname());
 
         if (!author.isPresent())
-            throw new Exception("This authors name or lastname isn't present");
+            throw new Exception(serviceMessagesService.getMessage("authors-noPresent"));
 
         Authors a = author.get();
 
@@ -126,11 +132,11 @@ public class AuthorsImplementation implements IAuthorsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(AuthorsRequest req) throws Exception {
-        Objects.requireNonNull(req.getId(), "The author's id isn't present");
+        Objects.requireNonNull(req.getId(), serviceMessagesService.getMessage("authors-id"));
         Optional<Authors> author = authorsRepository.findById(req.getId());
 
         if (!author.isPresent()) {
-            throw new Exception("The author isn't present");
+            throw new Exception(serviceMessagesService.getMessage("authors-present"));
         }
 
         Authors a = author.get();

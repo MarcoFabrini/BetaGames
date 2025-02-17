@@ -12,6 +12,8 @@ import com.betagames.model.Editors;
 import com.betagames.repository.IEditorsRepository;
 import com.betagames.request.EditorsRequest;
 import com.betagames.service.interfaces.IEditorsService;
+import com.betagames.service.interfaces.IServiceMessagesService;
+
 import static com.betagames.utility.Utilities.buildEditorsDTO;
 
 /**
@@ -21,6 +23,8 @@ import static com.betagames.utility.Utilities.buildEditorsDTO;
 @Service
 public class EditorsImplementation implements IEditorsService {
 
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
     @Autowired
     IEditorsRepository editorsRepository;
 
@@ -43,11 +47,11 @@ public class EditorsImplementation implements IEditorsService {
     public void create(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findByName(req.getName());
         if (editors.isPresent())
-            throw new Exception("This editor name is already present");
+            throw new Exception(serviceMessagesService.getMessage("editors-Present"));
 
         editors = editorsRepository.findByWebsite(req.getWebsite());
         if (editors.isPresent())
-            throw new Exception("This editor website is already present");
+            throw new Exception(serviceMessagesService.getMessage("editorsWeb-Present"));
 
         Editors e = new Editors();
         e.setName(req.getName());
@@ -60,13 +64,13 @@ public class EditorsImplementation implements IEditorsService {
     public void update(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findById(req.getId());
         if (!editors.isPresent())
-            throw new Exception("Editor not found");
-        
+            throw new Exception(serviceMessagesService.getMessage("editor-noPresent"));
+
         if (editorsRepository.findByNameAndIdNot(req.getName(), req.getId()).isPresent())
-            throw new Exception("This editor is already present");
+            throw new Exception(serviceMessagesService.getMessage("editors-Present"));
 
         if (editorsRepository.findByWebsiteAndIdNot(req.getWebsite(), req.getId()).isPresent())
-            throw new Exception("This editor website is already present");
+            throw new Exception(serviceMessagesService.getMessage("editorsWeb-Present"));
 
         editors.get().setName(req.getName());
         editors.get().setWebsite(req.getWebsite());
@@ -78,7 +82,7 @@ public class EditorsImplementation implements IEditorsService {
     public void delete(EditorsRequest req) throws Exception {
         Optional<Editors> editors = editorsRepository.findById(req.getId());
         if (!editors.isPresent())
-            throw new Exception("Editor not found");
+            throw new Exception(serviceMessagesService.getMessage("editor-noPresent"));
 
         editorsRepository.delete(editors.get());
     }// delete

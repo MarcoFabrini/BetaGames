@@ -1,6 +1,5 @@
 package com.betagames.controller;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +18,11 @@ import com.betagames.service.interfaces.IDetailsShippingService;
 public class DetailsShippingController {
 	
 	@Autowired
-	Logger log;
-	@Autowired
 	IDetailsShippingService detailsShippingService;
 	
     @GetMapping("/list")
     public ResponseList<DetailsShippingDTO> list(@RequestBody(required = true) DetailsShippingRequest req) {
-        ResponseList<DetailsShippingDTO> responseList = new ResponseList<DetailsShippingDTO>();
+        ResponseList<DetailsShippingDTO> responseList = new ResponseList<>();
         responseList.setRc(true);
         try {
             responseList.setData(detailsShippingService.list(req));

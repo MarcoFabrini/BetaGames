@@ -9,6 +9,7 @@ import com.betagames.controller.AuthorsControllerTest;
 import com.betagames.controller.CartsControllerTest;
 import com.betagames.controller.CategoriesControllerTest;
 import com.betagames.controller.DetailsCartsControllerTest;
+import com.betagames.controller.DetailsShippingControllerTest;
 import com.betagames.controller.EditorsControllerTest;
 import com.betagames.controller.GamesControllerTest;
 import com.betagames.controller.OrderControllerTest;
@@ -20,6 +21,7 @@ import com.betagames.service.AuthorsServiceTest;
 import com.betagames.service.CartsServiceTest;
 import com.betagames.service.CategoriesServiceTest;
 import com.betagames.service.DetailsCartsServiceTest;
+import com.betagames.service.DetailsShippingServiceTest;
 import com.betagames.service.EditorsServiceTest;
 import com.betagames.service.GamesServicesTest;
 import com.betagames.service.OrdersServiceTest;
@@ -51,7 +53,9 @@ import com.betagames.service.UsersServiceTest;
 	OrderControllerTest.class,
 	OrdersServiceTest.class,
 	CartsControllerTest.class,
-	CartsServiceTest.class
+	CartsServiceTest.class,
+	DetailsShippingServiceTest.class,
+	DetailsShippingControllerTest.class
 })
 @SpringBootTest(classes = BetaGamesApplication.class)
 class BetaGamesApplicationTests {

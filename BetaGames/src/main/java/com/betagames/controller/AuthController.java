@@ -1,19 +1,16 @@
 package com.betagames.controller;
 
-import java.util.Optional;
-
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betagames.configuration.jwt.JwtProvider;
-import com.betagames.model.Users;
-import com.betagames.repository.IUsersRepository;
+import com.betagames.dto.TokenDTO;
 import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseObject;
+import com.betagames.service.interfaces.IAuthService;
 
 /**
  * La classe AuthController gestisce le richieste di autenticazione degli
@@ -24,20 +21,13 @@ import com.betagames.response.ResponseObject;
  * @author FabriniMarco
  */
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/rest/")
 public class AuthController {
 
-    // Repository per l'accesso ai dati degli utenti
     @Autowired
-    private IUsersRepository usersRepository;
-
-    // Codificatore di password utilizzato per verificare le password
+    IAuthService authService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    // Provider per la generazione dei token JWT
-    @Autowired
-    private JwtProvider jwtProvider;
+    Logger log;
 
     /**
      * Endpoint per il login degli utenti.
@@ -48,26 +38,21 @@ public class AuthController {
      *         successo.
      * @throws Exception Se il nome utente o la password non sono validi.
      */
-    @PostMapping("/public/login")
-    public ResponseObject<String> login(@RequestBody(required = true) UsersRequest req) throws Exception {
-        // Cerca l'utente nel repository in base al nome utente fornito
-        Optional<Users> users = usersRepository.findByUsername(req.getUsername());
+    @PostMapping("public/auth/login")
+    public ResponseObject<TokenDTO> login(@RequestBody(required = true) UsersRequest req) throws Exception {
+        ResponseObject<TokenDTO> responseToken = new ResponseObject<>();
+        responseToken.setRc(true);
 
-        // Verifica se l'utente esiste e se la password fornita corrisponde a quella
-        // memorizzata
-        if (!users.isPresent() || !passwordEncoder.matches(req.getPwd(), users.get().getPwd())) {
-            throw new Exception("Invalid password or username");
+        try {
+            responseToken.setData(authService.login(req));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            responseToken.setMsg(e.getMessage());
+            responseToken.setRc(false);
         }
 
-        // Genera il token JWT per l'utente autenticato
-        String token = jwtProvider.generateToken(users.get().getUsername());
-
-        // Crea un'istanza di ResponseObject e imposta il token come dato
-        ResponseObject<String> responseObject = new ResponseObject<>();
-        responseObject.setData(token);
-
         // Restituisce l'oggetto ResponseObject come risposta
-        return responseObject;
+        return responseToken;
     } // login
 
 }// class

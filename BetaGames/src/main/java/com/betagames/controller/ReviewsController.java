@@ -25,14 +25,14 @@ import com.betagames.service.interfaces.IReviewsService;
  * @author FabriniMarco
  */
 @RestController
-@RequestMapping("/rest/reviews")
+@RequestMapping("/rest/")
 public class ReviewsController {
     @Autowired
     Logger log;
     @Autowired
     IReviewsService reviewsService;
 
-    @GetMapping("/listByUserId")
+    @GetMapping("admin/reviews/listByUserId")
     public ResponseList<ReviewsDTO> listByUserId(@RequestParam(value = "id", required = true) Integer id) {
         ResponseList<ReviewsDTO> list = new ResponseList<>();
         list.setRc(true);
@@ -47,7 +47,7 @@ public class ReviewsController {
         return list;
     }// listByUserId
 
-    @PostMapping("/create")
+    @PostMapping("user/reviews/create")
     public ResponseBase create(@RequestBody(required = true) ReviewsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -62,7 +62,7 @@ public class ReviewsController {
         return response;
     }// create
 
-    @PostMapping("/update")
+    @PostMapping("user/reviews/update")
     public ResponseBase update(@RequestBody(required = true) ReviewsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -77,7 +77,7 @@ public class ReviewsController {
         return response;
     }// update
 
-    @PostMapping("/delete")
+    @PostMapping("user/reviews/delete")
     public ResponseBase delete(@RequestBody(required = true) ReviewsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

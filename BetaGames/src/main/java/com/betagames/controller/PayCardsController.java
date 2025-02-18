@@ -2,7 +2,11 @@ package com.betagames.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.PayCardsDTO;
@@ -10,10 +14,6 @@ import com.betagames.request.PayCardsRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IPayCardsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  **/
 
  @RestController
- @RequestMapping("/rest/paycards")
+ @RequestMapping("/rest/")
 public class PayCardsController {
 
     @Autowired
@@ -31,9 +31,9 @@ public class PayCardsController {
     @Autowired
     IPayCardsService payCardsService;
 
-    @GetMapping("/list")
+    @GetMapping("admin/paycards/list")
     public ResponseList<PayCardsDTO> list() {
-        ResponseList<PayCardsDTO> list = new ResponseList<PayCardsDTO>();
+        ResponseList<PayCardsDTO> list = new ResponseList<>();
         list.setRc(true);
         try {
             list.setData(payCardsService.list());
@@ -45,9 +45,9 @@ public class PayCardsController {
         return list;
     }//list
 
-    @GetMapping("/listByUser")
+    @GetMapping("user/paycards/listByUser")
     public ResponseList<PayCardsDTO> listByUser(@RequestParam Integer id) {
-        ResponseList<PayCardsDTO> list = new ResponseList<PayCardsDTO>();
+        ResponseList<PayCardsDTO> list = new ResponseList<>();
         list.setRc(true);
         try {
             list.setData(payCardsService.listByUser(id));
@@ -60,7 +60,7 @@ public class PayCardsController {
     }
     
     
-    @PostMapping("/create")
+    @PostMapping("user/paycards/create")
     public ResponseBase create(@RequestBody(required = true) PayCardsRequest req){
         ResponseBase r = new ResponseBase();        //r = response
         r.setRc(true);
@@ -76,7 +76,7 @@ public class PayCardsController {
     }//create
 
 
-    @PostMapping("/update")
+    @PostMapping("user/paycards/update")
     public ResponseBase update(@RequestBody(required = true) PayCardsRequest req){
         ResponseBase r = new ResponseBase();
         r.setRc(true);
@@ -92,7 +92,7 @@ public class PayCardsController {
     }//update
 
 
-    @PostMapping("/delete")
+    @PostMapping("user/paycards/delete")
     public ResponseBase delete(@RequestBody(required = true) PayCardsRequest req){
         ResponseBase r = new ResponseBase();
         r.setRc(true);

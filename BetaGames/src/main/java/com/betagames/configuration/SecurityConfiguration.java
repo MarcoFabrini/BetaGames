@@ -47,7 +47,7 @@ public class SecurityConfiguration {
             // .defaultSuccessUrl("/books", true).permitAll()) // URL di successo dopo il
             // login
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Aggiunge il filtro JWT prima
-                                                                                         // del filtro di autenticazione
+                                                                                                  // del filtro di autenticazione
         // .logout(LogoutConfigurer::permitAll); // Configurazione per il logout
         return http.build(); // Costruisce e restituisce la catena di filtri di sicurezza
     } // securityFilterChain

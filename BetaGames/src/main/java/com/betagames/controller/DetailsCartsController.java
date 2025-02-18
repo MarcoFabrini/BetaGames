@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/rest/detailsCarts")
+@RequestMapping("/rest/")
 @CrossOrigin(origins = "*")
 public class DetailsCartsController {
 
@@ -30,7 +30,7 @@ public class DetailsCartsController {
     @Autowired
     IDetailsCartsService detailsCartsService;
 
-    @PostMapping("/create")
+    @PostMapping("user/detailsCarts/create")
     public ResponseBase create(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -45,7 +45,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @PostMapping("/update")
+    @PostMapping("user/detailsCarts/update")
     public ResponseBase update(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -60,7 +60,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @PostMapping("/delete")
+    @PostMapping("user/detailsCarts/delete")
     public ResponseBase delete(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -75,7 +75,7 @@ public class DetailsCartsController {
         return response;
     }
 
-    @PostMapping("/deleteAllByCart")
+    @PostMapping("user/detailsCarts/deleteAllByCart")
     public ResponseBase deleteAllByCart(@RequestBody(required = true) DetailsCartRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -90,7 +90,7 @@ public class DetailsCartsController {
         return response;
     }
     
-    @GetMapping("/list")
+    @GetMapping("admin/detailsCarts/list")
     public ResponseList<DetailsCartDTO> list() {
         ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
         response.setRc(true);
@@ -103,7 +103,7 @@ public class DetailsCartsController {
         }
         return response;
     }
-    @GetMapping("/listByCarts")
+    @GetMapping("user/detailsCarts/listByCarts")
     public ResponseList<DetailsCartDTO> listByCarts(@RequestParam("id") Integer id) {
         ResponseList<DetailsCartDTO> response = new ResponseList<DetailsCartDTO>();
         response.setRc(true);

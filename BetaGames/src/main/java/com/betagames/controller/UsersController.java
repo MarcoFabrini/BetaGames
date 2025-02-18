@@ -20,14 +20,14 @@ import com.betagames.service.interfaces.IUsersService;
  * @author FabriniMarco
  */
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/rest/")
 public class UsersController {
     @Autowired
     Logger log;
     @Autowired
     IUsersService usersService;
 
-    @GetMapping("/admin/users/list")
+    @GetMapping("admin/users/list")
     public ResponseList<UsersDTO> list() {
         log.debug("msg");
         ResponseList<UsersDTO> list = new ResponseList<>();
@@ -43,7 +43,7 @@ public class UsersController {
         return list;
     }// list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("admin/users/searchByTyping")
     public ResponseList<UsersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "username", required = false) String username,
             @RequestParam(value = "email", required = false) String email,
@@ -61,7 +61,7 @@ public class UsersController {
         return list;
     }// searchByTyping
 
-    @PostMapping("/public/createUser")
+    @PostMapping("public/users/createUser")
     public ResponseBase createUser(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -77,7 +77,7 @@ public class UsersController {
         return response;
     }// createUser
 
-    @PostMapping("/update")
+    @PostMapping("user/users/update")
     public ResponseBase update(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -92,7 +92,7 @@ public class UsersController {
         return response;
     }// update
 
-    @PostMapping("/upgradeToAdmin")
+    @PostMapping("admin/users/upgradeToAdmin")
     public ResponseBase upgradeToAdmin(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -107,7 +107,7 @@ public class UsersController {
         return response;
     }// upgradeToAdmin
 
-    @PostMapping("/delete")
+    @PostMapping("user/users/delete")
     public ResponseBase delete(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

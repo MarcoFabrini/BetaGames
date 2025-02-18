@@ -19,7 +19,7 @@ import com.betagames.service.interfaces.ICategoriesService;
  * @author Cristhian Guerrero
  */
 @RestController
-@RequestMapping("/rest/categories")
+@RequestMapping("/rest/")
 public class CategoriesController {
    
     private Logger log;
@@ -30,7 +30,7 @@ public class CategoriesController {
         this.log=log;
     }
 
-    @GetMapping("/list")
+    @GetMapping("public/categories/list")
     public ResponseList<CategoriesDTO> list() {
         ResponseList<CategoriesDTO> listAuthors = new ResponseList<>();
         listAuthors.setRc(true);
@@ -45,7 +45,7 @@ public class CategoriesController {
         return listAuthors;
     }// list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("public/categories/searchByTyping")
     public ResponseList<CategoriesDTO> searchByTyping(@RequestParam(value="id", required = false) Integer id,
                                                    @RequestParam(value="name", required = false) String name) {
         ResponseList<CategoriesDTO> listCategorie = new ResponseList<>();
@@ -61,7 +61,7 @@ public class CategoriesController {
         return listCategorie;
     }// searchByTyping
 
-    @PostMapping("/create")
+    @PostMapping("admin/categories/create")
     public ResponseBase create(@RequestBody(required = true) CategoriesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -76,7 +76,7 @@ public class CategoriesController {
         return response;
     }// create
 
-    @PostMapping("/update")
+    @PostMapping("admin/categories/update")
     public ResponseBase update(@RequestBody(required = true) CategoriesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -91,7 +91,7 @@ public class CategoriesController {
         return response;
     }// update
 
-    @PostMapping("/delete")
+    @PostMapping("admin/categories/delete")
     public ResponseBase delete(@RequestBody(required = true) CategoriesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

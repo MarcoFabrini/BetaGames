@@ -11,7 +11,7 @@ import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.ICartsService;
 
 @RestController
-@RequestMapping("/rest/carts")
+@RequestMapping("/rest/")
 public class CartsController {
 
      @Autowired
@@ -50,7 +50,7 @@ public class CartsController {
     //     return response;
     // }
 
-    @GetMapping("/list")
+    @GetMapping("admin/carts/list")
     public ResponseList<CartsDTO> list() {
         ResponseList<CartsDTO> response = new ResponseList<>();
         response.setRc(true);

@@ -19,13 +19,13 @@ import com.betagames.service.interfaces.IOrdersService;
  */
 
 @RestController
-@RequestMapping("/rest/orders")
+@RequestMapping("/rest/")
 public class OrdersController {
 
     @Autowired
     private IOrdersService ordersService;
 
-    @GetMapping("/allOrders")
+    @GetMapping("admin/orders/allOrders")
     public ResponseList<OrdersDTO> listOrders() {
         ResponseList<OrdersDTO> responseList = new ResponseList<OrdersDTO>();
         responseList.setRc(true);
@@ -40,7 +40,7 @@ public class OrdersController {
         return responseList;
     }
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("admin/orders/searchByTyping")
     public ResponseList<OrdersDTO> searchByTyping(@RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "payCardId", required = false) Integer payCardId,
             @RequestParam(value = "userId", required = false) Integer userId) {
@@ -56,7 +56,7 @@ public class OrdersController {
         return list;
     }
 
-    @GetMapping("/userOrders")
+    @GetMapping("user/orders/userOrders")
     public ResponseList<OrdersDTO> listOrdersByUsers(@RequestParam(value = "id") Integer id) {
         ResponseList<OrdersDTO> listResponse = new ResponseList<OrdersDTO>();
         listResponse.setRc(true);
@@ -72,7 +72,7 @@ public class OrdersController {
         return listResponse;
     }
 
-    @PostMapping("/createOrders")
+    @PostMapping("user/orders/createOrders")
     public ResponseBase create(@RequestBody(required = true) OrdersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -87,7 +87,7 @@ public class OrdersController {
         return response;
     }
 
-    @PostMapping("/updateOrders")
+    @PostMapping("admin/orders/updateOrders")
     public ResponseBase update(@RequestBody(required = true) OrdersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

@@ -11,7 +11,7 @@ import com.betagames.request.GamesRequest;
 
 public interface IGamesService {
 
-    // List<GamesDTO> searchByTyping() throws Exception;
+    List<GamesDTO> searchByTyping(String name, Integer authorsId, Integer categoriesId, Integer editorId) throws Exception;
 
     List<GamesDTO> list() throws Exception;
 

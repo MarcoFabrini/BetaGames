@@ -203,9 +203,17 @@ public class GamesServicesTest {
 			gamesService.update(gamesRequest);
 		});
 	}
+  
+    @Test
+    @Order(8)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void searchByTypingTest() throws Exception {
+        List<GamesDTO> listGames = gamesService.searchByTyping("g", null, null, null);
+        Assertions.assertThat(listGames.get(0).getName()).isEqualTo("Giochino");
+    }//searchByTypingTest
 
 	@Test
-	@Order(8)
+	@Order(9)
 	@DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
 	public void testDelete() throws Exception {
 		gamesRequest.setId(1);
@@ -217,7 +225,7 @@ public class GamesServicesTest {
 	}
 
 	@Test
-	@Order(9)
+	@Order(10)
 	@DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
 	public void testDeleteError() throws Exception {
 		gamesRequest.setId(300);
@@ -227,4 +235,5 @@ public class GamesServicesTest {
 		});
 	}
 
-}
+
+}//class

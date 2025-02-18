@@ -36,7 +36,7 @@ import com.betagames.model.Roles;
 import com.betagames.model.Users;
 
 public class Utilities {
-  private final static String PATTERN_DATE = "dd/MM/yyyy";
+  private final static String PATTERN_DATE = "yyyy-MM-dd";
 
   public static Date convertStringToDate(String dataString) throws ParseException {
     SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE, Locale.ITALY);

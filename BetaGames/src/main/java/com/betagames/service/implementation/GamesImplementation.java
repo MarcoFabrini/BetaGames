@@ -91,13 +91,14 @@ public class GamesImplementation implements IGamesService {
         g.setStockQuantity(req.getStockQuantity());
         g.setEditor(editor.get());
 
+        //inizializzo le liste
+        g.setListAuthors(new ArrayList<>());
+        g.setListCategory(new ArrayList<>());
+
         if (req.getAuthorsId() != null) {
             Optional<Authors> a = authorsR.findById(req.getAuthorsId());
             if (a.isPresent()) {
                 Authors author = a.get();
-                if (g.getListAuthors() == null) {
-                    g.setListAuthors(new ArrayList<>());
-                }
                 g.getListAuthors().add(author);
             }
         } else {
@@ -108,27 +109,12 @@ public class GamesImplementation implements IGamesService {
             Optional<Categories> c = categoryR.findById(req.getCategoryId());
             if (c.isPresent()) {
                 Categories category = c.get();
-                if (g.getListCategory() == null) {
-                    g.setListCategory(new ArrayList<>());
-                }
                 g.getListCategory().add(category);
             }
         } else {
             g.setListCategory(new ArrayList<>());
         }
-
-        if (req.getReviewsId() != null) {
-            Optional<Reviews> r = reviewsRe.findById(req.getReviewsId());
-            if (r.isPresent()) {
-                Reviews review = r.get();
-                if (g.getListReviews() == null) {
-                    g.setListReviews(new ArrayList<>());
-                }
-                g.getListReviews().add(review);
-            }
-        } else {
-            g.setListReviews(new ArrayList<>());
-        }
+        
         // save
         gamesR.save(g);
     }// create
@@ -161,7 +147,6 @@ public class GamesImplementation implements IGamesService {
             Optional<Authors> a = authorsR.findById(req.getAuthorsId());
             if (a.isPresent()) {
                 Authors author = a.get();
-
                 g.getListAuthors().add(author);
             }
         }
@@ -174,13 +159,6 @@ public class GamesImplementation implements IGamesService {
             }
         }
 
-        if (req.getReviewsId() != null) {
-            Optional<Reviews> r = reviewsRe.findById(req.getReviewsId());
-            if (r.isPresent()) {
-                Reviews review = r.get();
-                g.getListReviews().add(review);
-            }
-        }
         // save
         gamesR.save(g);
         
@@ -206,10 +184,10 @@ public class GamesImplementation implements IGamesService {
             gameEntity.getListCategory().clear();
         }
         
-        if (gameEntity.getListReviews() != null) {
-            gameEntity.getListReviews().forEach(review -> review.setGame(null));
-            gameEntity.getListReviews().clear();
-        }
+        // if (gameEntity.getListReviews() != null) {
+        //     gameEntity.getListReviews().forEach(review -> review.setGame(null));
+        //     gameEntity.getListReviews().clear();
+        // }
     
         gamesR.save(gameEntity);
 

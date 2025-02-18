@@ -141,14 +141,14 @@
        add constraint UK1eyx4jkn3tmk5cc9itor35q84 unique (id_users);
 
     alter table authors_games 
-       add constraint FKqgd6l1vsxbw40b80frhpds3a7 
-       foreign key (id_games) 
-       references games (id);
-
-    alter table authors_games 
        add constraint FKfsl8vf60rqqg7anjj5bsp7nm7 
        foreign key (id_authors) 
        references authors (id);
+
+    alter table authors_games 
+       add constraint FKqgd6l1vsxbw40b80frhpds3a7 
+       foreign key (id_games) 
+       references games (id);
 
     alter table carts 
        add constraint FKjgsx53mn11qckeaot8tedfo5q 
@@ -156,14 +156,14 @@
        references users (id);
 
     alter table category_games 
-       add constraint FKd8lpt2nsj7aklcagslgceq7mv 
-       foreign key (id_games) 
-       references games (id);
-
-    alter table category_games 
        add constraint FKjow4gv74b6mf6q9y82u8adw6x 
        foreign key (id_category) 
        references categories (id);
+
+    alter table category_games 
+       add constraint FKd8lpt2nsj7aklcagslgceq7mv 
+       foreign key (id_games) 
+       references games (id);
 
     alter table details_cart 
        add constraint FKe5au5adhpsien8khafffev9co 

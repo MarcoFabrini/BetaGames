@@ -1,11 +1,11 @@
 
     alter table authors_games 
        drop 
-       foreign key FKqgd6l1vsxbw40b80frhpds3a7;
+       foreign key FKfsl8vf60rqqg7anjj5bsp7nm7;
 
     alter table authors_games 
        drop 
-       foreign key FKfsl8vf60rqqg7anjj5bsp7nm7;
+       foreign key FKqgd6l1vsxbw40b80frhpds3a7;
 
     alter table carts 
        drop 
@@ -13,11 +13,11 @@
 
     alter table category_games 
        drop 
-       foreign key FKd8lpt2nsj7aklcagslgceq7mv;
+       foreign key FKjow4gv74b6mf6q9y82u8adw6x;
 
     alter table category_games 
        drop 
-       foreign key FKjow4gv74b6mf6q9y82u8adw6x;
+       foreign key FKd8lpt2nsj7aklcagslgceq7mv;
 
     alter table details_cart 
        drop 

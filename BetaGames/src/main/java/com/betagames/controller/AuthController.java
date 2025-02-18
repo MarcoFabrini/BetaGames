@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.TokenDTO;
 import com.betagames.request.UsersRequest;
+import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseObject;
 import com.betagames.service.interfaces.IAuthService;
 
@@ -54,5 +55,21 @@ public class AuthController {
         // Restituisce l'oggetto ResponseObject come risposta
         return responseToken;
     } // login
+
+    @PostMapping("public/auth/signin")
+    public ResponseBase signin(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            authService.signin(req);
+            response.setMsg("Successfully created user");
+        } catch (Exception e) {
+            log.error("Failed to create user " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// signin
 
 }// class

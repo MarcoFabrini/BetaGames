@@ -3,19 +3,15 @@ package com.betagames.controller;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betagames.dto.CartsDTO;
-import com.betagames.request.CartsRequest;
-import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.ICartsService;
 
 @RestController
-@RequestMapping("/rest/carts")
+@RequestMapping("/rest/")
 public class CartsController {
 
      @Autowired
@@ -54,9 +50,9 @@ public class CartsController {
     //     return response;
     // }
 
-    @GetMapping("/list")
+    @GetMapping("admin/carts/list")
     public ResponseList<CartsDTO> list() {
-        ResponseList<CartsDTO> response = new ResponseList<CartsDTO>();
+        ResponseList<CartsDTO> response = new ResponseList<>();
         response.setRc(true);
         try {
             response.setData(cartsService.list());

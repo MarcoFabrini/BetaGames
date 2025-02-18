@@ -133,6 +133,15 @@ public class GamesControllerTest {
 
     @Test
     @Order(5)
+    void searchByTypingTest() throws Exception {
+        ResponseList<GamesDTO> response = gamesController.searchByTyping("Test Game", null, null, null);
+
+        Assertions.assertThat(response.getRc()).isEqualTo(true);
+        Assertions.assertThat(response.getData()).isNotNull();
+    }//searchByTypingTest
+
+    @Test
+    @Order(6)
     void createFailTest() throws Exception {
         //Crea una GamesRequest con dati non validi
         GamesRequest gamesRequest = new GamesRequest();
@@ -145,7 +154,7 @@ public class GamesControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void updateFailTest() throws Exception {
         //Crea una GamesRequest con dati non validi
         GamesRequest gamesRequest = new GamesRequest();
@@ -158,7 +167,7 @@ public class GamesControllerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     void deleteFailTest() throws Exception {
         //Crea una GamesRequest con dati non validi
         GamesRequest gamesRequest = new GamesRequest();

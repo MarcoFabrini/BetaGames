@@ -35,6 +35,10 @@
        drop 
        foreign key FKbvxfkfdne3bp5je3swrwrlfrn;
 
+    alter table details_shipping 
+       drop 
+       foreign key FKlor977jsas5s5r376wsp8mt7d;
+
     alter table games 
        drop 
        foreign key FKonisfsdq4l9lupdi6dd8th74s;
@@ -77,7 +81,11 @@
 
     drop table if exists details_order;
 
+    drop table if exists details_shipping;
+
     drop table if exists editors;
+
+    drop table if exists error_messages;
 
     drop table if exists games;
 

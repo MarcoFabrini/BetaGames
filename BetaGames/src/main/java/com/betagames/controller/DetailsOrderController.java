@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping("/rest/details")
+@RequestMapping("/rest/")
 public class DetailsOrderController {
     @Autowired
     IDetailsOrderService detOrderS;
 
-    @GetMapping("/readDetailsOrder")
+    @GetMapping("user/details/readDetailsOrder")
     public ResponseList<DetailsOrderDTO> listDetailsOrder(@RequestParam("id") Integer id) {
         ResponseList<DetailsOrderDTO> responseList = new ResponseList<DetailsOrderDTO>();
         responseList.setRc(true);

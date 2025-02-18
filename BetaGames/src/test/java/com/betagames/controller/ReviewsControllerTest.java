@@ -13,15 +13,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.betagames.dto.ReviewsDTO;
+import com.betagames.request.DetailsCartRequest;
 import com.betagames.request.EditorsRequest;
 import com.betagames.request.GamesRequest;
+import com.betagames.request.OrdersRequest;
+import com.betagames.request.PayCardsRequest;
 import com.betagames.request.ReviewsRequest;
 import com.betagames.request.RolesRequest;
 import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
+import com.betagames.service.interfaces.IDetailsCartsService;
 import com.betagames.service.interfaces.IEditorsService;
 import com.betagames.service.interfaces.IGamesService;
+import com.betagames.service.interfaces.IOrdersService;
+import com.betagames.service.interfaces.IPayCardsService;
 import com.betagames.service.interfaces.IRolesService;
 import com.betagames.service.interfaces.IUsersService;
 import static com.betagames.utility.Utilities.convertDateToString;
@@ -47,12 +53,21 @@ public class ReviewsControllerTest {
     IEditorsService editorsService;
     @Autowired
     IGamesService gamesService;
+    @Autowired
+	IPayCardsService payCardsService;
+	@Autowired
+	IOrdersService ordersService;
+	@Autowired
+	IDetailsCartsService detailsCartsService;
 
     private RolesRequest globalRolesAdminRequest;
     private RolesRequest globalRolesUserRequest;
     private UsersRequest globalUserRequest;
     private EditorsRequest globalEditorsRequest;
     private GamesRequest globalGamesRequest;
+    private PayCardsRequest payCardsRequest;
+	private DetailsCartRequest detailsCartRequest;
+	private OrdersRequest ordersRequest;
     private final Date now = new Date();
 
     private void roles() throws Exception {
@@ -73,6 +88,18 @@ public class ReviewsControllerTest {
         globalUserRequest.setEmail("userTest@example.com");
         userService.createUser(globalUserRequest);
     }// user
+    
+    private void payCard() throws Exception {
+		payCardsRequest = new PayCardsRequest();
+		payCardsRequest.setBillingAddress("Via Dai Coiomberi, 1");
+		payCardsRequest.setCardHolderName("Nome del tipo");
+		payCardsRequest.setCardNumber("11223344");
+		payCardsRequest.setCvv(133);
+		payCardsRequest.setExpirationDate("31/12/2025");
+		payCardsRequest.setUserId(1);
+
+		payCardsService.create(payCardsRequest);
+	}// payCard
 
     private void editor() throws Exception {
         globalEditorsRequest = new EditorsRequest();
@@ -97,10 +124,34 @@ public class ReviewsControllerTest {
         globalGamesRequest.setEditorsId(1);
         gamesService.create(globalGamesRequest);
     }// game
+    
+    private void dCart() throws Exception {
+		detailsCartRequest = new DetailsCartRequest();
+		detailsCartRequest.setCartId(1);
+		detailsCartRequest.setGameId(1);
+		detailsCartRequest.setQuantity(1);
+
+		detailsCartsService.create(detailsCartRequest);
+	}// dCart
+
+	private void order() throws Exception {
+		dCart();
+		ordersRequest = new OrdersRequest();
+		ordersRequest.setTotalAmount(52.68);
+		ordersRequest.setCreatedAt("31/12/2025");
+		ordersRequest.setUpdatedAt("31/12/2025");
+		ordersRequest.setOrderStatus("ready");
+		ordersRequest.setPayCardId(1);
+		ordersRequest.setUserId(1);
+
+		ordersService.create(ordersRequest);
+	}// order
 
     private ReviewsRequest review() throws Exception {
-        user();
-        game();
+    	user();
+		payCard();
+		game();
+		order();
         ReviewsRequest reviewsRequest = new ReviewsRequest();
         reviewsRequest.setScore(5);
         reviewsRequest.setDescription("description");

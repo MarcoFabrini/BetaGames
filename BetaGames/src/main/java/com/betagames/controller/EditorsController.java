@@ -21,14 +21,14 @@ import com.betagames.service.interfaces.IEditorsService;
  */
 
 @RestController
-@RequestMapping("/rest/editors")
+@RequestMapping("/rest/")
 public class EditorsController {
     @Autowired
     Logger log;
     @Autowired
     IEditorsService editorsService;
 
-    @GetMapping("/list")
+    @GetMapping("public/editors/list")
     public ResponseList<EditorsDTO> list() {
         ResponseList<EditorsDTO> list = new ResponseList<>();
         list.setRc(true);
@@ -43,7 +43,7 @@ public class EditorsController {
         return list;
     }// list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("public/editors/searchByTyping")
     public ResponseList<EditorsDTO> searchByTyping(@RequestParam(value="id", required = false) Integer id,
                                                    @RequestParam(value="name", required = false) String name,
                                                    @RequestParam(value="website", required = false) String website) {
@@ -60,7 +60,7 @@ public class EditorsController {
         return list;
     }// searchByTyping
 
-    @PostMapping("/create")
+    @PostMapping("admin/editors/create")
     public ResponseBase create(@RequestBody(required = true) EditorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -75,7 +75,7 @@ public class EditorsController {
         return response;
     }// create
 
-    @PostMapping("/update")
+    @PostMapping("admin/editors/update")
     public ResponseBase update(@RequestBody(required = true) EditorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -90,7 +90,7 @@ public class EditorsController {
         return response;
     }// update
 
-    @PostMapping("/delete")
+    @PostMapping("admin/editors/delete")
     public ResponseBase delete(@RequestBody(required = true) EditorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

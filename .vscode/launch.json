@@ -1,11 +1,16 @@
 {
     "configurations": [
+        
+
         {
             "type": "java",
             "name": "Spring Boot-BetaGamesApplication<BetaGames>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.betagames.BetaGamesApplication",
+            "env":{
+                "LANG":"it_IT.UTF-8"
+            },
             "projectName": "BetaGames",
             "args": "",
             "envFile": "${workspaceFolder}/.env"

@@ -1,6 +1,5 @@
 package com.betagames.service.implementation;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +24,8 @@ import com.betagames.repository.IPayCardsRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.OrdersRequest;
 import com.betagames.service.interfaces.IOrdersService;
+import com.betagames.service.interfaces.IServiceMessagesService;
+
 import static com.betagames.utility.Utilities.buildDetailsOrderDTO;
 import static com.betagames.utility.Utilities.buildOrdersDTO;
 import static com.betagames.utility.Utilities.buildPayCardsDTO;
@@ -34,6 +35,10 @@ import static com.betagames.utility.Utilities.buildPayCardsDTO;
  */
 @Service
 public class OrdersImplementation implements IOrdersService {
+
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
+
     // ====ORDER====
     @Autowired
     IOrdersRepository orderRep;
@@ -81,7 +86,7 @@ public class OrdersImplementation implements IOrdersService {
         Optional<Users> user = userRep.findById(id);
 
         if (user.isEmpty()) {
-            throw new Exception("User non trovato");
+            throw new Exception(serviceMessagesService.getMessage("user-noPresent"));
         }
 
         return buildOrdersDTO(user.get().getListOrders());
@@ -104,36 +109,36 @@ public class OrdersImplementation implements IOrdersService {
         Optional<Users> user = userRep.findById(req.getUserId());
 
         if (user.isEmpty()) {
-            throw new Exception("User non trovato");
+            throw new Exception(serviceMessagesService.getMessage("user-noPresent"));
         }
 
         // controllo l'esistenza del carrello
         Optional<Carts> carts = cartRep.findByUser(user.get());
 
         if (carts.isEmpty()) {
-            throw new Exception("cart not found");
+            throw new Exception(serviceMessagesService.getMessage("cart-noPresent"));
         }
         // controllo l'esitenza di articoli all'interno del carrello
         List<DetailsCart> lDetailsCart = detailsCartRep.findByCart(carts.get());
 
         if (lDetailsCart.isEmpty()) {
-            throw new Exception("cart has no items");
+            throw new Exception(serviceMessagesService.getMessage("cart-noItems"));
         }
         // controllo l'esistenza della carta
         Optional<PayCards> card = cardRep.findById(req.getPayCardId());
 
         if (card.isEmpty()) {
-            throw new Exception("Carta di Pagamento non esistente");
+            throw new Exception(serviceMessagesService.getMessage("card-noPresent"));
         }
         // controllo sulla scadenza della carta
         if (card.get().getExpirationDate().compareTo(now) == -1) {
-            throw new Exception("Carta di pagamento scaduta");
+            throw new Exception(serviceMessagesService.getMessage("card-expired"));
         }
 
-        // calcolo del prezzo totale
         Double totalAmount = lDetailsCart.stream()
-                .map(DetailsCart::getPriceAtTime)
-                .reduce(0.0, (a, b) -> a + b);
+                .map(x -> x.getGame().getPrice() * x.getQuantity())
+                .reduce(0.0, Double::sum);
+
         /*
          * TODO bisogna anche fare il controllo sulla carta, perchè per adesso
          * accettiamo pagamenti da carte già registrate
@@ -154,7 +159,7 @@ public class OrdersImplementation implements IOrdersService {
         // carrello
         lDetailsCart.forEach(x -> {
             DetailsOrder detailOrder = new DetailsOrder();
-            detailOrder.setPriceAtTime(x.getPriceAtTime());
+            detailOrder.setPriceAtTime(x.getGame().getPrice() * x.getQuantity());
             detailOrder.setQuantity(x.getQuantity());
             detailOrder.setOrder(newOrd);
             detailOrder.setGame(x.getGame());
@@ -172,7 +177,7 @@ public class OrdersImplementation implements IOrdersService {
         Optional<Orders> order = orderRep.findById(req.getId());
 
         if (order.isEmpty()) {
-            throw new Exception("Ordine non esistente");
+            throw new Exception(serviceMessagesService.getMessage("order-noPresent"));
         }
 
         Orders ord = order.get();

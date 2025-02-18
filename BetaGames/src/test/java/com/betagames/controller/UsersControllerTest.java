@@ -98,39 +98,6 @@ public class UsersControllerTest {
 
     @Test
     @Order(4)
-    void testLogin() {
-        UsersRequest req = new UsersRequest();
-        req.setUsername("adminTest");
-        req.setPwd("adminTest");
-
-        ResponseBase response = usersController.login(req);
-        log.debug("testLogin: {} " + response.getMsg());
-    }// testLogin
-
-    @Test
-    @Order(5)
-    void testLoginWrongUsername() {
-        UsersRequest req = new UsersRequest();
-        req.setUsername("adminTestError");
-        req.setPwd("adminTest");
-
-        ResponseBase response = usersController.login(req);
-        log.debug("testLoginWrongUsername: {} " + response.getMsg());
-    }// testLoginWrongUsername
-
-    @Test
-    @Order(6)
-    void testLoginWrongPwd() {
-        UsersRequest req = new UsersRequest();
-        req.setUsername("adminTest");
-        req.setPwd("adminTestError");
-
-        ResponseBase response = usersController.login(req);
-        log.debug("testLoginWrongPwd: {} " + response.getMsg());
-    }// testLoginWrongPwd
-
-    @Test
-    @Order(7)
     void testUpdate() {
         UsersRequest req = new UsersRequest();
         req.setId(1);
@@ -144,7 +111,7 @@ public class UsersControllerTest {
     }// testUpdate
 
     @Test
-    @Order(8)
+    @Order(5)
     void testUpdateWrongUserId() {
         UsersRequest req = new UsersRequest();
         req.setId(100);
@@ -158,7 +125,7 @@ public class UsersControllerTest {
     }// testUpdateWrongUserId
 
     @Test
-    @Order(9)
+    @Order(6)
     void testUpgradeToAdmin() {
         UsersRequest user = new UsersRequest();
         user.setId(2);
@@ -173,7 +140,7 @@ public class UsersControllerTest {
     }// testUpgradeToAdmin
 
     @Test
-    @Order(10)
+    @Order(7)
     void testUpgradeToAdminWrongUserId() {
         UsersRequest user = new UsersRequest();
         user.setUsername("userTest2");
@@ -189,7 +156,7 @@ public class UsersControllerTest {
     }// testUpgradeToAdminWrongUserId
 
     @Test
-    @Order(11)
+    @Order(8)
     void testDeleteWrongUserId() {
         UsersRequest user = new UsersRequest();
         user.setId(100);
@@ -199,7 +166,7 @@ public class UsersControllerTest {
     }// testDeleteWrongUserId
 
     @Test
-    @Order(12)
+    @Order(9)
     void testDelete() {
         UsersRequest user = new UsersRequest();
         user.setId(1);

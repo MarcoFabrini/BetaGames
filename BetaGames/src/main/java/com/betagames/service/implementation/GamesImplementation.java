@@ -6,6 +6,7 @@ import static com.betagames.utility.Utilities.convertStringToDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 
@@ -26,6 +27,7 @@ import com.betagames.repository.IGamesRepository;
 import com.betagames.repository.IReviewsRepository;
 import com.betagames.request.GamesRequest;
 import com.betagames.service.interfaces.IGamesService;
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 /**
  * @author DorigoLorenzo
@@ -35,6 +37,10 @@ import com.betagames.service.interfaces.IGamesService;
 public class GamesImplementation implements IGamesService {
 
     // Autowired(s)
+
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
+
     @Autowired
     IGamesRepository gamesR;
 
@@ -53,16 +59,12 @@ public class GamesImplementation implements IGamesService {
     @Autowired
     Logger log;
 
-    // @Override
-    // public List<GamesDTO> searchByTyping() throws Exception {
-    // return null;
-    // }
+    @Override
+    public List<GamesDTO> searchByTyping(String name, Integer authorsId, Integer categoriesId, Integer editorId) throws Exception {
+        List<Games> listGames = gamesR.searchByTyping(name, authorsId, categoriesId, editorId);
+        return buildGamesDTO(listGames);
+    }//searchByTyping
 
-    /*
-     * Per il create di tutte i collegamenti molti a molti?
-     * es. Category / Authors
-     * Collegamenti con Review? DetailsCart e DetailsOrder?
-     */
 
     @Override
     public List<GamesDTO> list() throws Exception {
@@ -76,7 +78,7 @@ public class GamesImplementation implements IGamesService {
         // verifico che non esitano già giochi con lo stesso nome
         Optional<Games> game = gamesR.findByName(req.getName());
         if (game.isPresent()) {
-            throw new Exception("Game already present!");
+            throw new Exception(serviceMessagesService.getMessage("game-Present"));
         }
         // recupero l'editor di riferimento
         Optional<Editors> editor = editorsR.findById(req.getEditorsId());
@@ -142,7 +144,7 @@ public class GamesImplementation implements IGamesService {
         //
         Optional<Games> game = gamesR.findById(req.getId());
         if (!game.isPresent()) {
-            throw new Exception("Game not found!");
+            throw new Exception(serviceMessagesService.getMessage("game-noPresent"));
         }
         // recupero l'editor di riferimento
         Optional<Editors> editor = editorsR.findById(req.getEditorsId());
@@ -194,7 +196,7 @@ public class GamesImplementation implements IGamesService {
     public void delete(GamesRequest req) throws Exception {
         Optional<Games> game = gamesR.findById(req.getId());
         if (!game.isPresent()) {
-            throw new Exception("Game not found!");
+            throw new Exception(serviceMessagesService.getMessage("game-noPresent"));
         }
 
         Games gameEntity = game.get();
@@ -203,20 +205,21 @@ public class GamesImplementation implements IGamesService {
             gameEntity.getListAuthors().forEach(author -> author.getListGames().remove(game));
             gameEntity.getListAuthors().clear();
         }
-        
+
         if (gameEntity.getListCategory() != null) {
             gameEntity.getListCategory().forEach(category -> category.getListGames().remove(gameEntity));
             gameEntity.getListCategory().clear();
         }
-        
+
         if (gameEntity.getListReviews() != null) {
             gameEntity.getListReviews().forEach(review -> review.setGame(null));
             gameEntity.getListReviews().clear();
         }
-    
+
         gamesR.save(gameEntity);
 
         gamesR.delete(game.get());
     }// delete
+
 
 }// class

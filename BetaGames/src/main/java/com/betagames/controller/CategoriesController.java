@@ -22,8 +22,8 @@ import com.betagames.service.interfaces.ICategoriesService;
 @RequestMapping("/rest/")
 public class CategoriesController {
    
-    private Logger log;
-    private ICategoriesService categoriesService;
+    private final Logger log;
+    private final ICategoriesService categoriesService;
 
     public CategoriesController(ICategoriesService categoriesService, Logger log){
         this.categoriesService=categoriesService;

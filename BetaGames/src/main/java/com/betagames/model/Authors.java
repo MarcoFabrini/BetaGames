@@ -33,8 +33,7 @@ public class Authors {
     @Column(name = "biography")
     private String biography;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "authors_games", joinColumns = @JoinColumn(name = "id_authors"), inverseJoinColumns = @JoinColumn(name = "id_games"))
+    @ManyToMany(mappedBy = "listAuthors", fetch = FetchType.EAGER)
     private List<Games> listGames;
 
     public Integer getId() {

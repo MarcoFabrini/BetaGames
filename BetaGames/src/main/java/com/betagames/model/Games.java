@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -52,10 +53,12 @@ public class Games {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "authors_games", joinColumns = @JoinColumn(name = "id_games"), inverseJoinColumns = @JoinColumn(name = "id_authors"))
     private List<Authors> listAuthors;
 
-    @ManyToMany(mappedBy = "listGames", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "category_games", joinColumns = @JoinColumn(name = "id_games"), inverseJoinColumns = @JoinColumn(name = "id_category"))
     private List<Categories> listCategory;
 
     @ManyToOne

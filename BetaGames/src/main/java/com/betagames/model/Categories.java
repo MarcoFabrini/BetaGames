@@ -24,8 +24,7 @@ public class Categories {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "category_games", joinColumns = @JoinColumn(name = "id_category"), inverseJoinColumns = @JoinColumn(name = "id_games"))
+    @ManyToMany(mappedBy = "listCategory", fetch = FetchType.EAGER)
     private List<Games> listGames;
 
     public Integer getId() {

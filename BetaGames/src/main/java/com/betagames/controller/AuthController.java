@@ -1,8 +1,8 @@
 package com.betagames.controller;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +13,7 @@ import com.betagames.configuration.jwt.JwtProvider;
 import com.betagames.model.Users;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
+import com.betagames.response.ResponseObject;
 
 /**
  * La classe AuthController gestisce le richieste di autenticazione degli
@@ -40,6 +41,7 @@ public class AuthController {
 
     /**
      * Endpoint per il login degli utenti.
+     * 
      * @param req Oggetto contenente le credenziali dell'utente (username e
      *            password).
      * @return Un ResponseEntity contenente il token JWT se l'autenticazione ha
@@ -47,20 +49,25 @@ public class AuthController {
      * @throws Exception Se il nome utente o la password non sono validi.
      */
     @PostMapping("/public/login")
-    public ResponseEntity<String> login(@RequestBody(required = true) UsersRequest req) throws Exception {
+    public ResponseObject<String> login(@RequestBody(required = true) UsersRequest req) throws Exception {
         // Cerca l'utente nel repository in base al nome utente fornito
         Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 
         // Verifica se l'utente esiste e se la password fornita corrisponde a quella
         // memorizzata
         if (!users.isPresent() || !passwordEncoder.matches(req.getPwd(), users.get().getPwd())) {
-            throw new Exception("Invalid password or username"); // Lancia un'eccezione se le credenziali non sono
-                                                                 // valide
+            throw new Exception("Invalid password or username");
         }
 
         // Genera il token JWT per l'utente autenticato
         String token = jwtProvider.generateToken(users.get().getUsername());
-        return ResponseEntity.ok(token); // Restituisce il token JWT come risposta
+
+        // Crea un'istanza di ResponseObject e imposta il token come dato
+        ResponseObject<String> responseObject = new ResponseObject<>();
+        responseObject.setData(token);
+
+        // Restituisce l'oggetto ResponseObject come risposta
+        return responseObject;
     } // login
 
 }// class

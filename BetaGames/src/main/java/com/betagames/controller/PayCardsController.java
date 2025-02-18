@@ -10,6 +10,8 @@ import com.betagames.request.PayCardsRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IPayCardsService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author DorigoLorenzo
  **/
-
- @RestController
- @RequestMapping("/rest/paycards")
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/rest/paycards")
 public class PayCardsController {
 
     @Autowired

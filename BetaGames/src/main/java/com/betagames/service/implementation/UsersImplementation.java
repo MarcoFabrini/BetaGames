@@ -95,19 +95,6 @@ public class UsersImplementation implements IUsersService {
 		usersRepository.save(newUser);
 	}// createUser
 
-	/**
-	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
-	 * sbagliati)
-	 */
-	public void login(UsersRequest req) throws Exception {
-		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
-		if (!users.isPresent())
-			throw new Exception("Invalid password or username");
-
-		if (!passwordEncoder.matches(req.getPwd(), users.get().getPwd()))
-			throw new Exception("Invalid password or username");
-	}// login
-
 	@Override
 	public void update(UsersRequest req) throws Exception {
 		Optional<Users> user = usersRepository.findById(req.getId());

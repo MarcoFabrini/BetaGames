@@ -117,47 +117,6 @@ public class UsersServiceTest {
 
     @Test
     @Order(4)
-    public void loginTest() throws Exception {
-        UsersRequest usersRequest = new UsersRequest();
-        usersRequest.setId(1);
-        usersRequest.setUsername("adminTest");
-        usersRequest.setPwd("adminTest");
-
-        userService.login(usersRequest);
-
-        log.debug("loginTest: {SUCCESS LOGIN}");
-    }// loginTest
-
-    @Test
-    @Order(5)
-    public void loginWrongPwdTest() throws Exception {
-        UsersRequest usersRequest = new UsersRequest();
-        usersRequest.setId(1);
-        usersRequest.setUsername("adminTest");
-        usersRequest.setPwd("adminTestERROR");
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            userService.login(usersRequest);
-        });
-        log.debug("loginWrongPwdTest: {}", exception.getMessage());
-    }// loginWrongPwdTest
-
-    @Test
-    @Order(6)
-    public void loginWrongUsernameTest() throws Exception {
-        UsersRequest usersRequest = new UsersRequest();
-        usersRequest.setId(1);
-        usersRequest.setUsername("adminTestERROR");
-        usersRequest.setPwd("adminTest");
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            userService.login(usersRequest);
-        });
-        log.debug("loginWrongUsernameTest: {}", exception.getMessage());
-    }// loginWrongUsernameTest
-
-    @Test
-    @Order(7)
     public void updateUsersTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);
@@ -181,7 +140,7 @@ public class UsersServiceTest {
     }// updateUsersTest
 
     @Test
-    @Order(7)
+    @Order(5)
     public void updateUsersNotIdTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(100);
@@ -193,7 +152,7 @@ public class UsersServiceTest {
     }// updateUsersNotIdTest
 
     @Test
-    @Order(8)
+    @Order(6)
     public void updateDuplicateUsernameTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);
@@ -207,7 +166,7 @@ public class UsersServiceTest {
     }// updateDuplicateUsernameTest
 
     @Test
-    @Order(9)
+    @Order(7)
     public void updateDuplicateEmailTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);
@@ -221,7 +180,7 @@ public class UsersServiceTest {
     }// updateDuplicateEmailTest
 
     @Test
-    @Order(10)
+    @Order(8)
     public void updateNotPwdTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);
@@ -237,7 +196,7 @@ public class UsersServiceTest {
     }// updatePwdTest
 
     @Test
-    @Order(11)
+    @Order(9)
     public void upgradeToAdminTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);
@@ -250,7 +209,7 @@ public class UsersServiceTest {
     }// upgradeToAdminTest
 
     @Test
-    @Order(12)
+    @Order(10)
     public void upgradeToAdminNotUserIdTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(100);
@@ -262,7 +221,7 @@ public class UsersServiceTest {
     }// upgradeToAdminNotUserIdTest
 
     @Test
-    @Order(13)
+    @Order(11)
     public void deleteUsersNotIdTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(100);
@@ -274,7 +233,7 @@ public class UsersServiceTest {
     }// deleteUsersNotIdTest
 
     @Test
-    @Order(13)
+    @Order(12)
     public void deleteUsersTest() throws Exception {
         UsersRequest usersRequest = new UsersRequest();
         usersRequest.setId(2);

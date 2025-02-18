@@ -20,15 +20,16 @@ import com.betagames.service.interfaces.IUsersService;
  * @author FabriniMarco
  */
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest")
 public class UsersController {
     @Autowired
     Logger log;
     @Autowired
     IUsersService usersService;
 
-    @GetMapping("/list")
+    @GetMapping("/admin/users/list")
     public ResponseList<UsersDTO> list() {
+        log.debug("msg");
         ResponseList<UsersDTO> list = new ResponseList<>();
         list.setRc(true);
 
@@ -60,7 +61,7 @@ public class UsersController {
         return list;
     }// searchByTyping
 
-    @PostMapping("/createUser")
+    @PostMapping("/public/createUser")
     public ResponseBase createUser(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -75,22 +76,6 @@ public class UsersController {
         }
         return response;
     }// createUser
-
-    @PostMapping("/login")
-    public ResponseBase login(@RequestBody(required = true) UsersRequest req) {
-        ResponseBase response = new ResponseBase();
-        response.setRc(true);
-
-        try {
-            usersService.login(req);
-            response.setMsg("Successfully login");
-        } catch (Exception e) {
-            log.error("Failed to login " + e.getMessage());
-            response.setMsg(e.getMessage());
-            response.setRc(false);
-        }
-        return response;
-    }// login
 
     @PostMapping("/update")
     public ResponseBase update(@RequestBody(required = true) UsersRequest req) {

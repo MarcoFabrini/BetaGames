@@ -21,14 +21,14 @@ import com.betagames.service.interfaces.IAuthorsService;
  */
 
 @RestController
-@RequestMapping("/rest/authors")
+@RequestMapping("/rest/")
 public class AuthorsController {
     @Autowired
     Logger log;
     @Autowired
     IAuthorsService authorsService;
 
-    @GetMapping("/list")
+    @GetMapping("public/authors/list")
     public ResponseList<AuthorsDTO> list() {
         ResponseList<AuthorsDTO> listAuthors = new ResponseList<>();
         listAuthors.setRc(true);
@@ -43,7 +43,7 @@ public class AuthorsController {
         return listAuthors;
     }// list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("public/authors/searchByTyping")
     public ResponseList<AuthorsDTO> searchByTyping(@RequestParam(value="id", required = false) Integer id,
                                                    @RequestParam(value="name", required = false) String name,
                                                    @RequestParam(value="lastname", required = false) String lastname,
@@ -62,7 +62,7 @@ public class AuthorsController {
         return listAuthors;
     }// searchByTyping
 
-    @PostMapping("/create")
+    @PostMapping("admin/authors/create")
     public ResponseBase create(@RequestBody(required = true) AuthorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -77,7 +77,7 @@ public class AuthorsController {
         return response;
     }// create
 
-    @PostMapping("/update")
+    @PostMapping("admin/authors/update")
     public ResponseBase update(@RequestBody(required = true) AuthorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -92,7 +92,7 @@ public class AuthorsController {
         return response;
     }// update
 
-    @PostMapping("/delete")
+    @PostMapping("admin/authors/delete")
     public ResponseBase delete(@RequestBody(required = true) AuthorsRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

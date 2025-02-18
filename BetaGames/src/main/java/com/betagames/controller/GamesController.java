@@ -2,6 +2,10 @@ package com.betagames.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,18 +16,13 @@ import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IGamesService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 /**
  * @author DorigoLorenzo
  **/
 
 @RestController
-@RequestMapping("/rest/games")
+@RequestMapping("/rest/")
 @CrossOrigin(origins = "*")
 public class GamesController {
 
@@ -33,7 +32,7 @@ public class GamesController {
     @Autowired
     IGamesService gamesService;
 
-    @GetMapping("/list")
+    @GetMapping("public/games/list")
     public ResponseList<GamesDTO> list() {
         ResponseList<GamesDTO> list = new ResponseList<>();
         list.setRc(true);
@@ -64,7 +63,7 @@ public class GamesController {
         return list;
     }//searchByTyping
     
-    @PostMapping("/create")
+    @PostMapping("admin/games/create")
     public ResponseBase create(@RequestBody(required = true) GamesRequest req) {
         ResponseBase r = new ResponseBase();        //r = response
         r.setRc(true);
@@ -79,7 +78,7 @@ public class GamesController {
         return r;
     }//create
     
-    @PostMapping("/update")
+    @PostMapping("admin/games/update")
     public ResponseBase update(@RequestBody(required = true) GamesRequest req){
         ResponseBase r = new ResponseBase();
         r.setRc(true);
@@ -94,7 +93,7 @@ public class GamesController {
         return r;
     }//update
 
-    @PostMapping("/delete")
+    @PostMapping("admin/games/delete")
     public ResponseBase delete(@RequestBody(required = true) GamesRequest req){
         ResponseBase r = new ResponseBase();
         r.setRc(true);

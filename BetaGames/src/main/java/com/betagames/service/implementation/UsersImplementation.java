@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IRolesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
+import com.betagames.service.interfaces.IServiceMessagesService;
 import com.betagames.service.interfaces.IUsersService;
 import static com.betagames.utility.Utilities.buildUsersDTO;
 
@@ -26,6 +28,10 @@ import static com.betagames.utility.Utilities.buildUsersDTO;
  */
 @Service
 public class UsersImplementation implements IUsersService {
+
+	@Autowired
+	IServiceMessagesService serviceMessagesService;
+
 	private final Logger log;
 	private final IUsersRepository usersRepository;
 	private final ICartsRepository cartsRepository;
@@ -63,16 +69,16 @@ public class UsersImplementation implements IUsersService {
 		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
 
 		if (!roleUser.isPresent() || !roleAdmin.isPresent())
-			throw new Exception("Role not found");
+			throw new Exception(serviceMessagesService.getMessage("role-noPresent"));
 
 		// Verifica se è il primo utente nel sistema
 		boolean isFirstUser = !usersRepository.findTopBy().isPresent();
 
 		if (usersRepository.findByUsername(req.getUsername()).isPresent())
-			throw new Exception("This username is already present");
+			throw new Exception(serviceMessagesService.getMessage("user-Username"));
 
 		if (usersRepository.findByEmail(req.getEmail()).isPresent())
-			throw new Exception("This user email is already present");
+			throw new Exception(serviceMessagesService.getMessage("user-email"));
 
 		Users newUser = new Users();
 		newUser.setUsername(req.getUsername());
@@ -95,35 +101,22 @@ public class UsersImplementation implements IUsersService {
 		usersRepository.save(newUser);
 	}// createUser
 
-	/**
-	 * DA MODIFICARE (posizione metodo, funzionalità max numero di inserimenti
-	 * sbagliati)
-	 */
-	public void login(UsersRequest req) throws Exception {
-		Optional<Users> users = usersRepository.findByUsername(req.getUsername());
-		if (!users.isPresent())
-			throw new Exception("Invalid password or username");
-
-		if (!passwordEncoder.matches(req.getPwd(), users.get().getPwd()))
-			throw new Exception("Invalid password or username");
-	}// login
-
 	@Override
 	public void update(UsersRequest req) throws Exception {
 		Optional<Users> user = usersRepository.findById(req.getId());
 		if (!user.isPresent())
-			throw new Exception("This user is not present");
+			throw new Exception(serviceMessagesService.getMessage("user-noPresent"));
 
 		// Verifica se l'username è già usato da un altro utente escludendo l'utente
 		// attuale
 		if (usersRepository.findByUsernameAndIdNot(req.getUsername(), req.getId()).isPresent()) {
-			throw new Exception("This username is already in use by another user");
+			throw new Exception(serviceMessagesService.getMessage("user-Username"));
 		}
 
 		// Verifica se l'email è già usata da un altro utente escludendo l'utente
 		// attuale
 		if (usersRepository.findByEmailAndIdNot(req.getEmail(), req.getId()).isPresent()) {
-			throw new Exception("This email is already in use by another user");
+			throw new Exception(serviceMessagesService.getMessage("user-email"));
 		}
 
 		Users users = user.get();
@@ -146,11 +139,11 @@ public class UsersImplementation implements IUsersService {
 	public void upgradeToAdmin(UsersRequest req) throws Exception {
 		Optional<Users> user = usersRepository.findById(req.getId());
 		if (!user.isPresent())
-			throw new Exception("This user is not present");
+			throw new Exception(serviceMessagesService.getMessage("user-noPresent"));
 
 		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
 		if (!roleAdmin.isPresent())
-			throw new Exception("Roles not found");
+			throw new Exception(serviceMessagesService.getMessage("role-noPresent"));
 
 		Users users = user.get();
 		users.setRole(roleAdmin.get());
@@ -163,7 +156,7 @@ public class UsersImplementation implements IUsersService {
 	public void delete(UsersRequest req) throws Exception {
 		Optional<Users> users = usersRepository.findById(req.getId());
 		if (!users.isPresent())
-			throw new Exception("This user is not present");
+			throw new Exception(serviceMessagesService.getMessage("user-noPresent"));
 
 		users.get().setActive(false);
 

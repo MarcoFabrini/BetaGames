@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/rest/roles")
+@RequestMapping("/rest/")
 public class RolesController {
 
     @Autowired
     IRolesService rolesService;
     
-    @GetMapping("/readRoles")
+    @GetMapping("admin/roles/readRoles")
     public ResponseList<RolesDTO> listRoles() {
         ResponseList<RolesDTO> responseList = new ResponseList<RolesDTO>();
         responseList.setRc(true);
@@ -41,7 +41,7 @@ public class RolesController {
         return responseList;
     }
     
-    @PostMapping("/createRole")
+    @PostMapping("admin/roles/createRole")
     public ResponseBase create(@RequestBody(required = true) RolesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -56,7 +56,7 @@ public class RolesController {
         return response;
     }
     
-   @PostMapping("/updateRole")
+   @PostMapping("admin/roles/updateRole")
     public ResponseBase update(@RequestBody(required = true)RolesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -70,7 +70,7 @@ public class RolesController {
         return response;
     }
     
-    @PostMapping("/deleteRole")
+    @PostMapping("admin/roles/deleteRole")
     public ResponseBase delete(@RequestBody(required = true) RolesRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

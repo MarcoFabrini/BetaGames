@@ -14,6 +14,7 @@ import com.betagames.model.Orders;
 import com.betagames.repository.IDetailsOrderRepository;
 import com.betagames.repository.IOrdersRepository;
 import com.betagames.service.interfaces.IDetailsOrderService;
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 /*
  * 
@@ -22,6 +23,8 @@ import com.betagames.service.interfaces.IDetailsOrderService;
 
 @Service
 public class DetailsOrderImplmentation implements IDetailsOrderService {
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
     @Autowired
     IDetailsOrderRepository detOrderRep;
 
@@ -33,7 +36,7 @@ public class DetailsOrderImplmentation implements IDetailsOrderService {
     public List<DetailsOrderDTO> searchByOrder(Integer id) throws Exception {
         Optional<Orders> order = orderRep.findById(id);
         if (order.isEmpty()) {
-            throw new Exception("Ordine non esistente");
+            throw new Exception(serviceMessagesService.getMessage("order-noPresent"));
         }
 
         List<DetailsOrder> listaDettagli = order.get().getListDetailsOrder();

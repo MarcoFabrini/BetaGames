@@ -2,6 +2,8 @@ package com.betagames.request;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @author DorigoLorenzo
  **/
@@ -13,6 +15,7 @@ public class PayCardsRequest {
     private Integer cvv;
     private Integer userId;
     private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private String expirationDate;
     private Date updatedAt;
     private String billingAddress;

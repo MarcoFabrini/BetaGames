@@ -14,13 +14,13 @@ import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsShippingService;
 
 @RestController
-@RequestMapping("/rest/detailsShipping")
+@RequestMapping("/rest/")
 public class DetailsShippingController {
 	
 	@Autowired
 	IDetailsShippingService detailsShippingService;
 	
-    @GetMapping("/list")
+    @GetMapping("user/detailsShipping/list")
     public ResponseList<DetailsShippingDTO> list(@RequestBody(required = true) DetailsShippingRequest req) {
         ResponseList<DetailsShippingDTO> responseList = new ResponseList<>();
         responseList.setRc(true);
@@ -33,7 +33,7 @@ public class DetailsShippingController {
         return responseList;
     }// list
     
-    @PostMapping("/create")
+    @PostMapping("user/detailsShipping/create")
     public ResponseBase create(@RequestBody(required = true) DetailsShippingRequest req) {
     	ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -46,7 +46,7 @@ public class DetailsShippingController {
         return response;
     }// create
     
-    @PostMapping("/update")
+    @PostMapping("user/detailsShipping/update")
     public ResponseBase update(@RequestBody(required = true) DetailsShippingRequest req) {
     	ResponseBase response = new ResponseBase();
         response.setRc(true);
@@ -59,7 +59,7 @@ public class DetailsShippingController {
         return response;
     }// update
     
-    @PostMapping("/delete")
+    @PostMapping("user/detailsShipping/delete")
     public ResponseBase delete(@RequestBody(required = true) DetailsShippingRequest req) {
     	ResponseBase response = new ResponseBase();
         response.setRc(true);

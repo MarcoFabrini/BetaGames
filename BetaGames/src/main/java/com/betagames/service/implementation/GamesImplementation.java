@@ -27,6 +27,7 @@ import com.betagames.repository.IGamesRepository;
 import com.betagames.repository.IReviewsRepository;
 import com.betagames.request.GamesRequest;
 import com.betagames.service.interfaces.IGamesService;
+import com.betagames.service.interfaces.IServiceMessagesService;
 
 /**
  * @author DorigoLorenzo
@@ -36,6 +37,10 @@ import com.betagames.service.interfaces.IGamesService;
 public class GamesImplementation implements IGamesService {
 
     // Autowired(s)
+
+    @Autowired
+    IServiceMessagesService serviceMessagesService;
+
     @Autowired
     IGamesRepository gamesR;
 
@@ -73,7 +78,7 @@ public class GamesImplementation implements IGamesService {
         // verifico che non esitano già giochi con lo stesso nome
         Optional<Games> game = gamesR.findByName(req.getName());
         if (game.isPresent()) {
-            throw new Exception("Game already present!");
+            throw new Exception(serviceMessagesService.getMessage("game-Present"));
         }
         // recupero l'editor di riferimento
         Optional<Editors> editor = editorsR.findById(req.getEditorsId());
@@ -125,7 +130,7 @@ public class GamesImplementation implements IGamesService {
         //
         Optional<Games> game = gamesR.findById(req.getId());
         if (!game.isPresent()) {
-            throw new Exception("Game not found!");
+            throw new Exception(serviceMessagesService.getMessage("game-noPresent"));
         }
         // recupero l'editor di riferimento
         Optional<Editors> editor = editorsR.findById(req.getEditorsId());
@@ -161,7 +166,7 @@ public class GamesImplementation implements IGamesService {
 
         // save
         gamesR.save(g);
-        
+
     }// update
 
     @Override
@@ -169,7 +174,7 @@ public class GamesImplementation implements IGamesService {
     public void delete(GamesRequest req) throws Exception {
         Optional<Games> game = gamesR.findById(req.getId());
         if (!game.isPresent()) {
-            throw new Exception("Game not found!");
+            throw new Exception(serviceMessagesService.getMessage("game-noPresent"));
         }
 
         Games gameEntity = game.get();
@@ -178,7 +183,7 @@ public class GamesImplementation implements IGamesService {
             gameEntity.getListAuthors().forEach(author -> author.getListGames().remove(game));
             gameEntity.getListAuthors().clear();
         }
-        
+
         if (gameEntity.getListCategory() != null) {
             gameEntity.getListCategory().forEach(category -> category.getListGames().remove(gameEntity));
             gameEntity.getListCategory().clear();

@@ -126,5 +126,6 @@ public class JwtFilter extends OncePerRequestFilter {
         // Verifica se l'URI inizia con "/rest/public/"
         return requestURI.startsWith("/rest/public/");
     } // isPublicEndpoint
+    
 
 } // class

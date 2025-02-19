@@ -1,17 +1,26 @@
 package com.betagames.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betagames.configuration.jwt.JwtProvider;
 import com.betagames.dto.TokenDTO;
+import com.betagames.dto.UsersDTO;
+import com.betagames.model.Users;
+import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseObject;
 import com.betagames.service.interfaces.IAuthService;
+import static com.betagames.utility.Utilities.buildUsersDTO;
 
 /**
  * La classe AuthController gestisce le richieste di autenticazione degli
@@ -27,6 +36,10 @@ public class AuthController {
 
     @Autowired
     IAuthService authService;
+    @Autowired
+    JwtProvider jwtProvider;
+    @Autowired
+    IUsersRepository usersRepository;
     @Autowired
     Logger log;
 
@@ -56,7 +69,6 @@ public class AuthController {
         return responseToken;
     } // login
 
-
     @PostMapping("public/auth/signin")
     public ResponseBase signin(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
@@ -72,5 +84,27 @@ public class AuthController {
         }
         return response;
     }// signin
+
+    /*
+     * accetta in input il token
+     * dal token deve tornare l'utente (UsersDTO corrispondente al token)
+     */
+    @GetMapping("public/auth/me")
+    public UsersDTO me(@RequestHeader("Authorization") String tok) throws Exception {
+        log.debug("RequestHeader Authorization: " + tok);
+        try {
+            String token = tok.substring(7);// Estrai il token rimuovendo "Bearer "
+            log.debug("token substring: " + token);
+
+            String username = jwtProvider.getUsernameFromToken(token);
+            log.debug("username from token: " + username);
+
+            Optional<Users> users = usersRepository.findByUsername(username);
+            Users u = users.get();
+            return buildUsersDTO(u);
+        } catch (Exception e) {
+            throw new Exception("User not found");
+        }
+    }// me
 
 }// class

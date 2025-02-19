@@ -17,6 +17,8 @@ public interface IUsersService {
     */
     List<UsersDTO> searchByTyping(Integer id, String username, String email, Boolean active) throws Exception;
 
+    void create(UsersRequest req) throws Exception;
+
     void update(UsersRequest req) throws Exception;
 
     void upgradeToAdmin(UsersRequest req) throws Exception;

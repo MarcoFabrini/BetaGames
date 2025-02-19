@@ -1,17 +1,19 @@
 package com.betagames.service.implementation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betagames.dto.UsersDTO;
+import com.betagames.model.Carts;
 import com.betagames.model.Roles;
 import com.betagames.model.Users;
+import com.betagames.repository.ICartsRepository;
 import com.betagames.repository.IRolesRepository;
 import com.betagames.repository.IUsersRepository;
 import com.betagames.request.UsersRequest;
@@ -28,15 +30,15 @@ public class UsersImplementation implements IUsersService {
 
 	@Autowired
 	IServiceMessagesService serviceMessagesService;
+	@Autowired
+	ICartsRepository cartsRepository;
 
-	private final Logger log;
 	private final IUsersRepository usersRepository;
 	private final IRolesRepository rolesRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public UsersImplementation(Logger log, IUsersRepository usersRepository,
+	public UsersImplementation(IUsersRepository usersRepository,
 			IRolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
-		this.log = log;
 		this.usersRepository = usersRepository;
 		this.rolesRepository = rolesRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -116,5 +118,46 @@ public class UsersImplementation implements IUsersService {
 
 		usersRepository.save(users.get());
 	}// delete
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void createUser(UsersRequest req) throws Exception {
+		Date now = new Date();
+
+		Optional<Roles> roleUser = rolesRepository.findByNameIgnoreCase("user");
+		Optional<Roles> roleAdmin = rolesRepository.findByNameIgnoreCase("admin");
+
+		if (!roleUser.isPresent() || !roleAdmin.isPresent())
+			throw new Exception(serviceMessagesService.getMessage("role-noPresent"));
+
+		// Verifica se è il primo utente nel sistema
+		boolean isFirstUser = !usersRepository.findTopBy().isPresent();
+
+		if (usersRepository.findByUsername(req.getUsername()).isPresent())
+			throw new Exception(serviceMessagesService.getMessage("user-Username"));
+
+		if (usersRepository.findByEmail(req.getEmail()).isPresent())
+			throw new Exception(serviceMessagesService.getMessage("user-email"));
+
+		Users newUser = new Users();
+		newUser.setUsername(req.getUsername());
+		newUser.setEmail(req.getEmail());
+
+		String hashedPassword = passwordEncoder.encode(req.getPwd());
+		newUser.setPwd(hashedPassword);
+
+		Carts cart = new Carts();
+		cart.setUser(newUser);
+		cart.setCreatedAt(now);
+		cart.setUpdatedAt(now);
+		cartsRepository.save(cart);
+
+		newUser.setActive(true);
+		newUser.setCart(cart);
+
+		newUser.setRole(isFirstUser ? roleAdmin.get() : roleUser.get());
+
+		usersRepository.save(newUser);
+	}// createUser
 
 }// class

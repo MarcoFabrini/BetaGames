@@ -91,6 +91,25 @@ public class UsersController {
         return list;
     }// searchByTyping
 
+    /*
+     * da non usare, solo per test JUnit
+     */
+    @PostMapping("admin/users/createUser")
+    public ResponseBase createUser(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            usersService.createUser(req);
+            response.setMsg("Successfully created user");
+        } catch (Exception e) {
+            log.error("Failed to create user " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// createUser
+
     @PostMapping("user/users/update")
     public ResponseBase update(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();

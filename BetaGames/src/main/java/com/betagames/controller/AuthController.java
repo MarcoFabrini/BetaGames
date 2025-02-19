@@ -56,7 +56,8 @@ public class AuthController {
         return responseToken;
     } // login
 
-     @PostMapping("public/auth/signin")
+
+    @PostMapping("public/auth/signin")
     public ResponseBase signin(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

@@ -35,11 +35,12 @@ public class AuthImplementations implements IAuthService {
     @Autowired
     IUsersRepository usersRepository;
     @Autowired
-	IServiceMessagesService serviceMessagesService;
+	  IServiceMessagesService serviceMessagesService;
     @Autowired
     IRolesRepository rolesRepository;
     @Autowired
     ICartsRepository cartsRepository;
+
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -47,7 +48,6 @@ public class AuthImplementations implements IAuthService {
 
     @Override
     public TokenDTO login(UsersRequest req) throws Exception {
-
         // Cerca l'utente nel repository in base al nome utente fornito
         Optional<Users> users = usersRepository.findByUsername(req.getUsername());
 
@@ -103,5 +103,4 @@ public class AuthImplementations implements IAuthService {
 
 		usersRepository.save(newUser);
 	}// signin
-
 }// class

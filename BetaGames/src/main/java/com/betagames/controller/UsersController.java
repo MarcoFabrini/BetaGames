@@ -61,7 +61,10 @@ public class UsersController {
         return list;
     }// searchByTyping
 
-    @PostMapping("public/users/createUser")
+    /*
+     * da non usare, solo per test JUnit
+     */
+    @PostMapping("admin/users/createUser")
     public ResponseBase createUser(@RequestBody(required = true) UsersRequest req) {
         ResponseBase response = new ResponseBase();
         response.setRc(true);

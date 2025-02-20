@@ -14,6 +14,7 @@ import com.betagames.dto.GamesDTO;
 import com.betagames.request.GamesRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
+import com.betagames.response.ResponseObject;
 import com.betagames.service.interfaces.IGamesService;
 
 
@@ -46,7 +47,7 @@ public class GamesController {
         return list;
     }//list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("public/games/searchByTyping")
     public ResponseList<GamesDTO> searchByTyping( @RequestParam(value = "name", required = false) String name,
                                                   @RequestParam(value = "authorsId", required = false) Integer authorsId,
                                                   @RequestParam(value = "categoriesId", required = false) Integer categoriesId,
@@ -62,6 +63,20 @@ public class GamesController {
         }
         return list;
     }//searchByTyping
+
+    @GetMapping("public/games/listById")
+    public ResponseObject<GamesDTO> listById(@RequestParam Integer id){
+        ResponseObject<GamesDTO> r = new ResponseObject<GamesDTO>();
+        r.setRc(true);
+        try{
+            r.setData((gamesService.listById(id)));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            r.setMsg(e.getMessage());
+            r.setRc(false);
+        }
+        return r;
+    }//listById
     
     @PostMapping("admin/games/create")
     public ResponseBase create(@RequestBody(required = true) GamesRequest req) {

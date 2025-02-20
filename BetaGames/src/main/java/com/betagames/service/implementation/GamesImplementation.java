@@ -6,8 +6,6 @@ import static com.betagames.utility.Utilities.convertStringToDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import com.betagames.model.Authors;
 import com.betagames.model.Categories;
 import com.betagames.model.Editors;
 import com.betagames.model.Games;
-import com.betagames.model.Reviews;
 import com.betagames.repository.IAuthorsRepository;
 import com.betagames.repository.ICategoriesRepository;
 import com.betagames.repository.IEditorsRepository;
@@ -71,6 +68,14 @@ public class GamesImplementation implements IGamesService {
         List<Games> listGames = gamesR.findAll();
         return buildGamesDTO(listGames);
     }// list
+
+    @Override
+    public GamesDTO listById(Integer id) throws Exception {
+        Optional<Games> game = gamesR.findById(id);
+        if(game.isEmpty()) throw new Exception("Game NOT FOUND!");
+        Games g = game.get();
+        return buildGamesDTO(g);
+    }// listById
 
     @Override
     @Transactional(rollbackFor = Exception.class)

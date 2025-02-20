@@ -46,7 +46,7 @@ public class GamesController {
         return list;
     }//list
 
-    @GetMapping("/searchByTyping")
+    @GetMapping("public/games/searchByTyping")
     public ResponseList<GamesDTO> searchByTyping( @RequestParam(value = "name", required = false) String name,
                                                   @RequestParam(value = "authorsId", required = false) Integer authorsId,
                                                   @RequestParam(value = "categoriesId", required = false) Integer categoriesId,

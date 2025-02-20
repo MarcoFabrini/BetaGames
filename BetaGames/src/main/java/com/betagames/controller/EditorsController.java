@@ -2,6 +2,7 @@ package com.betagames.controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import com.betagames.service.interfaces.IEditorsService;
  *
  * @author FabriniMarco
  */
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest/")
 public class EditorsController {

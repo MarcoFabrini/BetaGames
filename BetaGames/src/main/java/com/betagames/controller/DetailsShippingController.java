@@ -1,6 +1,7 @@
 package com.betagames.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import com.betagames.request.DetailsShippingRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsShippingService;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest/")
 public class DetailsShippingController {

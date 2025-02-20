@@ -10,6 +10,7 @@ import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IRolesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author Simone Checco
  */
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest/")
 public class RolesController {

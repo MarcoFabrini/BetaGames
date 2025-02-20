@@ -8,9 +8,10 @@ import com.betagames.response.ResponseList;
 import com.betagames.service.interfaces.IDetailsOrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest/")
 public class DetailsOrderController {

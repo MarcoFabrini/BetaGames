@@ -5,8 +5,6 @@
 
 package com.betagames.service.interfaces;
 
-import java.util.Optional;
-
 import com.betagames.dto.TokenDTO;
 import com.betagames.request.UsersRequest;
 
@@ -17,4 +15,6 @@ import com.betagames.request.UsersRequest;
 public interface IAuthService {
 
     TokenDTO login(UsersRequest req) throws Exception;
+
+    void signin(UsersRequest req) throws Exception;
 }// class

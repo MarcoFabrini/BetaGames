@@ -1,15 +1,16 @@
 package com.betagames.controller;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.betagames.configuration.jwt.JwtProvider;
 import com.betagames.dto.TokenDTO;
@@ -89,21 +90,51 @@ public class AuthController {
      * accetta in input il token
      * dal token deve tornare l'utente (UsersDTO corrispondente al token)
      */
+    // @GetMapping("public/auth/me")
+    // public UsersDTO me(@RequestHeader("Authorization") String tok) throws
+    // Exception {
+    // log.debug("RequestHeader Authorization: " + tok);
+    // try {
+    // String token = tok.substring(7);// Estrai il token rimuovendo "Bearer "
+    // log.debug("token substring: " + token);
+
+    // String username = jwtProvider.getUsernameFromToken(token);
+    // log.debug("username from token: " + username);
+
+    // Optional<Users> users = usersRepository.findByUsername(username);
+    // Users u = users.get();
+    // return buildUsersDTO(u);
+    // } catch (Exception e) {
+    // throw new Exception("User not found");
+    // }
+    // }// me
+
     @GetMapping("public/auth/me")
-    public UsersDTO me(@RequestHeader("Authorization") String tok) throws Exception {
-        log.debug("RequestHeader Authorization: " + tok);
+    public ResponseEntity<?> me(@RequestHeader(value = "Authorization", required = false) String tok) {
+        if (tok == null || !tok.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( "JWT token missing or invalid");
+        }
+
         try {
-            String token = tok.substring(7);// Estrai il token rimuovendo "Bearer "
-            log.debug("token substring: " + token);
+            // Rimuove il prefisso "Bearer "
+            String token = tok.substring(7);
+            //log.debug("Token ricevuto dopo substring: " + token);
 
+            // Estrai l'username dal token
             String username = jwtProvider.getUsernameFromToken(token);
-            log.debug("username from token: " + username);
+            //log.debug("Username estratto dal token: " + username);
 
-            Optional<Users> users = usersRepository.findByUsername(username);
-            Users u = users.get();
-            return buildUsersDTO(u);
+            // Recupera l'utente dal DB
+            Users user = usersRepository.findByUsername(username)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+            // Converte l'utente in DTO
+            UsersDTO userDto = buildUsersDTO(user);
+
+            return ResponseEntity.ok(userDto);
         } catch (Exception e) {
-            throw new Exception("User not found");
+            log.error("Error during token validation", e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
         }
     }// me
 

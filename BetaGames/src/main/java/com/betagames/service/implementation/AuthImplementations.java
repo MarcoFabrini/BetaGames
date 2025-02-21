@@ -35,7 +35,7 @@ public class AuthImplementations implements IAuthService {
     @Autowired
     IUsersRepository usersRepository;
     @Autowired
-	  IServiceMessagesService serviceMessagesService;
+	IServiceMessagesService serviceMessagesService;
     @Autowired
     IRolesRepository rolesRepository;
     @Autowired

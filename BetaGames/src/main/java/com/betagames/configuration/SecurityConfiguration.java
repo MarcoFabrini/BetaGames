@@ -37,11 +37,11 @@ public class SecurityConfiguration {
         http
             .csrf(AbstractHttpConfigurer::disable) // Disabilita la protezione CSRF
             .authorizeHttpRequests(request -> request
-                    //.requestMatchers("/rest/**").permitAll() // permesso a tutti da ovunque poi sistemare come sotto
+                    .requestMatchers("/rest/**").permitAll() // permesso a tutti da ovunque poi sistemare come sotto
                     
-                    .requestMatchers("/rest/public/**").permitAll() // Permette l'accesso a tutti gli utenti
-                    .requestMatchers("/rest/user/**").hasAnyRole("USER", "ADMIN") // Richiede il ruolo USER o ADMIN
-                    .requestMatchers("/rest/admin/**").hasRole("ADMIN") // Richiede il ruolo ADMIN
+                    // .requestMatchers("/rest/public/**").permitAll() // Permette l'accesso a tutti gli utenti
+                    // .requestMatchers("/rest/user/**").hasAnyRole("USER", "ADMIN") // Richiede il ruolo USER o ADMIN
+                    // .requestMatchers("/rest/admin/**").hasRole("ADMIN") // Richiede il ruolo ADMIN
                     .anyRequest().authenticated()) // Richiede autenticazione per tutte le altre richieste
             // .formLogin(form -> form
             // .loginPage("/public/login") // Configurazione per la pagina di login

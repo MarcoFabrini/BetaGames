@@ -102,19 +102,19 @@ public class CategoriesImplementation implements ICategoriesService {
         c.setName(req.getName());
         // Qua gestisco anche la modifica di i giocchi del db, ma non so si deviamo
         // farlo direttamente nella entita Games
-        /*
-         * if (req.getGamesId() != null) {
-         * Optional<Games> g = gamesRepository.findById(req.getGamesId());
-         * if (g.isPresent()) {
-         * Games game = g.get();
-         * c.getListGames().clear();
-         * if (c.getListGames() == null) {
-         * c.setListGames(new ArrayList<>());
-         * }
-         * c.getListGames().add(game);
-         * }
-         * }
-         */
+        
+         if (req.getGamesId() != null) {
+         Optional<Games> g = gamesRepository.findById(req.getGamesId());
+         if (g.isPresent()) {
+         Games game = g.get();
+         c.getListGames().clear();
+         if (c.getListGames() == null) {
+         c.setListGames(new ArrayList<>());
+         }
+         c.getListGames().add(game);
+         }
+         }
+        
         try {
             categoriesRepository.save(c);
             log.debug("The category has been successfully updated.");

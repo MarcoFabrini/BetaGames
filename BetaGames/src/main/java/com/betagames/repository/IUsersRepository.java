@@ -29,6 +29,8 @@ public interface IUsersRepository extends JpaRepository<Users, Integer> {
 
     Optional<Users> findTopBy();
 
+    Optional<Users> findByUsernameAndPwd(String username, String pwd);
+
     // esclude se stesso dal db e cerca negli altri record 
     Optional<Users> findByUsernameAndIdNot(String username, Integer id);
     

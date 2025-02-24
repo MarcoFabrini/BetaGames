@@ -12,6 +12,7 @@ public class UsersRequest {
 	private Boolean active;
 	private Integer roleId;
 	private Integer detailsShippingId;
+	
 
 	public Integer getId() {
 		return id;

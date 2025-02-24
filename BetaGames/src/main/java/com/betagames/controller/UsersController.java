@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betagames.dto.SignInDTO;
+import com.betagames.dto.TokenDTO;
 import com.betagames.dto.UsersDTO;
+import com.betagames.request.SignInRequest;
 import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
+import com.betagames.response.ResponseObject;
 import com.betagames.service.interfaces.IUsersService;
 
 /**
@@ -123,5 +127,57 @@ public class UsersController {
         }
         return response;
     }// delete
+
+    // @PostMapping("public/users/signin")
+    // public SignInDTO signin(@RequestBody(required = true) SignInRequest req) {
+    //     return usersService.signIn(req);
+    // }//signIn
+
+    @PostMapping("public/user/updatePWD")
+	public ResponseBase updatePWD(@RequestBody (required = true) SignInRequest req) {
+		log.debug("updatePWD :" + req);
+		ResponseBase r = new ResponseBase();
+		r.setRc(true);
+		try {
+			usersService.changePWD(req);
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
+			r.setRc(false);
+		}
+		return r;
+	}//changePwd
+
+    @PostMapping("public/users/signin")
+    public ResponseBase signin(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            usersService.signin(req);
+            response.setMsg("Successfully created user");
+        } catch (Exception e) {
+            log.error("Failed to create user " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// signin
+
+    @PostMapping("public/users/login")
+    public ResponseObject<SignInDTO> login(@RequestBody(required = true) UsersRequest req) throws Exception {
+        ResponseObject<SignInDTO> response = new ResponseObject<>();
+        response.setRc(true);
+
+        try {
+            response.setData(usersService.login(req));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+
+        // Restituisce l'oggetto ResponseObject come risposta
+        return response;
+    } // login
 
 }// class

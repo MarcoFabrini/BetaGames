@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.betagames.dto.SignInDTO;
+import com.betagames.dto.TokenDTO;
 import com.betagames.dto.UsersDTO;
-import com.betagames.model.Users;
+import com.betagames.request.SignInRequest;
 import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
@@ -36,29 +38,29 @@ public class UsersController {
     @Autowired
     IUsersService usersService;
 
-    @GetMapping("user/users/me")
-    public ResponseObject<UserDetails> authenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // @GetMapping("user/users/me")
+    // public ResponseObject<UserDetails> authenticatedUser() {
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Controlla se l'utente è autenticato
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User  is not authenticated");
-        }
+    //     // Controlla se l'utente è autenticato
+    //     if (authentication == null || !authentication.isAuthenticated()) {
+    //         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User  is not authenticated");
+    //     }
 
-        // Assicurati che il principal sia del tipo corretto
-        UserDetails currentUser;
-        if (authentication.getPrincipal() instanceof Users) {
-            currentUser = (UserDetails) authentication.getPrincipal();
-        } else {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Principal is not of type Users");
-        }
+    //     // Assicurati che il principal sia del tipo corretto
+    //     UserDetails currentUser;
+    //     if (authentication.getPrincipal() instanceof Users) {
+    //         currentUser = (UserDetails) authentication.getPrincipal();
+    //     } else {
+    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Principal is not of type Users");
+    //     }
 
-        // Crea e restituisci la risposta
-        ResponseObject<UserDetails> responseMe = new ResponseObject<>();
-        responseMe.setData(currentUser);
+    //     // Crea e restituisci la risposta
+    //     ResponseObject<UserDetails> responseMe = new ResponseObject<>();
+    //     responseMe.setData(currentUser);
 
-        return responseMe;
-    }// authenticatedUser
+    //     return responseMe;
+    // }// authenticatedUser
 
     @GetMapping("admin/users/list")
     public ResponseList<UsersDTO> list() {
@@ -156,5 +158,57 @@ public class UsersController {
         }
         return response;
     }// delete
+
+    // @PostMapping("public/users/signin")
+    // public SignInDTO signin(@RequestBody(required = true) SignInRequest req) {
+    //     return usersService.signIn(req);
+    // }//signIn
+
+    @PostMapping("public/user/updatePWD")
+	public ResponseBase updatePWD(@RequestBody (required = true) SignInRequest req) {
+		log.debug("updatePWD :" + req);
+		ResponseBase r = new ResponseBase();
+		r.setRc(true);
+		try {
+			usersService.changePWD(req);
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
+			r.setRc(false);
+		}
+		return r;
+	}//changePwd
+
+    @PostMapping("public/users/signin")
+    public ResponseBase signin(@RequestBody(required = true) UsersRequest req) {
+        ResponseBase response = new ResponseBase();
+        response.setRc(true);
+
+        try {
+            usersService.signin(req);
+            response.setMsg("Successfully created user");
+        } catch (Exception e) {
+            log.error("Failed to create user " + e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+        return response;
+    }// signin
+
+    @PostMapping("public/users/login")
+    public ResponseObject<SignInDTO> login(@RequestBody(required = true) UsersRequest req) throws Exception {
+        ResponseObject<SignInDTO> response = new ResponseObject<>();
+        response.setRc(true);
+
+        try {
+            response.setData(usersService.login(req));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setMsg(e.getMessage());
+            response.setRc(false);
+        }
+
+        // Restituisce l'oggetto ResponseObject come risposta
+        return response;
+    } // login
 
 }// class

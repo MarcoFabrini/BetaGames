@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +23,6 @@ import com.betagames.request.UsersRequest;
 import com.betagames.response.ResponseBase;
 import com.betagames.response.ResponseList;
 import com.betagames.response.ResponseObject;
-import com.betagames.response.ResponseObject;
 import com.betagames.service.interfaces.IUsersService;
 
 /**
@@ -39,29 +38,29 @@ public class UsersController {
     @Autowired
     IUsersService usersService;
 
-    @GetMapping("user/users/me")
-    public ResponseObject<UserDetails> authenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // @GetMapping("user/users/me")
+    // public ResponseObject<UserDetails> authenticatedUser() {
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Controlla se l'utente è autenticato
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User  is not authenticated");
-        }
+    //     // Controlla se l'utente è autenticato
+    //     if (authentication == null || !authentication.isAuthenticated()) {
+    //         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User  is not authenticated");
+    //     }
 
-        // Assicurati che il principal sia del tipo corretto
-        UserDetails currentUser;
-        if (authentication.getPrincipal() instanceof Users) {
-            currentUser = (UserDetails) authentication.getPrincipal();
-        } else {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Principal is not of type Users");
-        }
+    //     // Assicurati che il principal sia del tipo corretto
+    //     UserDetails currentUser;
+    //     if (authentication.getPrincipal() instanceof Users) {
+    //         currentUser = (UserDetails) authentication.getPrincipal();
+    //     } else {
+    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Principal is not of type Users");
+    //     }
 
-        // Crea e restituisci la risposta
-        ResponseObject<UserDetails> responseMe = new ResponseObject<>();
-        responseMe.setData(currentUser);
+    //     // Crea e restituisci la risposta
+    //     ResponseObject<UserDetails> responseMe = new ResponseObject<>();
+    //     responseMe.setData(currentUser);
 
-        return responseMe;
-    }// authenticatedUser
+    //     return responseMe;
+    // }// authenticatedUser
 
     @GetMapping("admin/users/list")
     public ResponseList<UsersDTO> list() {
